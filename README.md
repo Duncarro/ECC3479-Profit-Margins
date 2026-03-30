@@ -2,13 +2,19 @@ This project explores the cyclicality of profit margins across business cycle me
 
 This project has been coded using Rstudio
 
-Repository Structure: data/ raw/ clean/
+#Repository Structure:#
+data/ 
+    raw/ 
+    clean/
+scripts/ 
+output/
 
-scripts/ output/
 
-Execution order:
 
-Run scripts/data_cleaning.R This will:
-Download raw ABS data
-Clean datasets
-Output to data/clean/
+#Execution order:#
+
+Run scripts/data_cleaning.R 
+This will:
+    Download raw ABS data
+    Clean datasets
+    Output to data/clean/
