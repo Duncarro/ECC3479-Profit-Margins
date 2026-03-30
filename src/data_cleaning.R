@@ -3,14 +3,12 @@
 
 library(tidyverse)
 library(readabs)
-Sys.setenv(R_READABS_PATH = "data/raw")
-
 #############################################
 # Profit Margin Measures                    #
 #############################################
 
 gop <- read_abs("5676.0")
-#hi
+
 gop <- gop |>
   filter(table_no == "56760011", series_type == "Seasonally Adjusted") |>
   separate(
@@ -59,9 +57,8 @@ sales_wide <- sales_wide |>
 
 gop <- left_join(gop_wide, sales_wide,
           by = "date") |> 
-  select(date, gop = "Total", sales = "total") |> ##WIP 
-  mutate(margin = gop / sales*100) |> #UNIT MISMATCH!!!
-  #SALES DATA VALUES DIFFER FROM EXCEL SHEET.
+  select(date, gop = "Total", sales = "total") |>  
+  mutate(margin = gop / sales*100) |> 
   filter(date > as.Date("2002-09-01")) 
 
 
