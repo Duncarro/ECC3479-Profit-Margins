@@ -1,5 +1,6 @@
 This project explores the cyclicality of profit margins across business cycle measures.
 
+---
 
 ### Repository Structure
 
@@ -8,19 +9,19 @@ ECC3479-Profit-Margins
   - raw: Raw data downloaded from ABS  
   - clean: Cleaned and processed datasets  
 
-- docs/
-  - Supporting documents (e.g. notes, references)  
-
 - output/  
   - Final outputs (figures and results)  
 
 - src/  
   - R scripts  
 
-- README.md  
+- README.md
+
+- ECC3479-Profit-Margins.Rproj: R project file
 
 *This project requires Rstudio to run.
 
+---
 
 ## Script Execution Order
 
@@ -41,6 +42,7 @@ The scripts must be run in the following order:
 4. **unconditional_cyclicality.R**  
    - Performs cyclical analysis on the cleaned data  
 
+---
 
 ### How To Run
 1. Open `ECC3479-Profit-Margins.Rproj` in RStudio  
@@ -51,8 +53,6 @@ The scripts must be run in the following order:
 4. Run `eda.R` and other analytical scripts  
 
 All outputs (figures and results) will be saved in the `output/` folder.
-
-
 
 **Necessary R Packages**  
 "tidyverse"  
