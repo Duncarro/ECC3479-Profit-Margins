@@ -46,6 +46,7 @@ The scripts must be run in the following order:
 1. Open `ECC3479-Profit-Margins.Rproj` in RStudio  
 2. Run `data_cleaning.R` (requires internet connection to download ABS data)  
    - Required packages are loaded automatically via `library.R`
+   -! Importing raw ABS data is computationally demanding. The specific files required have been stored separately in data/raw.
 3. Clear R memory after extracting cleaned datasets (optional)  
 4. Run `eda.R` and other analytical scripts  
 

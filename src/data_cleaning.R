@@ -1,5 +1,4 @@
 #This file imports the necessary series and tidies them
-#ALL SERIES ARE SEASONALLY ADJUSTED
 
 source("src/library.R")
 
@@ -49,7 +48,7 @@ sales_wide <- sales_wide |>
         `Sales ;  Total (State) ;  Mining ;  Current Price ;  TOTAL (SCP_SCOPE) ;`
       )),
       na.rm = TRUE
-    )) #|> select(date, total, total_ex_mining)
+    ))
 
 
 ##MERGING GOP AND SALES TO MAKE MARGIN
