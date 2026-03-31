@@ -1,18 +1,18 @@
 This project explores the cyclicality of profit margins across business cycle measures.
+
 <<<ECC3479-Profit-Margins/
 │── data/
-│   ├── raw/      # Raw data downloaded from ABS
-│   └── clean/    # Cleaned and processed datasets
+│ ├── raw/ # Raw data downloaded from ABS
+│ └── clean/ # Cleaned and processed datasets
 │
-│── docs/         # Supporting documents (e.g. notes, references)
+│── docs/ # Supporting documents (e.g. notes, references)
 │
-│── output/       # Final outputs (figures and results)
+│── output/ # Final outputs (figures and results)
 │
-│── src/          # R scripts
+│── src/ # R scripts
 │
 │── README.md>>>
  
-
 This project requires Rstudio to run.
 
 ## Script Execution Order
@@ -32,11 +32,10 @@ The scripts must be run in the following order:
    - Saves figures to `output/`  
 
 4. **unconditional_cyclicality.R**  
-   - Performs cyclical analysis on the cleaned data 
+   - Performs cyclical analysis on the cleaned data  
 
-
-**Necessary R Packages**
-"tidyverse" 
-"fpp3"
-"readabs"
-"scales"
+**Necessary R Packages**  
+"tidyverse"  
+"fpp3"  
+"readabs"  
+"scales"  
