@@ -1,6 +1,5 @@
 This project explores the cyclicality of profit margins across business cycle measures.
-<<<
-ECC3479-Profit-Margins/
+<<<ECC3479-Profit-Margins/
 │── data/
 │   ├── raw/      # Raw data downloaded from ABS
 │   └── clean/    # Cleaned and processed datasets
@@ -11,8 +10,8 @@ ECC3479-Profit-Margins/
 │
 │── src/          # R scripts
 │
-│── README.md 
->>>
+│── README.md>>>
+ 
 
 This project requires Rstudio to run.
 
