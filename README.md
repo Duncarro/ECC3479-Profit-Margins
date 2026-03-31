@@ -9,9 +9,6 @@ ECC3479-Profit-Margins
   - raw: Raw data downloaded from ABS  
   - clean: Cleaned and processed datasets  
 
-- docs/
-  - Supporting documents (e.g. notes, references)  
-
 - output/  
   - Final outputs (figures and results)  
 
