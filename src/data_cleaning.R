@@ -1,8 +1,8 @@
 #This file imports the necessary series and tidies them
 #ALL SERIES ARE SEASONALLY ADJUSTED
 
-library(tidyverse)
-library(readabs)
+source("src/library.R")
+
 #############################################
 # Profit Margin Measures                    #
 #############################################
@@ -103,7 +103,8 @@ thw <- read_abs("6202.0")
 
 thw <- thw |> 
   filter(series_id == "A84426298K", date > as.Date("2002-09-01")) |> 
-  select(date, value) 
+  select(date, value) |>  
+  mutate(log = log(value))
 
 
 ##GDP (chain volume)
@@ -111,7 +112,8 @@ gdp <- read_abs("5206.0")
 
 gdp <- gdp |> 
   filter(series_id == "A2304402X", date > as.Date("2002-09-01")) |> 
-  select(date, value) 
+  select(date, value) |> 
+  mutate(log = log(value))
   
 
 ###EXPORTING CLEANED DATA
