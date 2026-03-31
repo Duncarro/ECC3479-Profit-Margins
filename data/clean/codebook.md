@@ -6,17 +6,13 @@ All data are derived from seasonally adjusted ABS measures.
 
 - **GOP (Gross Operating Profits Margin)**  
   A measure of gross operating profits expressed as a profit margin.  
-  Constructed as:
-  \[
-  \text{GOP Margin} = \frac{\text{Gross Operating Profits}}{\text{Sales}}
-  \]
+  Constructed as:  
+  `GOP Margin = Gross Operating Profits / Sales`
 
 - **GOS (Gross Operating Surplus Margin)**  
   A measure of gross operating surplus expressed as a profit margin.  
-  Constructed as:
-  \[
-  \text{GOS Margin} = \frac{\text{Gross Operating Surplus}}{\text{Gross Value Added (GVA)}}
-  \]
+  Constructed as:  
+  `GOS Margin = Gross Operating Surplus / Gross Value Added (GVA)`
 
 ---
 
