@@ -1,13 +1,29 @@
-#DATA CODEBOOK
+## Data Codebook
+
 All data are derived from seasonally adjusted ABS measures.
 
-MARGINS: 
-GOP: A measure of Gross Operaing Profits as a profit margin. The profit margin is constructed via GOP divided by Sales. 
+### Profit Margin Measures
 
-GOS: A measure of Gross Operaing Surplus as a profit margin. The profit margin is constructed via GOS divided by Gross Value Added (GVA). 
+- **GOP (Gross Operating Profits Margin)**  
+  A measure of gross operating profits expressed as a profit margin.  
+  Constructed as:
+  \[
+  \text{GOP Margin} = \frac{\text{Gross Operating Profits}}{\text{Sales}}
+  \]
 
+- **GOS (Gross Operating Surplus Margin)**  
+  A measure of gross operating surplus expressed as a profit margin.  
+  Constructed as:
+  \[
+  \text{GOS Margin} = \frac{\text{Gross Operating Surplus}}{\text{Gross Value Added (GVA)}}
+  \]
 
-BUSINESS CYCLE MEASURES:
-GDP: Quarterly estimates of GDP via the chain volume method.
+---
 
-THW: Quarterly measure of total hours worked from labour force surveys.
+### Business Cycle Measures
+
+- **GDP (Gross Domestic Product)**  
+  Quarterly estimates of GDP measured using the chain volume method.
+
+- **THW (Total Hours Worked)**  
+  Quarterly measure of total hours worked derived from labour force surveys.
