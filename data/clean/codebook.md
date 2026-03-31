@@ -24,4 +24,4 @@ All data are derived from seasonally adjusted ABS measures.
   Quarterly estimates of GDP measured using the chain volume method (millions $AUD).
 
 - **THW (Total Hours Worked)**  
-  Quarterly measure of total hours worked derived from labour force surveys (millions).
+  Quarterly measure of total hours worked derived from labour force surveys (millions hours).
