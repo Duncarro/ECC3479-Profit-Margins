@@ -106,7 +106,7 @@ thw <- thw |>
   mutate(log = log(value))
 
 
-##GDP (chain volume)
+##GDP
 gdp <- read_abs("5206.0")
 
 gdp <- gdp |> 
