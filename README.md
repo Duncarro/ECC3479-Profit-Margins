@@ -1,29 +1,18 @@
 This project explores the cyclicality of profit margins across business cycle measures.
-
+<<<
 ECC3479-Profit-Margins/
 │── data/
-│   ├── raw/        # Raw data downloaded from ABS
-│   └── clean/      # Cleaned and processed datasets
+│   ├── raw/      # Raw data downloaded from ABS
+│   └── clean/    # Cleaned and processed datasets
 │
-│── docs/           # Supporting documents (e.g. notes, references)
+│── docs/         # Supporting documents (e.g. notes, references)
 │
-│── output/         # Final outputs (figures and results)
-│   ├── gdp_level.png
-│   ├── gop_margin.png
-│   ├── gos_margin.png
-│   └── thw_level.png
+│── output/       # Final outputs (figures and results)
 │
-│── src/            # All R scripts
-│   ├── library.R                   # Loads and installs required packages
-│   ├── data_cleaning.R            # Imports and cleans raw data
-│   ├── eda.R                      # Exploratory data analysis and plots
-│   └── unconditional_cyclicality.R# Cyclicality analysis
+│── src/          # R scripts
 │
-│── .gitignore
-│── ECC3479-Profit-Margins.Rproj   # R project file
-│── README.md
-
-#Execution order:
+│── README.md 
+>>>
 
 This project requires Rstudio to run.
 
