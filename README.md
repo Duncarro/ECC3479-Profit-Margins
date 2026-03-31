@@ -4,22 +4,22 @@ This project explores the cyclicality of profit margins across business cycle me
 ### Repository Structure
 
 ECC3479-Profit-Margins  
-- data  
+- data/
   - raw: Raw data downloaded from ABS  
   - clean: Cleaned and processed datasets  
 
-- docs  
+- docs/
   - Supporting documents (e.g. notes, references)  
 
-- output  
+- output/  
   - Final outputs (figures and results)  
 
-- src  
+- src/  
   - R scripts  
 
 - README.md  
 
-This project requires Rstudio to run.
+*This project requires Rstudio to run.
 
 
 ## Script Execution Order
@@ -50,6 +50,8 @@ The scripts must be run in the following order:
 4. Run `eda.R` and other analytical scripts  
 
 All outputs (figures and results) will be saved in the `output/` folder.
+
+
 
 **Necessary R Packages**  
 "tidyverse"  
