@@ -29,7 +29,7 @@ The scripts must be run in the following order:
 
 1. **library.R**  
    - Installs and loads all required packages  
-   - *This script is executed at the start of all other scripts by default.
+   - *This script is executed at the start of all other scripts by default
 
 2. **data_cleaning.R**  
    - Downloads data from ABS and cleans it  
