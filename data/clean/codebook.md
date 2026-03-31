@@ -1,7 +1,7 @@
 ## Data Codebook
 
 All data are derived from seasonally adjusted ABS measures.
-
+---
 ### Profit Margin Measures
 
 - **GOP (Gross Operating Profits Margin)**  
