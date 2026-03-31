@@ -24,7 +24,7 @@ gop_wide <- gop %>%
   ) |> 
   rename(Total = ` Total (Industry)`)
 
-########### SALES DATA
+#SALES
 sales <- read_abs("5676.0")
 
 sales <- sales |> 
