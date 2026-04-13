@@ -1,94 +1,2017 @@
-date,gop,sales,margin
-2002-12-01,32501,343532,9.46083625397343
-2003-03-01,32593,347925,9.367823525185026
-2003-06-01,30467,347711,8.762161680245951
-2003-09-01,32653,352217,9.270705275440992
-2003-12-01,33323,358640,9.29149007361142
-2004-03-01,34125,366354,9.314761132674953
-2004-06-01,35876,372454,9.632330435436321
-2004-09-01,36967,379074,9.751921788357947
-2004-12-01,36990,381841,9.687278212659196
-2005-03-01,37340,387522,9.635581979861788
-2005-06-01,40927,399894,10.234462132465104
-2005-09-01,41786,407381,10.257228491264934
-2005-12-01,42465,414810,10.237217039126346
-2006-03-01,42705,423222,10.090448984221046
-2006-06-01,45492,432971,10.506939263830603
-2006-09-01,45794,439368,10.422698057209447
-2006-12-01,47192,451319,10.456462058987102
-2007-03-01,50045,464498,10.773996874044668
-2007-06-01,50988,473843,10.76052616583974
-2007-09-01,49144,481647,10.20332318066966
-2007-12-01,52333,495691,10.557585269855615
-2008-03-01,54917,510031,10.767384727594989
-2008-06-01,61433,534840,11.486238875177623
-2008-09-01,65681,547596,11.994426548039065
-2008-12-01,62161,538240,11.548937277051131
-2009-03-01,59510,529242,11.244383476745988
-2009-06-01,52829,510874,10.340905976816202
-2009-09-01,52901,514807,10.27588979947825
-2009-12-01,55873,522508,10.693233405038773
-2010-03-01,58503,533896,10.9577520715645
-2010-06-01,67675,541036,12.508409791585034
-2010-09-01,65265,542189,12.037315401087074
-2010-12-01,65075,544775,11.94529851773668
-2011-03-01,63286,556556,11.371003097621802
-2011-06-01,68082,568707,11.971366626399886
-2011-09-01,70654,580407,12.173181922340701
-2011-12-01,66577,579934,11.480099459593678
-2012-03-01,62986,582423,10.814476763451992
-2012-06-01,64643,587030,11.011873328449994
-2012-09-01,61731,586682,10.522054537210959
-2012-12-01,61668,591231,10.430440893660853
-2013-03-01,63071,591551,10.66197166431973
-2013-06-01,65193,592591,11.001348316123599
-2013-09-01,67172,605155,11.099966124381357
-2013-12-01,68598,610990,11.227352329825365
-2014-03-01,69353,621107,11.166030973729164
-2014-06-01,65578,617521,10.619557877383928
-2014-09-01,64400,617240,10.43354286825222
-2014-12-01,64347,618486,10.403954171961855
-2015-03-01,63915,616861,10.361329375661615
-2015-06-01,63970,617187,10.364767890444874
-2015-09-01,64930,623063,10.421097064020813
-2015-12-01,62418,619138,10.0814358026805
-2016-03-01,58596,616731,9.501062862090603
-2016-06-01,63756,624451,10.209928401107533
-2016-09-01,65677,629835,10.427651686552828
-2016-12-01,79748,647736,12.311806044437859
-2017-03-01,82141,661220,12.422642993254893
-2017-06-01,77725,661717,11.745957864162476
-2017-09-01,78593,671296,11.707652064067119
-2017-12-01,83733,684289,12.236496567970551
-2018-03-01,87380,697336,12.530544816272213
-2018-06-01,85948,706945,12.157664316177355
-2018-09-01,88361,717410,12.316666898983843
-2018-12-01,93615,722389,12.959084371439763
-2019-03-01,96951,729220,13.295164696525056
-2019-06-01,98603,739401,13.335524296017992
-2019-09-01,97872,742892,13.17445873693619
-2019-12-01,97237,741285,13.11735702192814
-2020-03-01,99580,741863,13.422963539090102
-2020-06-01,110903,665036,16.676240083243613
-2020-09-01,116125,693124,16.753856452813636
-2020-12-01,112197,726726,15.43869353786709
-2021-03-01,111215,760346,14.62689354583308
-2021-06-01,116446,790517,14.73036000490818
-2021-09-01,123044,780950,15.755682181957873
-2021-12-01,127701,825568,15.468259428660025
-2022-03-01,138419,872460,15.865369185979873
-2022-06-01,149866,921262,16.267467886442727
-2022-09-01,136145,935875,14.547348737812207
-2022-12-01,146921,946319,15.525525747660144
-2023-03-01,148723,952347,15.616471727217077
-2023-06-01,133990,940991,14.239243520926342
-2023-09-01,134986,948749,14.227788382385647
-2023-12-01,137900,961894,14.336299010078033
-2024-03-01,136033,958542,14.191657746869726
-2024-06-01,129670,959313,13.516964744561994
-2024-09-01,125252,959109,13.05920390695948
-2024-12-01,128966,966670,13.341264340467793
-2025-03-01,128980,981435,13.141980874943323
-2025-06-01,124629,984748,12.655928217168249
-2025-09-01,126530,998474,12.672337987769335
-2025-12-01,133922,1015530,13.187399682924186
+date,industry,value
+1994-09-01,Mining,2152
+1994-09-01,Manufacturing,4755
+1994-09-01,"Electricity, gas, water and waste services",54
+1994-09-01,Construction,353
+1994-09-01,Wholesale trade,1397
+1994-09-01,Retail trade,802
+1994-09-01,Accommodation and food services,351
+1994-09-01,"Transport, postal and warehousing",480
+1994-09-01,Information media and telecommunications,684
+1994-09-01,Financial and insurance services,453
+1994-09-01,"Rental, hiring and real estate services",404
+1994-09-01,"Professional, scientific and technical services",164
+1994-09-01,Administrative and support services,184
+1994-09-01,Arts and recreation services,15
+1994-09-01,Other services,65
+1994-09-01,Total (Industry),12312
+1994-12-01,Mining,2351
+1994-12-01,Manufacturing,4632
+1994-12-01,"Electricity, gas, water and waste services",36
+1994-12-01,Construction,357
+1994-12-01,Wholesale trade,1398
+1994-12-01,Retail trade,804
+1994-12-01,Accommodation and food services,288
+1994-12-01,"Transport, postal and warehousing",401
+1994-12-01,Information media and telecommunications,585
+1994-12-01,Financial and insurance services,624
+1994-12-01,"Rental, hiring and real estate services",362
+1994-12-01,"Professional, scientific and technical services",154
+1994-12-01,Administrative and support services,173
+1994-12-01,Arts and recreation services,23
+1994-12-01,Other services,81
+1994-12-01,Total (Industry),12269
+1995-03-01,Mining,2328
+1995-03-01,Manufacturing,4896
+1995-03-01,"Electricity, gas, water and waste services",28
+1995-03-01,Construction,369
+1995-03-01,Wholesale trade,1368
+1995-03-01,Retail trade,760
+1995-03-01,Accommodation and food services,226
+1995-03-01,"Transport, postal and warehousing",350
+1995-03-01,Information media and telecommunications,720
+1995-03-01,Financial and insurance services,267
+1995-03-01,"Rental, hiring and real estate services",362
+1995-03-01,"Professional, scientific and technical services",98
+1995-03-01,Administrative and support services,157
+1995-03-01,Arts and recreation services,17
+1995-03-01,Other services,84
+1995-03-01,Total (Industry),12032
+1995-06-01,Mining,2321
+1995-06-01,Manufacturing,4576
+1995-06-01,"Electricity, gas, water and waste services",32
+1995-06-01,Construction,418
+1995-06-01,Wholesale trade,1261
+1995-06-01,Retail trade,768
+1995-06-01,Accommodation and food services,150
+1995-06-01,"Transport, postal and warehousing",525
+1995-06-01,Information media and telecommunications,650
+1995-06-01,Financial and insurance services,583
+1995-06-01,"Rental, hiring and real estate services",331
+1995-06-01,"Professional, scientific and technical services",142
+1995-06-01,Administrative and support services,176
+1995-06-01,Arts and recreation services,44
+1995-06-01,Other services,95
+1995-06-01,Total (Industry),12071
+1995-09-01,Mining,2510
+1995-09-01,Manufacturing,4620
+1995-09-01,"Electricity, gas, water and waste services",82
+1995-09-01,Construction,343
+1995-09-01,Wholesale trade,1248
+1995-09-01,Retail trade,770
+1995-09-01,Accommodation and food services,356
+1995-09-01,"Transport, postal and warehousing",617
+1995-09-01,Information media and telecommunications,719
+1995-09-01,Financial and insurance services,479
+1995-09-01,"Rental, hiring and real estate services",322
+1995-09-01,"Professional, scientific and technical services",81
+1995-09-01,Administrative and support services,150
+1995-09-01,Arts and recreation services,48
+1995-09-01,Other services,99
+1995-09-01,Total (Industry),12444
+1995-12-01,Mining,2603
+1995-12-01,Manufacturing,4419
+1995-12-01,"Electricity, gas, water and waste services",147
+1995-12-01,Construction,440
+1995-12-01,Wholesale trade,1247
+1995-12-01,Retail trade,756
+1995-12-01,Accommodation and food services,323
+1995-12-01,"Transport, postal and warehousing",628
+1995-12-01,Information media and telecommunications,659
+1995-12-01,Financial and insurance services,386
+1995-12-01,"Rental, hiring and real estate services",321
+1995-12-01,"Professional, scientific and technical services",-4
+1995-12-01,Administrative and support services,110
+1995-12-01,Arts and recreation services,83
+1995-12-01,Other services,99
+1995-12-01,Total (Industry),12218
+1996-03-01,Mining,2672
+1996-03-01,Manufacturing,4478
+1996-03-01,"Electricity, gas, water and waste services",219
+1996-03-01,Construction,403
+1996-03-01,Wholesale trade,1437
+1996-03-01,Retail trade,772
+1996-03-01,Accommodation and food services,458
+1996-03-01,"Transport, postal and warehousing",659
+1996-03-01,Information media and telecommunications,688
+1996-03-01,Financial and insurance services,461
+1996-03-01,"Rental, hiring and real estate services",343
+1996-03-01,"Professional, scientific and technical services",31
+1996-03-01,Administrative and support services,128
+1996-03-01,Arts and recreation services,62
+1996-03-01,Other services,120
+1996-03-01,Total (Industry),12931
+1996-06-01,Mining,2890
+1996-06-01,Manufacturing,4062
+1996-06-01,"Electricity, gas, water and waste services",383
+1996-06-01,Construction,333
+1996-06-01,Wholesale trade,1209
+1996-06-01,Retail trade,716
+1996-06-01,Accommodation and food services,440
+1996-06-01,"Transport, postal and warehousing",472
+1996-06-01,Information media and telecommunications,656
+1996-06-01,Financial and insurance services,573
+1996-06-01,"Rental, hiring and real estate services",337
+1996-06-01,"Professional, scientific and technical services",-67
+1996-06-01,Administrative and support services,86
+1996-06-01,Arts and recreation services,86
+1996-06-01,Other services,124
+1996-06-01,Total (Industry),12298
+1996-09-01,Mining,2466
+1996-09-01,Manufacturing,4272
+1996-09-01,"Electricity, gas, water and waste services",392
+1996-09-01,Construction,418
+1996-09-01,Wholesale trade,1215
+1996-09-01,Retail trade,811
+1996-09-01,Accommodation and food services,349
+1996-09-01,"Transport, postal and warehousing",590
+1996-09-01,Information media and telecommunications,702
+1996-09-01,Financial and insurance services,453
+1996-09-01,"Rental, hiring and real estate services",311
+1996-09-01,"Professional, scientific and technical services",-16
+1996-09-01,Administrative and support services,108
+1996-09-01,Arts and recreation services,116
+1996-09-01,Other services,135
+1996-09-01,Total (Industry),12322
+1996-12-01,Mining,2671
+1996-12-01,Manufacturing,4299
+1996-12-01,"Electricity, gas, water and waste services",429
+1996-12-01,Construction,377
+1996-12-01,Wholesale trade,1226
+1996-12-01,Retail trade,789
+1996-12-01,Accommodation and food services,358
+1996-12-01,"Transport, postal and warehousing",722
+1996-12-01,Information media and telecommunications,641
+1996-12-01,Financial and insurance services,358
+1996-12-01,"Rental, hiring and real estate services",351
+1996-12-01,"Professional, scientific and technical services",-11
+1996-12-01,Administrative and support services,108
+1996-12-01,Arts and recreation services,123
+1996-12-01,Other services,151
+1996-12-01,Total (Industry),12595
+1997-03-01,Mining,2887
+1997-03-01,Manufacturing,4356
+1997-03-01,"Electricity, gas, water and waste services",451
+1997-03-01,Construction,403
+1997-03-01,Wholesale trade,1152
+1997-03-01,Retail trade,728
+1997-03-01,Accommodation and food services,282
+1997-03-01,"Transport, postal and warehousing",847
+1997-03-01,Information media and telecommunications,651
+1997-03-01,Financial and insurance services,179
+1997-03-01,"Rental, hiring and real estate services",269
+1997-03-01,"Professional, scientific and technical services",-87
+1997-03-01,Administrative and support services,77
+1997-03-01,Arts and recreation services,98
+1997-03-01,Other services,160
+1997-03-01,Total (Industry),12454
+1997-06-01,Mining,2641
+1997-06-01,Manufacturing,4613
+1997-06-01,"Electricity, gas, water and waste services",436
+1997-06-01,Construction,560
+1997-06-01,Wholesale trade,1196
+1997-06-01,Retail trade,886
+1997-06-01,Accommodation and food services,335
+1997-06-01,"Transport, postal and warehousing",750
+1997-06-01,Information media and telecommunications,776
+1997-06-01,Financial and insurance services,183
+1997-06-01,"Rental, hiring and real estate services",361
+1997-06-01,"Professional, scientific and technical services",-56
+1997-06-01,Administrative and support services,88
+1997-06-01,Arts and recreation services,-27
+1997-06-01,Other services,184
+1997-06-01,Total (Industry),12924
+1997-09-01,Mining,2833
+1997-09-01,Manufacturing,4629
+1997-09-01,"Electricity, gas, water and waste services",489
+1997-09-01,Construction,473
+1997-09-01,Wholesale trade,1390
+1997-09-01,Retail trade,781
+1997-09-01,Accommodation and food services,406
+1997-09-01,"Transport, postal and warehousing",796
+1997-09-01,Information media and telecommunications,662
+1997-09-01,Financial and insurance services,236
+1997-09-01,"Rental, hiring and real estate services",331
+1997-09-01,"Professional, scientific and technical services",-110
+1997-09-01,Administrative and support services,62
+1997-09-01,Arts and recreation services,57
+1997-09-01,Other services,176
+1997-09-01,Total (Industry),13211
+1997-12-01,Mining,3019
+1997-12-01,Manufacturing,4717
+1997-12-01,"Electricity, gas, water and waste services",556
+1997-12-01,Construction,423
+1997-12-01,Wholesale trade,1137
+1997-12-01,Retail trade,872
+1997-12-01,Accommodation and food services,371
+1997-12-01,"Transport, postal and warehousing",742
+1997-12-01,Information media and telecommunications,806
+1997-12-01,Financial and insurance services,221
+1997-12-01,"Rental, hiring and real estate services",314
+1997-12-01,"Professional, scientific and technical services",-122
+1997-12-01,Administrative and support services,62
+1997-12-01,Arts and recreation services,43
+1997-12-01,Other services,182
+1997-12-01,Total (Industry),13344
+1998-03-01,Mining,3078
+1998-03-01,Manufacturing,4543
+1998-03-01,"Electricity, gas, water and waste services",575
+1998-03-01,Construction,548
+1998-03-01,Wholesale trade,1126
+1998-03-01,Retail trade,865
+1998-03-01,Accommodation and food services,379
+1998-03-01,"Transport, postal and warehousing",809
+1998-03-01,Information media and telecommunications,755
+1998-03-01,Financial and insurance services,379
+1998-03-01,"Rental, hiring and real estate services",310
+1998-03-01,"Professional, scientific and technical services",-58
+1998-03-01,Administrative and support services,93
+1998-03-01,Arts and recreation services,122
+1998-03-01,Other services,200
+1998-03-01,Total (Industry),13726
+1998-06-01,Mining,3097
+1998-06-01,Manufacturing,4779
+1998-06-01,"Electricity, gas, water and waste services",591
+1998-06-01,Construction,493
+1998-06-01,Wholesale trade,1303
+1998-06-01,Retail trade,914
+1998-06-01,Accommodation and food services,430
+1998-06-01,"Transport, postal and warehousing",1064
+1998-06-01,Information media and telecommunications,813
+1998-06-01,Financial and insurance services,229
+1998-06-01,"Rental, hiring and real estate services",289
+1998-06-01,"Professional, scientific and technical services",-26
+1998-06-01,Administrative and support services,103
+1998-06-01,Arts and recreation services,158
+1998-06-01,Other services,210
+1998-06-01,Total (Industry),14446
+1998-09-01,Mining,3046
+1998-09-01,Manufacturing,4698
+1998-09-01,"Electricity, gas, water and waste services",655
+1998-09-01,Construction,560
+1998-09-01,Wholesale trade,1228
+1998-09-01,Retail trade,1034
+1998-09-01,Accommodation and food services,339
+1998-09-01,"Transport, postal and warehousing",900
+1998-09-01,Information media and telecommunications,840
+1998-09-01,Financial and insurance services,404
+1998-09-01,"Rental, hiring and real estate services",312
+1998-09-01,"Professional, scientific and technical services",-55
+1998-09-01,Administrative and support services,87
+1998-09-01,Arts and recreation services,153
+1998-09-01,Other services,218
+1998-09-01,Total (Industry),14420
+1998-12-01,Mining,2647
+1998-12-01,Manufacturing,4903
+1998-12-01,"Electricity, gas, water and waste services",735
+1998-12-01,Construction,668
+1998-12-01,Wholesale trade,1136
+1998-12-01,Retail trade,1134
+1998-12-01,Accommodation and food services,424
+1998-12-01,"Transport, postal and warehousing",993
+1998-12-01,Information media and telecommunications,970
+1998-12-01,Financial and insurance services,339
+1998-12-01,"Rental, hiring and real estate services",367
+1998-12-01,"Professional, scientific and technical services",5
+1998-12-01,Administrative and support services,121
+1998-12-01,Arts and recreation services,147
+1998-12-01,Other services,236
+1998-12-01,Total (Industry),14825
+1999-03-01,Mining,2595
+1999-03-01,Manufacturing,4841
+1999-03-01,"Electricity, gas, water and waste services",903
+1999-03-01,Construction,545
+1999-03-01,Wholesale trade,1276
+1999-03-01,Retail trade,1225
+1999-03-01,Accommodation and food services,581
+1999-03-01,"Transport, postal and warehousing",1021
+1999-03-01,Information media and telecommunications,881
+1999-03-01,Financial and insurance services,398
+1999-03-01,"Rental, hiring and real estate services",355
+1999-03-01,"Professional, scientific and technical services",27
+1999-03-01,Administrative and support services,132
+1999-03-01,Arts and recreation services,242
+1999-03-01,Other services,248
+1999-03-01,Total (Industry),15269
+1999-06-01,Mining,3000
+1999-06-01,Manufacturing,4545
+1999-06-01,"Electricity, gas, water and waste services",644
+1999-06-01,Construction,627
+1999-06-01,Wholesale trade,1332
+1999-06-01,Retail trade,1261
+1999-06-01,Accommodation and food services,448
+1999-06-01,"Transport, postal and warehousing",1149
+1999-06-01,Information media and telecommunications,1000
+1999-06-01,Financial and insurance services,334
+1999-06-01,"Rental, hiring and real estate services",424
+1999-06-01,"Professional, scientific and technical services",34
+1999-06-01,Administrative and support services,123
+1999-06-01,Arts and recreation services,6
+1999-06-01,Other services,249
+1999-06-01,Total (Industry),15175
+1999-09-01,Mining,3558
+1999-09-01,Manufacturing,5008
+1999-09-01,"Electricity, gas, water and waste services",785
+1999-09-01,Construction,645
+1999-09-01,Wholesale trade,1470
+1999-09-01,Retail trade,1209
+1999-09-01,Accommodation and food services,526
+1999-09-01,"Transport, postal and warehousing",1115
+1999-09-01,Information media and telecommunications,813
+1999-09-01,Financial and insurance services,450
+1999-09-01,"Rental, hiring and real estate services",445
+1999-09-01,"Professional, scientific and technical services",176
+1999-09-01,Administrative and support services,189
+1999-09-01,Arts and recreation services,260
+1999-09-01,Other services,272
+1999-09-01,Total (Industry),16922
+1999-12-01,Mining,4187
+1999-12-01,Manufacturing,5479
+1999-12-01,"Electricity, gas, water and waste services",838
+1999-12-01,Construction,617
+1999-12-01,Wholesale trade,1299
+1999-12-01,Retail trade,1133
+1999-12-01,Accommodation and food services,585
+1999-12-01,"Transport, postal and warehousing",1144
+1999-12-01,Information media and telecommunications,1199
+1999-12-01,Financial and insurance services,300
+1999-12-01,"Rental, hiring and real estate services",446
+1999-12-01,"Professional, scientific and technical services",76
+1999-12-01,Administrative and support services,151
+1999-12-01,Arts and recreation services,261
+1999-12-01,Other services,287
+1999-12-01,Total (Industry),18002
+2000-03-01,Mining,4900
+2000-03-01,Manufacturing,5609
+2000-03-01,"Electricity, gas, water and waste services",798
+2000-03-01,Construction,700
+2000-03-01,Wholesale trade,1581
+2000-03-01,Retail trade,1076
+2000-03-01,Accommodation and food services,676
+2000-03-01,"Transport, postal and warehousing",1266
+2000-03-01,Information media and telecommunications,1287
+2000-03-01,Financial and insurance services,372
+2000-03-01,"Rental, hiring and real estate services",455
+2000-03-01,"Professional, scientific and technical services",212
+2000-03-01,Administrative and support services,222
+2000-03-01,Arts and recreation services,318
+2000-03-01,Other services,301
+2000-03-01,Total (Industry),19774
+2000-06-01,Mining,5341
+2000-06-01,Manufacturing,5762
+2000-06-01,"Electricity, gas, water and waste services",924
+2000-06-01,Construction,763
+2000-06-01,Wholesale trade,1749
+2000-06-01,Retail trade,1247
+2000-06-01,Accommodation and food services,648
+2000-06-01,"Transport, postal and warehousing",1339
+2000-06-01,Information media and telecommunications,1195
+2000-06-01,Financial and insurance services,518
+2000-06-01,"Rental, hiring and real estate services",624
+2000-06-01,"Professional, scientific and technical services",190
+2000-06-01,Administrative and support services,211
+2000-06-01,Arts and recreation services,396
+2000-06-01,Other services,311
+2000-06-01,Total (Industry),21217
+2000-09-01,Mining,6048
+2000-09-01,Manufacturing,5682
+2000-09-01,"Electricity, gas, water and waste services",857
+2000-09-01,Construction,752
+2000-09-01,Wholesale trade,1335
+2000-09-01,Retail trade,1015
+2000-09-01,Accommodation and food services,613
+2000-09-01,"Transport, postal and warehousing",1388
+2000-09-01,Information media and telecommunications,1376
+2000-09-01,Financial and insurance services,459
+2000-09-01,"Rental, hiring and real estate services",539
+2000-09-01,"Professional, scientific and technical services",232
+2000-09-01,Administrative and support services,222
+2000-09-01,Arts and recreation services,363
+2000-09-01,Other services,335
+2000-09-01,Total (Industry),21217
+2000-12-01,Mining,5145
+2000-12-01,Manufacturing,4926
+2000-12-01,"Electricity, gas, water and waste services",879
+2000-12-01,Construction,717
+2000-12-01,Wholesale trade,1816
+2000-12-01,Retail trade,1105
+2000-12-01,Accommodation and food services,567
+2000-12-01,"Transport, postal and warehousing",1192
+2000-12-01,Information media and telecommunications,1209
+2000-12-01,Financial and insurance services,485
+2000-12-01,"Rental, hiring and real estate services",505
+2000-12-01,"Professional, scientific and technical services",222
+2000-12-01,Administrative and support services,225
+2000-12-01,Arts and recreation services,365
+2000-12-01,Other services,339
+2000-12-01,Total (Industry),19695
+2001-03-01,Mining,6114
+2001-03-01,Manufacturing,5611
+2001-03-01,"Electricity, gas, water and waste services",1312
+2001-03-01,Construction,1668
+2001-03-01,Wholesale trade,2857
+2001-03-01,Retail trade,1577
+2001-03-01,Accommodation and food services,669
+2001-03-01,"Transport, postal and warehousing",1426
+2001-03-01,Information media and telecommunications,1238
+2001-03-01,Financial and insurance services,521
+2001-03-01,"Rental, hiring and real estate services",1756
+2001-03-01,"Professional, scientific and technical services",671
+2001-03-01,Administrative and support services,458
+2001-03-01,Arts and recreation services,274
+2001-03-01,Other services,384
+2001-03-01,Total (Industry),26536
+2001-06-01,Mining,6786
+2001-06-01,Manufacturing,5085
+2001-06-01,"Electricity, gas, water and waste services",1194
+2001-06-01,Construction,1886
+2001-06-01,Wholesale trade,2956
+2001-06-01,Retail trade,1070
+2001-06-01,Accommodation and food services,668
+2001-06-01,"Transport, postal and warehousing",1711
+2001-06-01,Information media and telecommunications,1262
+2001-06-01,Financial and insurance services,529
+2001-06-01,"Rental, hiring and real estate services",1818
+2001-06-01,"Professional, scientific and technical services",521
+2001-06-01,Administrative and support services,396
+2001-06-01,Arts and recreation services,284
+2001-06-01,Other services,369
+2001-06-01,Total (Industry),26536
+2001-09-01,Mining,5951
+2001-09-01,Manufacturing,5569
+2001-09-01,"Electricity, gas, water and waste services",1318
+2001-09-01,Construction,1804
+2001-09-01,Wholesale trade,2949
+2001-09-01,Retail trade,1585
+2001-09-01,Accommodation and food services,754
+2001-09-01,"Transport, postal and warehousing",1395
+2001-09-01,Information media and telecommunications,1356
+2001-09-01,Financial and insurance services,746
+2001-09-01,"Rental, hiring and real estate services",2035
+2001-09-01,"Professional, scientific and technical services",370
+2001-09-01,Administrative and support services,342
+2001-09-01,Arts and recreation services,322
+2001-09-01,Other services,393
+2001-09-01,Total (Industry),26889
+2001-12-01,Mining,6291
+2001-12-01,Manufacturing,5419
+2001-12-01,"Electricity, gas, water and waste services",1341
+2001-12-01,Construction,1908
+2001-12-01,Wholesale trade,3628
+2001-12-01,Retail trade,1848
+2001-12-01,Accommodation and food services,834
+2001-12-01,"Transport, postal and warehousing",1724
+2001-12-01,Information media and telecommunications,1142
+2001-12-01,Financial and insurance services,614
+2001-12-01,"Rental, hiring and real estate services",2486
+2001-12-01,"Professional, scientific and technical services",503
+2001-12-01,Administrative and support services,412
+2001-12-01,Arts and recreation services,437
+2001-12-01,Other services,399
+2001-12-01,Total (Industry),28985
+2002-03-01,Mining,5909
+2002-03-01,Manufacturing,5889
+2002-03-01,"Electricity, gas, water and waste services",1440
+2002-03-01,Construction,2060
+2002-03-01,Wholesale trade,3357
+2002-03-01,Retail trade,2130
+2002-03-01,Accommodation and food services,817
+2002-03-01,"Transport, postal and warehousing",1907
+2002-03-01,Information media and telecommunications,1267
+2002-03-01,Financial and insurance services,591
+2002-03-01,"Rental, hiring and real estate services",2775
+2002-03-01,"Professional, scientific and technical services",539
+2002-03-01,Administrative and support services,439
+2002-03-01,Arts and recreation services,384
+2002-03-01,Other services,414
+2002-03-01,Total (Industry),29917
+2002-06-01,Mining,5949
+2002-06-01,Manufacturing,6166
+2002-06-01,"Electricity, gas, water and waste services",1385
+2002-06-01,Construction,1893
+2002-06-01,Wholesale trade,3441
+2002-06-01,Retail trade,2068
+2002-06-01,Accommodation and food services,880
+2002-06-01,"Transport, postal and warehousing",1903
+2002-06-01,Information media and telecommunications,1389
+2002-06-01,Financial and insurance services,467
+2002-06-01,"Rental, hiring and real estate services",2484
+2002-06-01,"Professional, scientific and technical services",937
+2002-06-01,Administrative and support services,580
+2002-06-01,Arts and recreation services,276
+2002-06-01,Other services,458
+2002-06-01,Total (Industry),30276
+2002-09-01,Mining,6196
+2002-09-01,Manufacturing,6155
+2002-09-01,"Electricity, gas, water and waste services",1301
+2002-09-01,Construction,2107
+2002-09-01,Wholesale trade,3663
+2002-09-01,Retail trade,2098
+2002-09-01,Accommodation and food services,765
+2002-09-01,"Transport, postal and warehousing",2019
+2002-09-01,Information media and telecommunications,1515
+2002-09-01,Financial and insurance services,671
+2002-09-01,"Rental, hiring and real estate services",2545
+2002-09-01,"Professional, scientific and technical services",748
+2002-09-01,Administrative and support services,540
+2002-09-01,Arts and recreation services,349
+2002-09-01,Other services,440
+2002-09-01,Total (Industry),31112
+2002-12-01,Mining,6296
+2002-12-01,Manufacturing,6869
+2002-12-01,"Electricity, gas, water and waste services",1339
+2002-12-01,Construction,2459
+2002-12-01,Wholesale trade,3553
+2002-12-01,Retail trade,2116
+2002-12-01,Accommodation and food services,942
+2002-12-01,"Transport, postal and warehousing",2001
+2002-12-01,Information media and telecommunications,1672
+2002-12-01,Financial and insurance services,737
+2002-12-01,"Rental, hiring and real estate services",2727
+2002-12-01,"Professional, scientific and technical services",590
+2002-12-01,Administrative and support services,465
+2002-12-01,Arts and recreation services,275
+2002-12-01,Other services,461
+2002-12-01,Total (Industry),32501
+2003-03-01,Mining,6346
+2003-03-01,Manufacturing,6928
+2003-03-01,"Electricity, gas, water and waste services",1260
+2003-03-01,Construction,2123
+2003-03-01,Wholesale trade,3747
+2003-03-01,Retail trade,2195
+2003-03-01,Accommodation and food services,715
+2003-03-01,"Transport, postal and warehousing",1934
+2003-03-01,Information media and telecommunications,1732
+2003-03-01,Financial and insurance services,931
+2003-03-01,"Rental, hiring and real estate services",2646
+2003-03-01,"Professional, scientific and technical services",647
+2003-03-01,Administrative and support services,517
+2003-03-01,Arts and recreation services,401
+2003-03-01,Other services,472
+2003-03-01,Total (Industry),32593
+2003-06-01,Mining,5648
+2003-06-01,Manufacturing,5851
+2003-06-01,"Electricity, gas, water and waste services",1496
+2003-06-01,Construction,1869
+2003-06-01,Wholesale trade,3327
+2003-06-01,Retail trade,2151
+2003-06-01,Accommodation and food services,811
+2003-06-01,"Transport, postal and warehousing",1987
+2003-06-01,Information media and telecommunications,1645
+2003-06-01,Financial and insurance services,1445
+2003-06-01,"Rental, hiring and real estate services",2516
+2003-06-01,"Professional, scientific and technical services",233
+2003-06-01,Administrative and support services,388
+2003-06-01,Arts and recreation services,630
+2003-06-01,Other services,470
+2003-06-01,Total (Industry),30467
+2003-09-01,Mining,5189
+2003-09-01,Manufacturing,6665
+2003-09-01,"Electricity, gas, water and waste services",1492
+2003-09-01,Construction,1963
+2003-09-01,Wholesale trade,3587
+2003-09-01,Retail trade,2375
+2003-09-01,Accommodation and food services,808
+2003-09-01,"Transport, postal and warehousing",2174
+2003-09-01,Information media and telecommunications,1580
+2003-09-01,Financial and insurance services,1471
+2003-09-01,"Rental, hiring and real estate services",2806
+2003-09-01,"Professional, scientific and technical services",755
+2003-09-01,Administrative and support services,620
+2003-09-01,Arts and recreation services,666
+2003-09-01,Other services,502
+2003-09-01,Total (Industry),32653
+2003-12-01,Mining,5366
+2003-12-01,Manufacturing,7034
+2003-12-01,"Electricity, gas, water and waste services",1494
+2003-12-01,Construction,2085
+2003-12-01,Wholesale trade,3489
+2003-12-01,Retail trade,2310
+2003-12-01,Accommodation and food services,816
+2003-12-01,"Transport, postal and warehousing",2349
+2003-12-01,Information media and telecommunications,1672
+2003-12-01,Financial and insurance services,1425
+2003-12-01,"Rental, hiring and real estate services",2712
+2003-12-01,"Professional, scientific and technical services",756
+2003-12-01,Administrative and support services,618
+2003-12-01,Arts and recreation services,670
+2003-12-01,Other services,527
+2003-12-01,Total (Industry),33323
+2004-03-01,Mining,4959
+2004-03-01,Manufacturing,7396
+2004-03-01,"Electricity, gas, water and waste services",1526
+2004-03-01,Construction,2154
+2004-03-01,Wholesale trade,3989
+2004-03-01,Retail trade,2564
+2004-03-01,Accommodation and food services,727
+2004-03-01,"Transport, postal and warehousing",2350
+2004-03-01,Information media and telecommunications,1714
+2004-03-01,Financial and insurance services,1508
+2004-03-01,"Rental, hiring and real estate services",2793
+2004-03-01,"Professional, scientific and technical services",744
+2004-03-01,Administrative and support services,576
+2004-03-01,Arts and recreation services,604
+2004-03-01,Other services,520
+2004-03-01,Total (Industry),34125
+2004-06-01,Mining,6203
+2004-06-01,Manufacturing,7841
+2004-06-01,"Electricity, gas, water and waste services",1377
+2004-06-01,Construction,2262
+2004-06-01,Wholesale trade,3726
+2004-06-01,Retail trade,2278
+2004-06-01,Accommodation and food services,796
+2004-06-01,"Transport, postal and warehousing",2738
+2004-06-01,Information media and telecommunications,1930
+2004-06-01,Financial and insurance services,1287
+2004-06-01,"Rental, hiring and real estate services",3147
+2004-06-01,"Professional, scientific and technical services",563
+2004-06-01,Administrative and support services,563
+2004-06-01,Arts and recreation services,635
+2004-06-01,Other services,531
+2004-06-01,Total (Industry),35876
+2004-09-01,Mining,6975
+2004-09-01,Manufacturing,7933
+2004-09-01,"Electricity, gas, water and waste services",1527
+2004-09-01,Construction,2317
+2004-09-01,Wholesale trade,3672
+2004-09-01,Retail trade,2378
+2004-09-01,Accommodation and food services,960
+2004-09-01,"Transport, postal and warehousing",2341
+2004-09-01,Information media and telecommunications,1761
+2004-09-01,Financial and insurance services,1267
+2004-09-01,"Rental, hiring and real estate services",3270
+2004-09-01,"Professional, scientific and technical services",763
+2004-09-01,Administrative and support services,573
+2004-09-01,Arts and recreation services,691
+2004-09-01,Other services,538
+2004-09-01,Total (Industry),36967
+2004-12-01,Mining,7117
+2004-12-01,Manufacturing,7451
+2004-12-01,"Electricity, gas, water and waste services",1389
+2004-12-01,Construction,2321
+2004-12-01,Wholesale trade,3775
+2004-12-01,Retail trade,2382
+2004-12-01,Accommodation and food services,969
+2004-12-01,"Transport, postal and warehousing",2562
+2004-12-01,Information media and telecommunications,1798
+2004-12-01,Financial and insurance services,1607
+2004-12-01,"Rental, hiring and real estate services",3082
+2004-12-01,"Professional, scientific and technical services",748
+2004-12-01,Administrative and support services,534
+2004-12-01,Arts and recreation services,704
+2004-12-01,Other services,550
+2004-12-01,Total (Industry),36990
+2005-03-01,Mining,7466
+2005-03-01,Manufacturing,7802
+2005-03-01,"Electricity, gas, water and waste services",1395
+2005-03-01,Construction,2399
+2005-03-01,Wholesale trade,3762
+2005-03-01,Retail trade,2254
+2005-03-01,Accommodation and food services,977
+2005-03-01,"Transport, postal and warehousing",2565
+2005-03-01,Information media and telecommunications,1715
+2005-03-01,Financial and insurance services,1546
+2005-03-01,"Rental, hiring and real estate services",2928
+2005-03-01,"Professional, scientific and technical services",712
+2005-03-01,Administrative and support services,487
+2005-03-01,Arts and recreation services,765
+2005-03-01,Other services,568
+2005-03-01,Total (Industry),37340
+2005-06-01,Mining,10157
+2005-06-01,Manufacturing,7610
+2005-06-01,"Electricity, gas, water and waste services",1436
+2005-06-01,Construction,2238
+2005-06-01,Wholesale trade,3893
+2005-06-01,Retail trade,2433
+2005-06-01,Accommodation and food services,1014
+2005-06-01,"Transport, postal and warehousing",2546
+2005-06-01,Information media and telecommunications,1815
+2005-06-01,Financial and insurance services,2151
+2005-06-01,"Rental, hiring and real estate services",3006
+2005-06-01,"Professional, scientific and technical services",764
+2005-06-01,Administrative and support services,513
+2005-06-01,Arts and recreation services,753
+2005-06-01,Other services,597
+2005-06-01,Total (Industry),40927
+2005-09-01,Mining,11001
+2005-09-01,Manufacturing,7870
+2005-09-01,"Electricity, gas, water and waste services",1347
+2005-09-01,Construction,2393
+2005-09-01,Wholesale trade,3874
+2005-09-01,Retail trade,2458
+2005-09-01,Accommodation and food services,1003
+2005-09-01,"Transport, postal and warehousing",2520
+2005-09-01,Information media and telecommunications,1907
+2005-09-01,Financial and insurance services,1890
+2005-09-01,"Rental, hiring and real estate services",2885
+2005-09-01,"Professional, scientific and technical services",753
+2005-09-01,Administrative and support services,535
+2005-09-01,Arts and recreation services,745
+2005-09-01,Other services,606
+2005-09-01,Total (Industry),41786
+2005-12-01,Mining,11633
+2005-12-01,Manufacturing,7806
+2005-12-01,"Electricity, gas, water and waste services",1396
+2005-12-01,Construction,2529
+2005-12-01,Wholesale trade,3989
+2005-12-01,Retail trade,2441
+2005-12-01,Accommodation and food services,940
+2005-12-01,"Transport, postal and warehousing",2481
+2005-12-01,Information media and telecommunications,1815
+2005-12-01,Financial and insurance services,2005
+2005-12-01,"Rental, hiring and real estate services",2785
+2005-12-01,"Professional, scientific and technical services",704
+2005-12-01,Administrative and support services,548
+2005-12-01,Arts and recreation services,787
+2005-12-01,Other services,607
+2005-12-01,Total (Industry),42465
+2006-03-01,Mining,12245
+2006-03-01,Manufacturing,7930
+2006-03-01,"Electricity, gas, water and waste services",1341
+2006-03-01,Construction,2474
+2006-03-01,Wholesale trade,4126
+2006-03-01,Retail trade,2428
+2006-03-01,Accommodation and food services,931
+2006-03-01,"Transport, postal and warehousing",2472
+2006-03-01,Information media and telecommunications,1721
+2006-03-01,Financial and insurance services,1979
+2006-03-01,"Rental, hiring and real estate services",2615
+2006-03-01,"Professional, scientific and technical services",610
+2006-03-01,Administrative and support services,442
+2006-03-01,Arts and recreation services,788
+2006-03-01,Other services,601
+2006-03-01,Total (Industry),42705
+2006-06-01,Mining,14626
+2006-06-01,Manufacturing,7964
+2006-06-01,"Electricity, gas, water and waste services",1438
+2006-06-01,Construction,2354
+2006-06-01,Wholesale trade,4219
+2006-06-01,Retail trade,2460
+2006-06-01,Accommodation and food services,967
+2006-06-01,"Transport, postal and warehousing",2571
+2006-06-01,Information media and telecommunications,1840
+2006-06-01,Financial and insurance services,1643
+2006-06-01,"Rental, hiring and real estate services",2977
+2006-06-01,"Professional, scientific and technical services",633
+2006-06-01,Administrative and support services,454
+2006-06-01,Arts and recreation services,717
+2006-06-01,Other services,627
+2006-06-01,Total (Industry),45492
+2006-09-01,Mining,14014
+2006-09-01,Manufacturing,8551
+2006-09-01,"Electricity, gas, water and waste services",1473
+2006-09-01,Construction,2166
+2006-09-01,Wholesale trade,4350
+2006-09-01,Retail trade,2521
+2006-09-01,Accommodation and food services,1009
+2006-09-01,"Transport, postal and warehousing",2797
+2006-09-01,Information media and telecommunications,2018
+2006-09-01,Financial and insurance services,1778
+2006-09-01,"Rental, hiring and real estate services",2785
+2006-09-01,"Professional, scientific and technical services",619
+2006-09-01,Administrative and support services,390
+2006-09-01,Arts and recreation services,708
+2006-09-01,Other services,616
+2006-09-01,Total (Industry),45794
+2006-12-01,Mining,13429
+2006-12-01,Manufacturing,8711
+2006-12-01,"Electricity, gas, water and waste services",1579
+2006-12-01,Construction,2600
+2006-12-01,Wholesale trade,4360
+2006-12-01,Retail trade,2825
+2006-12-01,Accommodation and food services,1036
+2006-12-01,"Transport, postal and warehousing",3045
+2006-12-01,Information media and telecommunications,2024
+2006-12-01,Financial and insurance services,1812
+2006-12-01,"Rental, hiring and real estate services",3059
+2006-12-01,"Professional, scientific and technical services",657
+2006-12-01,Administrative and support services,499
+2006-12-01,Arts and recreation services,905
+2006-12-01,Other services,652
+2006-12-01,Total (Industry),47192
+2007-03-01,Mining,12632
+2007-03-01,Manufacturing,8941
+2007-03-01,"Electricity, gas, water and waste services",1529
+2007-03-01,Construction,2517
+2007-03-01,Wholesale trade,4678
+2007-03-01,Retail trade,2961
+2007-03-01,Accommodation and food services,1054
+2007-03-01,"Transport, postal and warehousing",3186
+2007-03-01,Information media and telecommunications,4748
+2007-03-01,Financial and insurance services,1603
+2007-03-01,"Rental, hiring and real estate services",3308
+2007-03-01,"Professional, scientific and technical services",659
+2007-03-01,Administrative and support services,615
+2007-03-01,Arts and recreation services,961
+2007-03-01,Other services,655
+2007-03-01,Total (Industry),50045
+2007-06-01,Mining,13330
+2007-06-01,Manufacturing,8597
+2007-06-01,"Electricity, gas, water and waste services",1617
+2007-06-01,Construction,3075
+2007-06-01,Wholesale trade,4873
+2007-06-01,Retail trade,3061
+2007-06-01,Accommodation and food services,1038
+2007-06-01,"Transport, postal and warehousing",2711
+2007-06-01,Information media and telecommunications,4679
+2007-06-01,Financial and insurance services,1758
+2007-06-01,"Rental, hiring and real estate services",3268
+2007-06-01,"Professional, scientific and technical services",775
+2007-06-01,Administrative and support services,561
+2007-06-01,Arts and recreation services,969
+2007-06-01,Other services,676
+2007-06-01,Total (Industry),50988
+2007-09-01,Mining,11993
+2007-09-01,Manufacturing,8415
+2007-09-01,"Electricity, gas, water and waste services",1632
+2007-09-01,Construction,2928
+2007-09-01,Wholesale trade,4572
+2007-09-01,Retail trade,3119
+2007-09-01,Accommodation and food services,1069
+2007-09-01,"Transport, postal and warehousing",3172
+2007-09-01,Information media and telecommunications,4672
+2007-09-01,Financial and insurance services,1791
+2007-09-01,"Rental, hiring and real estate services",2826
+2007-09-01,"Professional, scientific and technical services",779
+2007-09-01,Administrative and support services,618
+2007-09-01,Arts and recreation services,869
+2007-09-01,Other services,688
+2007-09-01,Total (Industry),49144
+2007-12-01,Mining,12370
+2007-12-01,Manufacturing,9122
+2007-12-01,"Electricity, gas, water and waste services",1736
+2007-12-01,Construction,3566
+2007-12-01,Wholesale trade,5228
+2007-12-01,Retail trade,3175
+2007-12-01,Accommodation and food services,1055
+2007-12-01,"Transport, postal and warehousing",3006
+2007-12-01,Information media and telecommunications,4951
+2007-12-01,Financial and insurance services,1752
+2007-12-01,"Rental, hiring and real estate services",3527
+2007-12-01,"Professional, scientific and technical services",829
+2007-12-01,Administrative and support services,620
+2007-12-01,Arts and recreation services,687
+2007-12-01,Other services,709
+2007-12-01,Total (Industry),52333
+2008-03-01,Mining,13774
+2008-03-01,Manufacturing,9444
+2008-03-01,"Electricity, gas, water and waste services",1983
+2008-03-01,Construction,3347
+2008-03-01,Wholesale trade,4959
+2008-03-01,Retail trade,3278
+2008-03-01,Accommodation and food services,1136
+2008-03-01,"Transport, postal and warehousing",3187
+2008-03-01,Information media and telecommunications,5049
+2008-03-01,Financial and insurance services,1837
+2008-03-01,"Rental, hiring and real estate services",3962
+2008-03-01,"Professional, scientific and technical services",899
+2008-03-01,Administrative and support services,654
+2008-03-01,Arts and recreation services,713
+2008-03-01,Other services,694
+2008-03-01,Total (Industry),54917
+2008-06-01,Mining,19400
+2008-06-01,Manufacturing,10270
+2008-06-01,"Electricity, gas, water and waste services",2020
+2008-06-01,Construction,3791
+2008-06-01,Wholesale trade,5424
+2008-06-01,Retail trade,3177
+2008-06-01,Accommodation and food services,1236
+2008-06-01,"Transport, postal and warehousing",3171
+2008-06-01,Information media and telecommunications,4872
+2008-06-01,Financial and insurance services,1932
+2008-06-01,"Rental, hiring and real estate services",3557
+2008-06-01,"Professional, scientific and technical services",706
+2008-06-01,Administrative and support services,478
+2008-06-01,Arts and recreation services,655
+2008-06-01,Other services,744
+2008-06-01,Total (Industry),61433
+2008-09-01,Mining,24102
+2008-09-01,Manufacturing,9235
+2008-09-01,"Electricity, gas, water and waste services",2159
+2008-09-01,Construction,3728
+2008-09-01,Wholesale trade,5554
+2008-09-01,Retail trade,3259
+2008-09-01,Accommodation and food services,1230
+2008-09-01,"Transport, postal and warehousing",2923
+2008-09-01,Information media and telecommunications,4757
+2008-09-01,Financial and insurance services,1837
+2008-09-01,"Rental, hiring and real estate services",3960
+2008-09-01,"Professional, scientific and technical services",1022
+2008-09-01,Administrative and support services,473
+2008-09-01,Arts and recreation services,707
+2008-09-01,Other services,734
+2008-09-01,Total (Industry),65681
+2008-12-01,Mining,24180
+2008-12-01,Manufacturing,7737
+2008-12-01,"Electricity, gas, water and waste services",2037
+2008-12-01,Construction,3244
+2008-12-01,Wholesale trade,4739
+2008-12-01,Retail trade,3252
+2008-12-01,Accommodation and food services,1150
+2008-12-01,"Transport, postal and warehousing",2869
+2008-12-01,Information media and telecommunications,4797
+2008-12-01,Financial and insurance services,1655
+2008-12-01,"Rental, hiring and real estate services",3971
+2008-12-01,"Professional, scientific and technical services",994
+2008-12-01,Administrative and support services,39
+2008-12-01,Arts and recreation services,726
+2008-12-01,Other services,770
+2008-12-01,Total (Industry),62161
+2009-03-01,Mining,22206
+2009-03-01,Manufacturing,5943
+2009-03-01,"Electricity, gas, water and waste services",2362
+2009-03-01,Construction,4017
+2009-03-01,Wholesale trade,4562
+2009-03-01,Retail trade,3577
+2009-03-01,Accommodation and food services,1214
+2009-03-01,"Transport, postal and warehousing",3012
+2009-03-01,Information media and telecommunications,4831
+2009-03-01,Financial and insurance services,1505
+2009-03-01,"Rental, hiring and real estate services",3755
+2009-03-01,"Professional, scientific and technical services",965
+2009-03-01,Administrative and support services,25
+2009-03-01,Arts and recreation services,787
+2009-03-01,Other services,748
+2009-03-01,Total (Industry),59510
+2009-06-01,Mining,15071
+2009-06-01,Manufacturing,6626
+2009-06-01,"Electricity, gas, water and waste services",2281
+2009-06-01,Construction,2982
+2009-06-01,Wholesale trade,4684
+2009-06-01,Retail trade,3874
+2009-06-01,Accommodation and food services,1205
+2009-06-01,"Transport, postal and warehousing",3568
+2009-06-01,Information media and telecommunications,4713
+2009-06-01,Financial and insurance services,1368
+2009-06-01,"Rental, hiring and real estate services",3628
+2009-06-01,"Professional, scientific and technical services",786
+2009-06-01,Administrative and support services,406
+2009-06-01,Arts and recreation services,907
+2009-06-01,Other services,730
+2009-06-01,Total (Industry),52829
+2009-09-01,Mining,13742
+2009-09-01,Manufacturing,7069
+2009-09-01,"Electricity, gas, water and waste services",2225
+2009-09-01,Construction,3935
+2009-09-01,Wholesale trade,3878
+2009-09-01,Retail trade,3692
+2009-09-01,Accommodation and food services,1078
+2009-09-01,"Transport, postal and warehousing",3372
+2009-09-01,Information media and telecommunications,4786
+2009-09-01,Financial and insurance services,1022
+2009-09-01,"Rental, hiring and real estate services",4116
+2009-09-01,"Professional, scientific and technical services",1788
+2009-09-01,Administrative and support services,648
+2009-09-01,Arts and recreation services,860
+2009-09-01,Other services,691
+2009-09-01,Total (Industry),52901
+2009-12-01,Mining,13889
+2009-12-01,Manufacturing,7793
+2009-12-01,"Electricity, gas, water and waste services",2223
+2009-12-01,Construction,4064
+2009-12-01,Wholesale trade,5368
+2009-12-01,Retail trade,3652
+2009-12-01,Accommodation and food services,1343
+2009-12-01,"Transport, postal and warehousing",3624
+2009-12-01,Information media and telecommunications,4642
+2009-12-01,Financial and insurance services,679
+2009-12-01,"Rental, hiring and real estate services",3890
+2009-12-01,"Professional, scientific and technical services",1959
+2009-12-01,Administrative and support services,781
+2009-12-01,Arts and recreation services,863
+2009-12-01,Other services,1105
+2009-12-01,Total (Industry),55873
+2010-03-01,Mining,15980
+2010-03-01,Manufacturing,9029
+2010-03-01,"Electricity, gas, water and waste services",2191
+2010-03-01,Construction,3603
+2010-03-01,Wholesale trade,4887
+2010-03-01,Retail trade,3567
+2010-03-01,Accommodation and food services,1233
+2010-03-01,"Transport, postal and warehousing",3852
+2010-03-01,Information media and telecommunications,4842
+2010-03-01,Financial and insurance services,745
+2010-03-01,"Rental, hiring and real estate services",3708
+2010-03-01,"Professional, scientific and technical services",2359
+2010-03-01,Administrative and support services,685
+2010-03-01,Arts and recreation services,873
+2010-03-01,Other services,950
+2010-03-01,Total (Industry),58503
+2010-06-01,Mining,24626
+2010-06-01,Manufacturing,8921
+2010-06-01,"Electricity, gas, water and waste services",2242
+2010-06-01,Construction,4750
+2010-06-01,Wholesale trade,4274
+2010-06-01,Retail trade,3555
+2010-06-01,Accommodation and food services,1289
+2010-06-01,"Transport, postal and warehousing",3746
+2010-06-01,Information media and telecommunications,5143
+2010-06-01,Financial and insurance services,669
+2010-06-01,"Rental, hiring and real estate services",3678
+2010-06-01,"Professional, scientific and technical services",2253
+2010-06-01,Administrative and support services,658
+2010-06-01,Arts and recreation services,980
+2010-06-01,Other services,890
+2010-06-01,Total (Industry),67675
+2010-09-01,Mining,24099
+2010-09-01,Manufacturing,8136
+2010-09-01,"Electricity, gas, water and waste services",2158
+2010-09-01,Construction,3598
+2010-09-01,Wholesale trade,4722
+2010-09-01,Retail trade,3866
+2010-09-01,Accommodation and food services,1198
+2010-09-01,"Transport, postal and warehousing",4423
+2010-09-01,Information media and telecommunications,4724
+2010-09-01,Financial and insurance services,554
+2010-09-01,"Rental, hiring and real estate services",3614
+2010-09-01,"Professional, scientific and technical services",1989
+2010-09-01,Administrative and support services,607
+2010-09-01,Arts and recreation services,886
+2010-09-01,Other services,691
+2010-09-01,Total (Industry),65265
+2010-12-01,Mining,22586
+2010-12-01,Manufacturing,7512
+2010-12-01,"Electricity, gas, water and waste services",2312
+2010-12-01,Construction,3305
+2010-12-01,Wholesale trade,4912
+2010-12-01,Retail trade,3631
+2010-12-01,Accommodation and food services,1285
+2010-12-01,"Transport, postal and warehousing",4353
+2010-12-01,Information media and telecommunications,4792
+2010-12-01,Financial and insurance services,2034
+2010-12-01,"Rental, hiring and real estate services",3709
+2010-12-01,"Professional, scientific and technical services",1963
+2010-12-01,Administrative and support services,942
+2010-12-01,Arts and recreation services,770
+2010-12-01,Other services,971
+2010-12-01,Total (Industry),65075
+2011-03-01,Mining,21189
+2011-03-01,Manufacturing,7964
+2011-03-01,"Electricity, gas, water and waste services",2078
+2011-03-01,Construction,3503
+2011-03-01,Wholesale trade,5104
+2011-03-01,Retail trade,3679
+2011-03-01,Accommodation and food services,1274
+2011-03-01,"Transport, postal and warehousing",4597
+2011-03-01,Information media and telecommunications,4682
+2011-03-01,Financial and insurance services,880
+2011-03-01,"Rental, hiring and real estate services",3453
+2011-03-01,"Professional, scientific and technical services",2355
+2011-03-01,Administrative and support services,521
+2011-03-01,Arts and recreation services,1070
+2011-03-01,Other services,937
+2011-03-01,Total (Industry),63286
+2011-06-01,Mining,24801
+2011-06-01,Manufacturing,7644
+2011-06-01,"Electricity, gas, water and waste services",2469
+2011-06-01,Construction,3481
+2011-06-01,Wholesale trade,4949
+2011-06-01,Retail trade,3886
+2011-06-01,Accommodation and food services,1340
+2011-06-01,"Transport, postal and warehousing",5158
+2011-06-01,Information media and telecommunications,4729
+2011-06-01,Financial and insurance services,961
+2011-06-01,"Rental, hiring and real estate services",3905
+2011-06-01,"Professional, scientific and technical services",2675
+2011-06-01,Administrative and support services,254
+2011-06-01,Arts and recreation services,1016
+2011-06-01,Other services,814
+2011-06-01,Total (Industry),68082
+2011-09-01,Mining,25751
+2011-09-01,Manufacturing,7064
+2011-09-01,"Electricity, gas, water and waste services",2687
+2011-09-01,Construction,4462
+2011-09-01,Wholesale trade,5445
+2011-09-01,Retail trade,3985
+2011-09-01,Accommodation and food services,1385
+2011-09-01,"Transport, postal and warehousing",4753
+2011-09-01,Information media and telecommunications,4658
+2011-09-01,Financial and insurance services,1154
+2011-09-01,"Rental, hiring and real estate services",4158
+2011-09-01,"Professional, scientific and technical services",3013
+2011-09-01,Administrative and support services,312
+2011-09-01,Arts and recreation services,1055
+2011-09-01,Other services,774
+2011-09-01,Total (Industry),70654
+2011-12-01,Mining,23589
+2011-12-01,Manufacturing,6807
+2011-12-01,"Electricity, gas, water and waste services",2589
+2011-12-01,Construction,4183
+2011-12-01,Wholesale trade,5163
+2011-12-01,Retail trade,3960
+2011-12-01,Accommodation and food services,1432
+2011-12-01,"Transport, postal and warehousing",4767
+2011-12-01,Information media and telecommunications,4319
+2011-12-01,Financial and insurance services,474
+2011-12-01,"Rental, hiring and real estate services",4157
+2011-12-01,"Professional, scientific and technical services",2974
+2011-12-01,Administrative and support services,476
+2011-12-01,Arts and recreation services,1049
+2011-12-01,Other services,637
+2011-12-01,Total (Industry),66577
+2012-03-01,Mining,19676
+2012-03-01,Manufacturing,6553
+2012-03-01,"Electricity, gas, water and waste services",2681
+2012-03-01,Construction,3709
+2012-03-01,Wholesale trade,5081
+2012-03-01,Retail trade,3980
+2012-03-01,Accommodation and food services,1487
+2012-03-01,"Transport, postal and warehousing",5002
+2012-03-01,Information media and telecommunications,4640
+2012-03-01,Financial and insurance services,1023
+2012-03-01,"Rental, hiring and real estate services",4085
+2012-03-01,"Professional, scientific and technical services",2940
+2012-03-01,Administrative and support services,662
+2012-03-01,Arts and recreation services,925
+2012-03-01,Other services,540
+2012-03-01,Total (Industry),62986
+2012-06-01,Mining,20949
+2012-06-01,Manufacturing,6073
+2012-06-01,"Electricity, gas, water and waste services",2574
+2012-06-01,Construction,3987
+2012-06-01,Wholesale trade,5122
+2012-06-01,Retail trade,3914
+2012-06-01,Accommodation and food services,1398
+2012-06-01,"Transport, postal and warehousing",5156
+2012-06-01,Information media and telecommunications,4430
+2012-06-01,Financial and insurance services,1227
+2012-06-01,"Rental, hiring and real estate services",4323
+2012-06-01,"Professional, scientific and technical services",3357
+2012-06-01,Administrative and support services,590
+2012-06-01,Arts and recreation services,895
+2012-06-01,Other services,648
+2012-06-01,Total (Industry),64643
+2012-09-01,Mining,17925
+2012-09-01,Manufacturing,6279
+2012-09-01,"Electricity, gas, water and waste services",2528
+2012-09-01,Construction,4193
+2012-09-01,Wholesale trade,4579
+2012-09-01,Retail trade,3790
+2012-09-01,Accommodation and food services,1389
+2012-09-01,"Transport, postal and warehousing",5203
+2012-09-01,Information media and telecommunications,4583
+2012-09-01,Financial and insurance services,1344
+2012-09-01,"Rental, hiring and real estate services",4212
+2012-09-01,"Professional, scientific and technical services",3808
+2012-09-01,Administrative and support services,393
+2012-09-01,Arts and recreation services,837
+2012-09-01,Other services,669
+2012-09-01,Total (Industry),61731
+2012-12-01,Mining,17192
+2012-12-01,Manufacturing,6255
+2012-12-01,"Electricity, gas, water and waste services",2759
+2012-12-01,Construction,4057
+2012-12-01,Wholesale trade,4707
+2012-12-01,Retail trade,4133
+2012-12-01,Accommodation and food services,1392
+2012-12-01,"Transport, postal and warehousing",5255
+2012-12-01,Information media and telecommunications,4521
+2012-12-01,Financial and insurance services,1467
+2012-12-01,"Rental, hiring and real estate services",4139
+2012-12-01,"Professional, scientific and technical services",3964
+2012-12-01,Administrative and support services,308
+2012-12-01,Arts and recreation services,877
+2012-12-01,Other services,645
+2012-12-01,Total (Industry),61668
+2013-03-01,Mining,18707
+2013-03-01,Manufacturing,6181
+2013-03-01,"Electricity, gas, water and waste services",2605
+2013-03-01,Construction,4377
+2013-03-01,Wholesale trade,4908
+2013-03-01,Retail trade,3861
+2013-03-01,Accommodation and food services,1322
+2013-03-01,"Transport, postal and warehousing",5370
+2013-03-01,Information media and telecommunications,4613
+2013-03-01,Financial and insurance services,882
+2013-03-01,"Rental, hiring and real estate services",4355
+2013-03-01,"Professional, scientific and technical services",3991
+2013-03-01,Administrative and support services,375
+2013-03-01,Arts and recreation services,818
+2013-03-01,Other services,705
+2013-03-01,Total (Industry),63071
+2013-06-01,Mining,20600
+2013-06-01,Manufacturing,6181
+2013-06-01,"Electricity, gas, water and waste services",2674
+2013-06-01,Construction,4716
+2013-06-01,Wholesale trade,4853
+2013-06-01,Retail trade,4107
+2013-06-01,Accommodation and food services,1254
+2013-06-01,"Transport, postal and warehousing",5128
+2013-06-01,Information media and telecommunications,4765
+2013-06-01,Financial and insurance services,713
+2013-06-01,"Rental, hiring and real estate services",4166
+2013-06-01,"Professional, scientific and technical services",3983
+2013-06-01,Administrative and support services,432
+2013-06-01,Arts and recreation services,841
+2013-06-01,Other services,779
+2013-06-01,Total (Industry),65193
+2013-09-01,Mining,22296
+2013-09-01,Manufacturing,7366
+2013-09-01,"Electricity, gas, water and waste services",2946
+2013-09-01,Construction,4471
+2013-09-01,Wholesale trade,4373
+2013-09-01,Retail trade,4141
+2013-09-01,Accommodation and food services,1333
+2013-09-01,"Transport, postal and warehousing",4974
+2013-09-01,Information media and telecommunications,4779
+2013-09-01,Financial and insurance services,472
+2013-09-01,"Rental, hiring and real estate services",4119
+2013-09-01,"Professional, scientific and technical services",3623
+2013-09-01,Administrative and support services,432
+2013-09-01,Arts and recreation services,1024
+2013-09-01,Other services,824
+2013-09-01,Total (Industry),67172
+2013-12-01,Mining,23550
+2013-12-01,Manufacturing,6269
+2013-12-01,"Electricity, gas, water and waste services",3020
+2013-12-01,Construction,4745
+2013-12-01,Wholesale trade,5402
+2013-12-01,Retail trade,4163
+2013-12-01,Accommodation and food services,1186
+2013-12-01,"Transport, postal and warehousing",4707
+2013-12-01,Information media and telecommunications,4895
+2013-12-01,Financial and insurance services,536
+2013-12-01,"Rental, hiring and real estate services",4318
+2013-12-01,"Professional, scientific and technical services",3654
+2013-12-01,Administrative and support services,443
+2013-12-01,Arts and recreation services,908
+2013-12-01,Other services,802
+2013-12-01,Total (Industry),68598
+2014-03-01,Mining,23392
+2014-03-01,Manufacturing,6348
+2014-03-01,"Electricity, gas, water and waste services",3131
+2014-03-01,Construction,4606
+2014-03-01,Wholesale trade,5082
+2014-03-01,Retail trade,4238
+2014-03-01,Accommodation and food services,1479
+2014-03-01,"Transport, postal and warehousing",4403
+2014-03-01,Information media and telecommunications,4962
+2014-03-01,Financial and insurance services,902
+2014-03-01,"Rental, hiring and real estate services",4570
+2014-03-01,"Professional, scientific and technical services",3440
+2014-03-01,Administrative and support services,783
+2014-03-01,Arts and recreation services,1142
+2014-03-01,Other services,875
+2014-03-01,Total (Industry),69353
+2014-06-01,Mining,20576
+2014-06-01,Manufacturing,6608
+2014-06-01,"Electricity, gas, water and waste services",3003
+2014-06-01,Construction,5132
+2014-06-01,Wholesale trade,4826
+2014-06-01,Retail trade,4060
+2014-06-01,Accommodation and food services,1638
+2014-06-01,"Transport, postal and warehousing",4453
+2014-06-01,Information media and telecommunications,5065
+2014-06-01,Financial and insurance services,929
+2014-06-01,"Rental, hiring and real estate services",4524
+2014-06-01,"Professional, scientific and technical services",2876
+2014-06-01,Administrative and support services,531
+2014-06-01,Arts and recreation services,812
+2014-06-01,Other services,544
+2014-06-01,Total (Industry),65578
+2014-09-01,Mining,18962
+2014-09-01,Manufacturing,7029
+2014-09-01,"Electricity, gas, water and waste services",2984
+2014-09-01,Construction,5120
+2014-09-01,Wholesale trade,4687
+2014-09-01,Retail trade,4097
+2014-09-01,Accommodation and food services,1692
+2014-09-01,"Transport, postal and warehousing",4380
+2014-09-01,Information media and telecommunications,4674
+2014-09-01,Financial and insurance services,951
+2014-09-01,"Rental, hiring and real estate services",4494
+2014-09-01,"Professional, scientific and technical services",2834
+2014-09-01,Administrative and support services,842
+2014-09-01,Arts and recreation services,1025
+2014-09-01,Other services,630
+2014-09-01,Total (Industry),64400
+2014-12-01,Mining,18727
+2014-12-01,Manufacturing,6839
+2014-12-01,"Electricity, gas, water and waste services",2792
+2014-12-01,Construction,4854
+2014-12-01,Wholesale trade,4801
+2014-12-01,Retail trade,4299
+2014-12-01,Accommodation and food services,1562
+2014-12-01,"Transport, postal and warehousing",4901
+2014-12-01,Information media and telecommunications,4845
+2014-12-01,Financial and insurance services,744
+2014-12-01,"Rental, hiring and real estate services",4559
+2014-12-01,"Professional, scientific and technical services",2845
+2014-12-01,Administrative and support services,833
+2014-12-01,Arts and recreation services,1161
+2014-12-01,Other services,585
+2014-12-01,Total (Industry),64347
+2015-03-01,Mining,17338
+2015-03-01,Manufacturing,6709
+2015-03-01,"Electricity, gas, water and waste services",2871
+2015-03-01,Construction,5098
+2015-03-01,Wholesale trade,5010
+2015-03-01,Retail trade,4414
+2015-03-01,Accommodation and food services,1681
+2015-03-01,"Transport, postal and warehousing",4958
+2015-03-01,Information media and telecommunications,4731
+2015-03-01,Financial and insurance services,1093
+2015-03-01,"Rental, hiring and real estate services",4873
+2015-03-01,"Professional, scientific and technical services",2779
+2015-03-01,Administrative and support services,698
+2015-03-01,Arts and recreation services,1069
+2015-03-01,Other services,594
+2015-03-01,Total (Industry),63915
+2015-06-01,Mining,16084
+2015-06-01,Manufacturing,6603
+2015-06-01,"Electricity, gas, water and waste services",2972
+2015-06-01,Construction,5197
+2015-06-01,Wholesale trade,5544
+2015-06-01,Retail trade,4633
+2015-06-01,Accommodation and food services,1706
+2015-06-01,"Transport, postal and warehousing",5115
+2015-06-01,Information media and telecommunications,4716
+2015-06-01,Financial and insurance services,655
+2015-06-01,"Rental, hiring and real estate services",5046
+2015-06-01,"Professional, scientific and technical services",3290
+2015-06-01,Administrative and support services,649
+2015-06-01,Arts and recreation services,1021
+2015-06-01,Other services,739
+2015-06-01,Total (Industry),63970
+2015-09-01,Mining,17088
+2015-09-01,Manufacturing,7229
+2015-09-01,"Electricity, gas, water and waste services",2991
+2015-09-01,Construction,4278
+2015-09-01,Wholesale trade,5516
+2015-09-01,Retail trade,4644
+2015-09-01,Accommodation and food services,1676
+2015-09-01,"Transport, postal and warehousing",5422
+2015-09-01,Information media and telecommunications,4668
+2015-09-01,Financial and insurance services,998
+2015-09-01,"Rental, hiring and real estate services",5372
+2015-09-01,"Professional, scientific and technical services",2829
+2015-09-01,Administrative and support services,568
+2015-09-01,Arts and recreation services,1013
+2015-09-01,Other services,638
+2015-09-01,Total (Industry),64930
+2015-12-01,Mining,15713
+2015-12-01,Manufacturing,7053
+2015-12-01,"Electricity, gas, water and waste services",2931
+2015-12-01,Construction,4261
+2015-12-01,Wholesale trade,5361
+2015-12-01,Retail trade,4454
+2015-12-01,Accommodation and food services,1684
+2015-12-01,"Transport, postal and warehousing",5209
+2015-12-01,Information media and telecommunications,4826
+2015-12-01,Financial and insurance services,1076
+2015-12-01,"Rental, hiring and real estate services",5211
+2015-12-01,"Professional, scientific and technical services",2459
+2015-12-01,Administrative and support services,646
+2015-12-01,Arts and recreation services,1035
+2015-12-01,Other services,499
+2015-12-01,Total (Industry),62418
+2016-03-01,Mining,13706
+2016-03-01,Manufacturing,6142
+2016-03-01,"Electricity, gas, water and waste services",2747
+2016-03-01,Construction,4231
+2016-03-01,Wholesale trade,5173
+2016-03-01,Retail trade,4207
+2016-03-01,Accommodation and food services,1765
+2016-03-01,"Transport, postal and warehousing",5347
+2016-03-01,Information media and telecommunications,4525
+2016-03-01,Financial and insurance services,682
+2016-03-01,"Rental, hiring and real estate services",5279
+2016-03-01,"Professional, scientific and technical services",2445
+2016-03-01,Administrative and support services,677
+2016-03-01,Arts and recreation services,1056
+2016-03-01,Other services,613
+2016-03-01,Total (Industry),58596
+2016-06-01,Mining,16533
+2016-06-01,Manufacturing,6913
+2016-06-01,"Electricity, gas, water and waste services",2984
+2016-06-01,Construction,3671
+2016-06-01,Wholesale trade,5193
+2016-06-01,Retail trade,4106
+2016-06-01,Accommodation and food services,1507
+2016-06-01,"Transport, postal and warehousing",5501
+2016-06-01,Information media and telecommunications,4767
+2016-06-01,Financial and insurance services,1272
+2016-06-01,"Rental, hiring and real estate services",5492
+2016-06-01,"Professional, scientific and technical services",3276
+2016-06-01,Administrative and support services,882
+2016-06-01,Arts and recreation services,1153
+2016-06-01,Other services,505
+2016-06-01,Total (Industry),63756
+2016-09-01,Mining,19267
+2016-09-01,Manufacturing,7146
+2016-09-01,"Electricity, gas, water and waste services",2849
+2016-09-01,Construction,3305
+2016-09-01,Wholesale trade,5348
+2016-09-01,Retail trade,4492
+2016-09-01,Accommodation and food services,1781
+2016-09-01,"Transport, postal and warehousing",5850
+2016-09-01,Information media and telecommunications,4271
+2016-09-01,Financial and insurance services,574
+2016-09-01,"Rental, hiring and real estate services",5633
+2016-09-01,"Professional, scientific and technical services",2620
+2016-09-01,Administrative and support services,771
+2016-09-01,Arts and recreation services,1054
+2016-09-01,Other services,715
+2016-09-01,Total (Industry),65677
+2016-12-01,Mining,27981
+2016-12-01,Manufacturing,7547
+2016-12-01,"Electricity, gas, water and waste services",3075
+2016-12-01,Construction,4521
+2016-12-01,Wholesale trade,5387
+2016-12-01,Retail trade,4414
+2016-12-01,Accommodation and food services,1435
+2016-12-01,"Transport, postal and warehousing",5784
+2016-12-01,Information media and telecommunications,4742
+2016-12-01,Financial and insurance services,1650
+2016-12-01,"Rental, hiring and real estate services",6182
+2016-12-01,"Professional, scientific and technical services",4362
+2016-12-01,Administrative and support services,751
+2016-12-01,Arts and recreation services,1013
+2016-12-01,Other services,902
+2016-12-01,Total (Industry),79748
+2017-03-01,Mining,29179
+2017-03-01,Manufacturing,7833
+2017-03-01,"Electricity, gas, water and waste services",3202
+2017-03-01,Construction,4525
+2017-03-01,Wholesale trade,5476
+2017-03-01,Retail trade,4509
+2017-03-01,Accommodation and food services,1319
+2017-03-01,"Transport, postal and warehousing",5752
+2017-03-01,Information media and telecommunications,4804
+2017-03-01,Financial and insurance services,1747
+2017-03-01,"Rental, hiring and real estate services",6879
+2017-03-01,"Professional, scientific and technical services",4429
+2017-03-01,Administrative and support services,875
+2017-03-01,Arts and recreation services,1069
+2017-03-01,Other services,544
+2017-03-01,Total (Industry),82141
+2017-06-01,Mining,25628
+2017-06-01,Manufacturing,7614
+2017-06-01,"Electricity, gas, water and waste services",3731
+2017-06-01,Construction,4076
+2017-06-01,Wholesale trade,5491
+2017-06-01,Retail trade,4365
+2017-06-01,Accommodation and food services,1360
+2017-06-01,"Transport, postal and warehousing",5525
+2017-06-01,Information media and telecommunications,4820
+2017-06-01,Financial and insurance services,1961
+2017-06-01,"Rental, hiring and real estate services",6268
+2017-06-01,"Professional, scientific and technical services",4210
+2017-06-01,Administrative and support services,765
+2017-06-01,Arts and recreation services,975
+2017-06-01,Other services,937
+2017-06-01,Total (Industry),77725
+2017-09-01,Mining,25953
+2017-09-01,Manufacturing,7394
+2017-09-01,"Electricity, gas, water and waste services",3799
+2017-09-01,Construction,3781
+2017-09-01,Wholesale trade,5849
+2017-09-01,Retail trade,4566
+2017-09-01,Accommodation and food services,1311
+2017-09-01,"Transport, postal and warehousing",5691
+2017-09-01,Information media and telecommunications,5060
+2017-09-01,Financial and insurance services,2235
+2017-09-01,"Rental, hiring and real estate services",5652
+2017-09-01,"Professional, scientific and technical services",4592
+2017-09-01,Administrative and support services,902
+2017-09-01,Arts and recreation services,1046
+2017-09-01,Other services,761
+2017-09-01,Total (Industry),78593
+2017-12-01,Mining,28634
+2017-12-01,Manufacturing,8233
+2017-12-01,"Electricity, gas, water and waste services",4034
+2017-12-01,Construction,3980
+2017-12-01,Wholesale trade,6871
+2017-12-01,Retail trade,4911
+2017-12-01,Accommodation and food services,1533
+2017-12-01,"Transport, postal and warehousing",5700
+2017-12-01,Information media and telecommunications,4669
+2017-12-01,Financial and insurance services,2169
+2017-12-01,"Rental, hiring and real estate services",6202
+2017-12-01,"Professional, scientific and technical services",3917
+2017-12-01,Administrative and support services,1102
+2017-12-01,Arts and recreation services,1032
+2017-12-01,Other services,746
+2017-12-01,Total (Industry),83733
+2018-03-01,Mining,30723
+2018-03-01,Manufacturing,8387
+2018-03-01,"Electricity, gas, water and waste services",4288
+2018-03-01,Construction,4621
+2018-03-01,Wholesale trade,6467
+2018-03-01,Retail trade,5112
+2018-03-01,Accommodation and food services,1495
+2018-03-01,"Transport, postal and warehousing",5806
+2018-03-01,Information media and telecommunications,4741
+2018-03-01,Financial and insurance services,1769
+2018-03-01,"Rental, hiring and real estate services",6507
+2018-03-01,"Professional, scientific and technical services",4166
+2018-03-01,Administrative and support services,1264
+2018-03-01,Arts and recreation services,1237
+2018-03-01,Other services,796
+2018-03-01,Total (Industry),87380
+2018-06-01,Mining,30593
+2018-06-01,Manufacturing,8332
+2018-06-01,"Electricity, gas, water and waste services",4322
+2018-06-01,Construction,4340
+2018-06-01,Wholesale trade,6358
+2018-06-01,Retail trade,5039
+2018-06-01,Accommodation and food services,1431
+2018-06-01,"Transport, postal and warehousing",5892
+2018-06-01,Information media and telecommunications,4428
+2018-06-01,Financial and insurance services,1828
+2018-06-01,"Rental, hiring and real estate services",6236
+2018-06-01,"Professional, scientific and technical services",3790
+2018-06-01,Administrative and support services,1298
+2018-06-01,Arts and recreation services,1165
+2018-06-01,Other services,895
+2018-06-01,Total (Industry),85948
+2018-09-01,Mining,33311
+2018-09-01,Manufacturing,8077
+2018-09-01,"Electricity, gas, water and waste services",4619
+2018-09-01,Construction,4534
+2018-09-01,Wholesale trade,5990
+2018-09-01,Retail trade,4882
+2018-09-01,Accommodation and food services,1645
+2018-09-01,"Transport, postal and warehousing",5805
+2018-09-01,Information media and telecommunications,4231
+2018-09-01,Financial and insurance services,1976
+2018-09-01,"Rental, hiring and real estate services",6271
+2018-09-01,"Professional, scientific and technical services",3535
+2018-09-01,Administrative and support services,1318
+2018-09-01,Arts and recreation services,1334
+2018-09-01,Other services,833
+2018-09-01,Total (Industry),88361
+2018-12-01,Mining,36721
+2018-12-01,Manufacturing,7976
+2018-12-01,"Electricity, gas, water and waste services",4910
+2018-12-01,Construction,5156
+2018-12-01,Wholesale trade,6167
+2018-12-01,Retail trade,4984
+2018-12-01,Accommodation and food services,1831
+2018-12-01,"Transport, postal and warehousing",6384
+2018-12-01,Information media and telecommunications,4076
+2018-12-01,Financial and insurance services,1639
+2018-12-01,"Rental, hiring and real estate services",6395
+2018-12-01,"Professional, scientific and technical services",4039
+2018-12-01,Administrative and support services,1167
+2018-12-01,Arts and recreation services,1285
+2018-12-01,Other services,885
+2018-12-01,Total (Industry),93615
+2019-03-01,Mining,39607
+2019-03-01,Manufacturing,7901
+2019-03-01,"Electricity, gas, water and waste services",4810
+2019-03-01,Construction,4846
+2019-03-01,Wholesale trade,6267
+2019-03-01,Retail trade,5005
+2019-03-01,Accommodation and food services,1758
+2019-03-01,"Transport, postal and warehousing",6694
+2019-03-01,Information media and telecommunications,4503
+2019-03-01,Financial and insurance services,1654
+2019-03-01,"Rental, hiring and real estate services",5890
+2019-03-01,"Professional, scientific and technical services",4585
+2019-03-01,Administrative and support services,1379
+2019-03-01,Arts and recreation services,1184
+2019-03-01,Other services,869
+2019-03-01,Total (Industry),96951
+2019-06-01,Mining,41992
+2019-06-01,Manufacturing,7541
+2019-06-01,"Electricity, gas, water and waste services",4330
+2019-06-01,Construction,4979
+2019-06-01,Wholesale trade,6272
+2019-06-01,Retail trade,5062
+2019-06-01,Accommodation and food services,1908
+2019-06-01,"Transport, postal and warehousing",6431
+2019-06-01,Information media and telecommunications,4311
+2019-06-01,Financial and insurance services,1537
+2019-06-01,"Rental, hiring and real estate services",5929
+2019-06-01,"Professional, scientific and technical services",4872
+2019-06-01,Administrative and support services,1354
+2019-06-01,Arts and recreation services,1248
+2019-06-01,Other services,835
+2019-06-01,Total (Industry),98603
+2019-09-01,Mining,41974
+2019-09-01,Manufacturing,7638
+2019-09-01,"Electricity, gas, water and waste services",4387
+2019-09-01,Construction,5421
+2019-09-01,Wholesale trade,6213
+2019-09-01,Retail trade,5159
+2019-09-01,Accommodation and food services,1893
+2019-09-01,"Transport, postal and warehousing",5909
+2019-09-01,Information media and telecommunications,4606
+2019-09-01,Financial and insurance services,1205
+2019-09-01,"Rental, hiring and real estate services",5138
+2019-09-01,"Professional, scientific and technical services",5120
+2019-09-01,Administrative and support services,1337
+2019-09-01,Arts and recreation services,1054
+2019-09-01,Other services,819
+2019-09-01,Total (Industry),97872
+2019-12-01,Mining,39690
+2019-12-01,Manufacturing,8003
+2019-12-01,"Electricity, gas, water and waste services",4638
+2019-12-01,Construction,5375
+2019-12-01,Wholesale trade,6448
+2019-12-01,Retail trade,5445
+2019-12-01,Accommodation and food services,1891
+2019-12-01,"Transport, postal and warehousing",6274
+2019-12-01,Information media and telecommunications,4703
+2019-12-01,Financial and insurance services,923
+2019-12-01,"Rental, hiring and real estate services",5489
+2019-12-01,"Professional, scientific and technical services",4927
+2019-12-01,Administrative and support services,1366
+2019-12-01,Arts and recreation services,1202
+2019-12-01,Other services,863
+2019-12-01,Total (Industry),97237
+2020-03-01,Mining,41390
+2020-03-01,Manufacturing,8322
+2020-03-01,"Electricity, gas, water and waste services",4728
+2020-03-01,Construction,5228
+2020-03-01,Wholesale trade,6997
+2020-03-01,Retail trade,5578
+2020-03-01,Accommodation and food services,1701
+2020-03-01,"Transport, postal and warehousing",5753
+2020-03-01,Information media and telecommunications,4655
+2020-03-01,Financial and insurance services,1022
+2020-03-01,"Rental, hiring and real estate services",5371
+2020-03-01,"Professional, scientific and technical services",5526
+2020-03-01,Administrative and support services,1296
+2020-03-01,Arts and recreation services,1138
+2020-03-01,Other services,875
+2020-03-01,Total (Industry),99580
+2020-06-01,Mining,37505
+2020-06-01,Manufacturing,9120
+2020-06-01,"Electricity, gas, water and waste services",4336
+2020-06-01,Construction,7696
+2020-06-01,Wholesale trade,7374
+2020-06-01,Retail trade,7360
+2020-06-01,Accommodation and food services,3408
+2020-06-01,"Transport, postal and warehousing",6336
+2020-06-01,Information media and telecommunications,4371
+2020-06-01,Financial and insurance services,815
+2020-06-01,"Rental, hiring and real estate services",5895
+2020-06-01,"Professional, scientific and technical services",8275
+2020-06-01,Administrative and support services,2908
+2020-06-01,Arts and recreation services,2132
+2020-06-01,Other services,3372
+2020-06-01,Total (Industry),110903
+2020-09-01,Mining,35580
+2020-09-01,Manufacturing,10255
+2020-09-01,"Electricity, gas, water and waste services",4359
+2020-09-01,Construction,7537
+2020-09-01,Wholesale trade,8380
+2020-09-01,Retail trade,8674
+2020-09-01,Accommodation and food services,4524
+2020-09-01,"Transport, postal and warehousing",6852
+2020-09-01,Information media and telecommunications,4622
+2020-09-01,Financial and insurance services,392
+2020-09-01,"Rental, hiring and real estate services",6163
+2020-09-01,"Professional, scientific and technical services",9244
+2020-09-01,Administrative and support services,3240
+2020-09-01,Arts and recreation services,2490
+2020-09-01,Other services,3812
+2020-09-01,Total (Industry),116125
+2020-12-01,Mining,40842
+2020-12-01,Manufacturing,9346
+2020-12-01,"Electricity, gas, water and waste services",4196
+2020-12-01,Construction,6942
+2020-12-01,Wholesale trade,8952
+2020-12-01,Retail trade,8036
+2020-12-01,Accommodation and food services,3043
+2020-12-01,"Transport, postal and warehousing",5180
+2020-12-01,Information media and telecommunications,5141
+2020-12-01,Financial and insurance services,899
+2020-12-01,"Rental, hiring and real estate services",6209
+2020-12-01,"Professional, scientific and technical services",6550
+2020-12-01,Administrative and support services,2187
+2020-12-01,Arts and recreation services,1991
+2020-12-01,Other services,2685
+2020-12-01,Total (Industry),112197
+2021-03-01,Mining,47270
+2021-03-01,Manufacturing,9463
+2021-03-01,"Electricity, gas, water and waste services",4144
+2021-03-01,Construction,6931
+2021-03-01,Wholesale trade,8779
+2021-03-01,Retail trade,6085
+2021-03-01,Accommodation and food services,1798
+2021-03-01,"Transport, postal and warehousing",4850
+2021-03-01,Information media and telecommunications,4264
+2021-03-01,Financial and insurance services,854
+2021-03-01,"Rental, hiring and real estate services",6039
+2021-03-01,"Professional, scientific and technical services",6366
+2021-03-01,Administrative and support services,1876
+2021-03-01,Arts and recreation services,1243
+2021-03-01,Other services,1254
+2021-03-01,Total (Industry),111215
+2021-06-01,Mining,53586
+2021-06-01,Manufacturing,9344
+2021-06-01,"Electricity, gas, water and waste services",4036
+2021-06-01,Construction,6117
+2021-06-01,Wholesale trade,8389
+2021-06-01,Retail trade,5496
+2021-06-01,Accommodation and food services,1553
+2021-06-01,"Transport, postal and warehousing",5218
+2021-06-01,Information media and telecommunications,4300
+2021-06-01,Financial and insurance services,1074
+2021-06-01,"Rental, hiring and real estate services",5819
+2021-06-01,"Professional, scientific and technical services",6616
+2021-06-01,Administrative and support services,2060
+2021-06-01,Arts and recreation services,1097
+2021-06-01,Other services,1741
+2021-06-01,Total (Industry),116446
+2021-09-01,Mining,59871
+2021-09-01,Manufacturing,10177
+2021-09-01,"Electricity, gas, water and waste services",3919
+2021-09-01,Construction,6756
+2021-09-01,Wholesale trade,8373
+2021-09-01,Retail trade,5358
+2021-09-01,Accommodation and food services,1338
+2021-09-01,"Transport, postal and warehousing",4547
+2021-09-01,Information media and telecommunications,4342
+2021-09-01,Financial and insurance services,1018
+2021-09-01,"Rental, hiring and real estate services",5739
+2021-09-01,"Professional, scientific and technical services",7236
+2021-09-01,Administrative and support services,1579
+2021-09-01,Arts and recreation services,1119
+2021-09-01,Other services,1672
+2021-09-01,Total (Industry),123044
+2021-12-01,Mining,55770
+2021-12-01,Manufacturing,12830
+2021-12-01,"Electricity, gas, water and waste services",4015
+2021-12-01,Construction,7122
+2021-12-01,Wholesale trade,8808
+2021-12-01,Retail trade,5817
+2021-12-01,Accommodation and food services,1200
+2021-12-01,"Transport, postal and warehousing",5978
+2021-12-01,Information media and telecommunications,4759
+2021-12-01,Financial and insurance services,2109
+2021-12-01,"Rental, hiring and real estate services",7410
+2021-12-01,"Professional, scientific and technical services",7649
+2021-12-01,Administrative and support services,1357
+2021-12-01,Arts and recreation services,1108
+2021-12-01,Other services,1769
+2021-12-01,Total (Industry),127701
+2022-03-01,Mining,69507
+2022-03-01,Manufacturing,11170
+2022-03-01,"Electricity, gas, water and waste services",4213
+2022-03-01,Construction,7264
+2022-03-01,Wholesale trade,9672
+2022-03-01,Retail trade,6860
+2022-03-01,Accommodation and food services,678
+2022-03-01,"Transport, postal and warehousing",6124
+2022-03-01,Information media and telecommunications,4808
+2022-03-01,Financial and insurance services,1544
+2022-03-01,"Rental, hiring and real estate services",6925
+2022-03-01,"Professional, scientific and technical services",5411
+2022-03-01,Administrative and support services,1222
+2022-03-01,Arts and recreation services,1042
+2022-03-01,Other services,1979
+2022-03-01,Total (Industry),138419
+2022-06-01,Mining,81283
+2022-06-01,Manufacturing,12543
+2022-06-01,"Electricity, gas, water and waste services",4216
+2022-06-01,Construction,6850
+2022-06-01,Wholesale trade,9721
+2022-06-01,Retail trade,6272
+2022-06-01,Accommodation and food services,1022
+2022-06-01,"Transport, postal and warehousing",7171
+2022-06-01,Information media and telecommunications,4424
+2022-06-01,Financial and insurance services,862
+2022-06-01,"Rental, hiring and real estate services",6368
+2022-06-01,"Professional, scientific and technical services",5112
+2022-06-01,Administrative and support services,1119
+2022-06-01,Arts and recreation services,1018
+2022-06-01,Other services,1884
+2022-06-01,Total (Industry),149866
+2022-09-01,Mining,70077
+2022-09-01,Manufacturing,10099
+2022-09-01,"Electricity, gas, water and waste services",4227
+2022-09-01,Construction,6528
+2022-09-01,Wholesale trade,9657
+2022-09-01,Retail trade,5958
+2022-09-01,Accommodation and food services,1582
+2022-09-01,"Transport, postal and warehousing",7661
+2022-09-01,Information media and telecommunications,4292
+2022-09-01,Financial and insurance services,637
+2022-09-01,"Rental, hiring and real estate services",6052
+2022-09-01,"Professional, scientific and technical services",5877
+2022-09-01,Administrative and support services,1144
+2022-09-01,Arts and recreation services,776
+2022-09-01,Other services,1578
+2022-09-01,Total (Industry),136145
+2022-12-01,Mining,73537
+2022-12-01,Manufacturing,11552
+2022-12-01,"Electricity, gas, water and waste services",4632
+2022-12-01,Construction,6923
+2022-12-01,Wholesale trade,11254
+2022-12-01,Retail trade,6969
+2022-12-01,Accommodation and food services,1817
+2022-12-01,"Transport, postal and warehousing",8110
+2022-12-01,Information media and telecommunications,4488
+2022-12-01,Financial and insurance services,542
+2022-12-01,"Rental, hiring and real estate services",5664
+2022-12-01,"Professional, scientific and technical services",6864
+2022-12-01,Administrative and support services,1413
+2022-12-01,Arts and recreation services,920
+2022-12-01,Other services,2235
+2022-12-01,Total (Industry),146921
+2023-03-01,Mining,73865
+2023-03-01,Manufacturing,11922
+2023-03-01,"Electricity, gas, water and waste services",5019
+2023-03-01,Construction,7211
+2023-03-01,Wholesale trade,10465
+2023-03-01,Retail trade,6748
+2023-03-01,Accommodation and food services,1563
+2023-03-01,"Transport, postal and warehousing",8312
+2023-03-01,Information media and telecommunications,4452
+2023-03-01,Financial and insurance services,796
+2023-03-01,"Rental, hiring and real estate services",6108
+2023-03-01,"Professional, scientific and technical services",7492
+2023-03-01,Administrative and support services,1581
+2023-03-01,Arts and recreation services,837
+2023-03-01,Other services,2356
+2023-03-01,Total (Industry),148723
+2023-06-01,Mining,60781
+2023-06-01,Manufacturing,10958
+2023-06-01,"Electricity, gas, water and waste services",4829
+2023-06-01,Construction,7437
+2023-06-01,Wholesale trade,10271
+2023-06-01,Retail trade,6971
+2023-06-01,Accommodation and food services,1473
+2023-06-01,"Transport, postal and warehousing",8012
+2023-06-01,Information media and telecommunications,4523
+2023-06-01,Financial and insurance services,1103
+2023-06-01,"Rental, hiring and real estate services",5696
+2023-06-01,"Professional, scientific and technical services",6618
+2023-06-01,Administrative and support services,1979
+2023-06-01,Arts and recreation services,898
+2023-06-01,Other services,2442
+2023-06-01,Total (Industry),133990
+2023-09-01,Mining,58125
+2023-09-01,Manufacturing,11613
+2023-09-01,"Electricity, gas, water and waste services",5011
+2023-09-01,Construction,8118
+2023-09-01,Wholesale trade,10479
+2023-09-01,Retail trade,7484
+2023-09-01,Accommodation and food services,1645
+2023-09-01,"Transport, postal and warehousing",8079
+2023-09-01,Information media and telecommunications,4557
+2023-09-01,Financial and insurance services,1131
+2023-09-01,"Rental, hiring and real estate services",6228
+2023-09-01,"Professional, scientific and technical services",6947
+2023-09-01,Administrative and support services,2032
+2023-09-01,Arts and recreation services,947
+2023-09-01,Other services,2588
+2023-09-01,Total (Industry),134986
+2023-12-01,Mining,61851
+2023-12-01,Manufacturing,11682
+2023-12-01,"Electricity, gas, water and waste services",5352
+2023-12-01,Construction,7902
+2023-12-01,Wholesale trade,9734
+2023-12-01,Retail trade,7077
+2023-12-01,Accommodation and food services,1565
+2023-12-01,"Transport, postal and warehousing",8229
+2023-12-01,Information media and telecommunications,4466
+2023-12-01,Financial and insurance services,1378
+2023-12-01,"Rental, hiring and real estate services",6125
+2023-12-01,"Professional, scientific and technical services",7207
+2023-12-01,Administrative and support services,1976
+2023-12-01,Arts and recreation services,916
+2023-12-01,Other services,2441
+2023-12-01,Total (Industry),137900
+2024-03-01,Mining,60165
+2024-03-01,Manufacturing,11577
+2024-03-01,"Electricity, gas, water and waste services",5516
+2024-03-01,Construction,7701
+2024-03-01,Wholesale trade,9553
+2024-03-01,Retail trade,6789
+2024-03-01,Accommodation and food services,1585
+2024-03-01,"Transport, postal and warehousing",7947
+2024-03-01,Information media and telecommunications,4649
+2024-03-01,Financial and insurance services,1322
+2024-03-01,"Rental, hiring and real estate services",6359
+2024-03-01,"Professional, scientific and technical services",7597
+2024-03-01,Administrative and support services,1973
+2024-03-01,Arts and recreation services,1025
+2024-03-01,Other services,2274
+2024-03-01,Total (Industry),136033
+2024-06-01,Mining,53871
+2024-06-01,Manufacturing,11972
+2024-06-01,"Electricity, gas, water and waste services",5604
+2024-06-01,Construction,7385
+2024-06-01,Wholesale trade,8929
+2024-06-01,Retail trade,6692
+2024-06-01,Accommodation and food services,1514
+2024-06-01,"Transport, postal and warehousing",8368
+2024-06-01,Information media and telecommunications,4503
+2024-06-01,Financial and insurance services,1301
+2024-06-01,"Rental, hiring and real estate services",6261
+2024-06-01,"Professional, scientific and technical services",7793
+2024-06-01,Administrative and support services,2096
+2024-06-01,Arts and recreation services,1003
+2024-06-01,Other services,2378
+2024-06-01,Total (Industry),129670
+2024-09-01,Mining,50409
+2024-09-01,Manufacturing,11611
+2024-09-01,"Electricity, gas, water and waste services",5725
+2024-09-01,Construction,7640
+2024-09-01,Wholesale trade,8473
+2024-09-01,Retail trade,6732
+2024-09-01,Accommodation and food services,1465
+2024-09-01,"Transport, postal and warehousing",7970
+2024-09-01,Information media and telecommunications,4402
+2024-09-01,Financial and insurance services,1400
+2024-09-01,"Rental, hiring and real estate services",6269
+2024-09-01,"Professional, scientific and technical services",7808
+2024-09-01,Administrative and support services,2043
+2024-09-01,Arts and recreation services,1059
+2024-09-01,Other services,2247
+2024-09-01,Total (Industry),125252
+2024-12-01,Mining,50498
+2024-12-01,Manufacturing,11424
+2024-12-01,"Electricity, gas, water and waste services",5905
+2024-12-01,Construction,7674
+2024-12-01,Wholesale trade,10005
+2024-12-01,Retail trade,6869
+2024-12-01,Accommodation and food services,1582
+2024-12-01,"Transport, postal and warehousing",8583
+2024-12-01,Information media and telecommunications,4496
+2024-12-01,Financial and insurance services,1932
+2024-12-01,"Rental, hiring and real estate services",6773
+2024-12-01,"Professional, scientific and technical services",7492
+2024-12-01,Administrative and support services,2186
+2024-12-01,Arts and recreation services,1206
+2024-12-01,Other services,2342
+2024-12-01,Total (Industry),128966
+2025-03-01,Mining,48609
+2025-03-01,Manufacturing,12488
+2025-03-01,"Electricity, gas, water and waste services",5747
+2025-03-01,Construction,7943
+2025-03-01,Wholesale trade,10478
+2025-03-01,Retail trade,7176
+2025-03-01,Accommodation and food services,1605
+2025-03-01,"Transport, postal and warehousing",8695
+2025-03-01,Information media and telecommunications,4579
+2025-03-01,Financial and insurance services,1719
+2025-03-01,"Rental, hiring and real estate services",6833
+2025-03-01,"Professional, scientific and technical services",7369
+2025-03-01,Administrative and support services,2042
+2025-03-01,Arts and recreation services,1214
+2025-03-01,Other services,2483
+2025-03-01,Total (Industry),128980
+2025-06-01,Mining,47574
+2025-06-01,Manufacturing,11036
+2025-06-01,"Electricity, gas, water and waste services",5680
+2025-06-01,Construction,7837
+2025-06-01,Wholesale trade,9920
+2025-06-01,Retail trade,6764
+2025-06-01,Accommodation and food services,1660
+2025-06-01,"Transport, postal and warehousing",8754
+2025-06-01,Information media and telecommunications,4443
+2025-06-01,Financial and insurance services,1603
+2025-06-01,"Rental, hiring and real estate services",6529
+2025-06-01,"Professional, scientific and technical services",7453
+2025-06-01,Administrative and support services,1800
+2025-06-01,Arts and recreation services,1173
+2025-06-01,Other services,2404
+2025-06-01,Total (Industry),124629
+2025-09-01,Mining,48861
+2025-09-01,Manufacturing,10916
+2025-09-01,"Electricity, gas, water and waste services",6023
+2025-09-01,Construction,7586
+2025-09-01,Wholesale trade,10176
+2025-09-01,Retail trade,6757
+2025-09-01,Accommodation and food services,1706
+2025-09-01,"Transport, postal and warehousing",8929
+2025-09-01,Information media and telecommunications,4503
+2025-09-01,Financial and insurance services,1697
+2025-09-01,"Rental, hiring and real estate services",6755
+2025-09-01,"Professional, scientific and technical services",7099
+2025-09-01,Administrative and support services,1885
+2025-09-01,Arts and recreation services,1243
+2025-09-01,Other services,2396
+2025-09-01,Total (Industry),126530
+2025-12-01,Mining,52831
+2025-12-01,Manufacturing,11192
+2025-12-01,"Electricity, gas, water and waste services",6038
+2025-12-01,Construction,7905
+2025-12-01,Wholesale trade,10834
+2025-12-01,Retail trade,6755
+2025-12-01,Accommodation and food services,1810
+2025-12-01,"Transport, postal and warehousing",9721
+2025-12-01,Information media and telecommunications,4648
+2025-12-01,Financial and insurance services,1765
+2025-12-01,"Rental, hiring and real estate services",6973
+2025-12-01,"Professional, scientific and technical services",7721
+2025-12-01,Administrative and support services,1884
+2025-12-01,Arts and recreation services,1200
+2025-12-01,Other services,2644
+2025-12-01,Total (Industry),133922

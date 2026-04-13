@@ -3,7 +3,7 @@
 source("src/library.R")
 
 #Time series
-p1<-gop |>
+gop_margin |>
   ggplot(aes(x = date, y = margin)) +
   geom_line(linewidth = 0.9, colour = "darkorange") +
   labs(

@@ -14,7 +14,8 @@ gop <- gop |>
     series,
     into = c("drop1", "drop2", "industry", "drop3", "drop4", "drop5"),
     sep = " ; "
-  ) |> 
+  ) |>
+  mutate(industry = str_trim(industry)) |>   # <- removes leading space
   select(date, industry, value)
 
 gop_wide <- gop %>%
@@ -22,7 +23,8 @@ gop_wide <- gop %>%
     names_from = industry,
     values_from = value
   ) |> 
-  rename(Total = ` Total (Industry)`)
+  rename(Total = "Total (Industry)") |> 
+  mutate("Total ex mining" = Total - Mining)
 
 #SALES
 sales <- read_abs("5676.0")
@@ -38,49 +40,162 @@ sales_wide <- sales |>
   ) |> 
   filter(date > as.Date("2002-09-01")) 
 
+sales_wide <- sales_wide |> 
+  rename_with(~ str_trim(str_split(.x, " ; ") %>% sapply(`[`, 3)), -date)
 
+
+#adding total variable
 sales_wide <- sales_wide |> 
   mutate(
-    total = rowSums(across(-date), na.rm = TRUE),
-    total_ex_mining = rowSums(
-      across(-c(
-        date,
-        `Sales ;  Total (State) ;  Mining ;  Current Price ;  TOTAL (SCP_SCOPE) ;`
-      )),
-      na.rm = TRUE
-    ))
+    Total = rowSums(across(-date), na.rm = TRUE),
+    "Total ex mining" = Total - Mining)
 
 
 ##MERGING GOP AND SALES TO MAKE MARGIN
 #GOP MARGIN = GOP / SALES
 
-gop <- left_join(gop_wide, sales_wide,
-          by = "date") |> 
-  select(date, gop = "Total", sales = "total") |>  
-  mutate(margin = gop / sales*100) |> 
-  filter(date > as.Date("2002-09-01")) 
-
-
+gop_margin <- left_join(gop_wide, sales_wide, by = "date", suffix = c("_gop", "_sales")) |>
+  filter(date > as.Date("2002-09-01")) |>
+  pivot_longer(-date, names_to = c("industry", ".value"), names_sep = "_") |>
+  mutate(margin = (gop / sales) * 100) |>
+  select(date, industry, margin) |>
+  pivot_wider(names_from = industry, values_from = margin)
 
 
 ##IMPORTING GOS AND GVA
 gos <- read_abs("5206.0")
 
- gos <- gos |> 
-  filter(series == "All sectors ;  Gross operating surplus ;",
-         series_type == "Seasonally Adjusted") |> 
-   select(date, gos = value) |> 
-   filter(date > as.Date("2002-09-01"))
- 
+gos <- gos |> 
+  filter(series_id %in% c(
+    "A85231868W",
+    "A85231872L",
+    "A85231876W",
+    "A85231880L",
+    "A85231884W",
+    "A85231888F",
+    "A85231892W",
+    "A85231896F",
+    "A85231900K",
+    "A85231904V",
+    "A85231908C",
+    "A85231912V",
+    "A85231916C",
+    "A85231920V",
+    "A85231924C",
+    "A85231928L",
+    "A85231932C",
+    "A85231936L",
+    "A85231940C",
+    "A85231943K",
+    "A85231947V"
+  ))
 
- ##GVA
+industry_list <- c(
+  "Agriculture, forestry and fishing",
+  "Mining",
+  "Manufacturing",
+  "Electricity, gas, water and waste services",
+  "Construction",
+  "Wholesale trade",
+  "Retail trade",
+  "Accommodation and food services",
+  "Transport, postal and warehousing",
+  "Information media and telecommunications",
+  "Financial and insurance services",
+  "Rental, hiring and real estate services",
+  "Professional, scientific and technical services",
+  "Administrative and support services",
+  "Public administration and safety",
+  "Education and training",
+  "Health care and social assistance",
+  "Arts and recreation services",
+  "Other services",
+  "Ownership of dwellings",
+  "Total all industries"
+)
+
+gos <- gos |>
+  filter(
+    grepl("Gross operating surplus", series),
+    series_type == "Seasonally Adjusted"
+  ) |>
+  mutate(
+    industry = str_trim(str_split(series, " ; ") %>% sapply(`[`, 1)),
+    industry = str_remove(industry, " \\(.*\\)")   # removes (A), (B), etc.
+  ) |>
+  filter(industry %in% industry_list) |>
+  select(date, industry, value)
+
+
+
+##GVA
  gva <- read_abs("5206.0")
  
- gva <- gva |> 
-   filter(series == "Total all industries ;  Gross value added at basic prices ;",
-          series_type == "Seasonally Adjusted") |> 
-   select(date, gva = value) |> 
-   filter(date > as.Date("2002-09-01"))
+ series_ids <- c(
+   "A85231870J",
+   "A85231874T",
+   "A85231878A",
+   "A85231882T",
+   "A85231886A",
+   "A85231890T",
+   "A85231894A",
+   "A85231898K",
+   "A85231902R",
+   "A85231906X",
+   "A85231910R",
+   "A85231914X",
+   "A85231918J",
+   "A85231922X",
+   "A85231926J",
+   "A85231930X",
+   "A85231934J",
+   "A85231938T",
+   "A85231942J",
+   "A85231945R",
+   "A85231949X"
+ )
+ 
+ gva <- gva |>
+   filter(series_id %in% series_ids)
+ 
+ 
+ industries <- c(
+   "Agriculture, forestry and fishing",
+   "Mining",
+   "Manufacturing",
+   "Electricity, gas, water and waste services",
+   "Construction",
+   "Wholesale trade",
+   "Retail trade",
+   "Accommodation and food services",
+   "Transport, postal and warehousing",
+   "Information media and telecommunications",
+   "Financial and insurance services",
+   "Rental, hiring and real estate services",
+   "Professional, scientific and technical services",
+   "Administrative and support services",
+   "Public administration and safety",
+   "Education and training",
+   "Health care and social assistance",
+   "Arts and recreation services",
+   "Other services",
+   "Ownership of dwellings",
+   "Total all industries"
+ )
+ 
+ 
+ gva <- gva |>
+   filter(series_id %in% series_ids) |>
+   filter(
+     grepl("Gross value added", series),
+     series_type == "Seasonally Adjusted"
+   ) |>
+   mutate(
+     industry = str_trim(str_split(series, " ; ") %>% sapply(`[`, 1)),
+     industry = str_remove(industry, " \\(.*\\)")
+   ) |>
+   filter(industry %in% industries) |>
+   select(date, industry, value)
  
  
  ##MERGING GOS AND GVA TO MAKE MARGIN
@@ -120,3 +235,4 @@ write_csv(gop, "data/clean/gop.csv")
 write_csv(gos, "data/clean/gos.csv")
 write_csv(thw, "data/clean/thw.csv")
 write_csv(gdp, "data/clean/gdp.csv")
+
