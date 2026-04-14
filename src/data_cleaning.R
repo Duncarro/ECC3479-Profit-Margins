@@ -58,8 +58,9 @@ gop_margin <- left_join(gop_wide, sales_wide, by = "date", suffix = c("_gop", "_
   filter(date > as.Date("2002-09-01")) |>
   pivot_longer(-date, names_to = c("industry", ".value"), names_sep = "_") |>
   mutate(margin = (gop / sales) * 100) |>
-  select(date, industry, margin) |>
-  pivot_wider(names_from = industry, values_from = margin)
+  select(date, industry, margin)
+
+#|> pivot_wider(names_from = industry, values_from = margin)
 
 
 ##IMPORTING GOS AND GVA
@@ -124,7 +125,7 @@ gos <- gos |>
     industry = str_remove(industry, " \\(.*\\)")   # removes (A), (B), etc.
   ) |>
   filter(industry %in% industry_list) |>
-  select(date, industry, value)
+  select(date, industry, value_gos = value)
 
 
 
@@ -183,7 +184,6 @@ gos <- gos |>
    "Total all industries"
  )
  
- 
  gva <- gva |>
    filter(series_id %in% series_ids) |>
    filter(
@@ -195,16 +195,18 @@ gos <- gos |>
      industry = str_remove(industry, " \\(.*\\)")
    ) |>
    filter(industry %in% industries) |>
-   select(date, industry, value)
+   select(date, industry, value_gva = value)
  
  
- ##MERGING GOS AND GVA TO MAKE MARGIN
- #GOP MARGIN = GOS / GVA
  
-gos <- left_join(gos, gva,
+##MERGING GOS AND GVA TO MAKE MARGIN
+#GOP MARGIN = GOS / GVA             
+                                    
+
+gos_maerginol <- left_join(gos, gva,
                   by = "date") |> 
-   select(date, gos, gva) |> 
-   mutate(margin = gos / gva*100) |>  
+   select(date, value, industry) |> 
+   mutate(margin = value_gos / value_gva*100) |>  
    filter(date > as.Date("2002-09-01")) 
   
 
@@ -236,3 +238,57 @@ write_csv(gos, "data/clean/gos.csv")
 write_csv(thw, "data/clean/thw.csv")
 write_csv(gdp, "data/clean/gdp.csv")
 
+
+
+
+
+
+
+
+####################################
+gva_margin |>
+  ggplot(aes(x = date, y = margin, colour = industry)) +
+  geom_line() +
+  guides(colour = "none")
+
+gop_margin_ts <- gop_margin |>
+  as_tsibble(index = date, key = industry)
+
+gop_margin_ts <- gop_margin |>
+  mutate(date = yearquarter(date)) |>
+  as_tsibble(index = date, key = industry) |>
+  fill_gaps()
+
+gop_margin_ts |>
+  gg_subseries(margin) +
+  theme(legend.position = "none")
+
+gop_margin_ts |>
+  filter(industry == "Total") |>
+  model(STL(margin)) |>
+  components() |>
+  autoplot()
+
+
+library(tsibble)
+library(feasts)
+library(fable)
+library(dplyr)
+
+gva_margin_ts <- gva_margin |>
+  mutate(date = yearquarter(date)) |>
+  as_tsibble(index = date, key = industry) |>
+  fill_gaps()
+
+
+gva_margin_ts |>
+  filter(industry == "Total all industries
+") |>
+  count()
+
+gva_margin_ts |> 
+  filter(industry == "Total all industries")
+
+gva_margin_ts |>
+  filter(industry == "Total all industries") |> 
+  gg_season(margin)
