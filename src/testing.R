@@ -199,3 +199,31 @@ gva_margin_wide |>
 ######TOTAL NEW SUM IS OFF FROM OLD VERSION!!!
 
 
+gva_wide <- gva |>
+  pivot_wider(
+    names_from = industry,
+    values_from = value_gva
+  )|> 
+  select(date, Total_gos = "Total all industries" #wrong name
+  )
+
+gos_wide <- gos |> 
+  pivot_wider(
+    names_from = industry,
+    values_from = value_gos
+  ) |> 
+  select(date, Total ="Total all industries"
+)
+
+
+test <- left_join(gos_wide, gva_wide,
+          by = "date") |> 
+  select(date, Total, Total_gos) |> 
+  mutate(margin = Total / Total_gos*100) |>  
+  filter(date > as.Date("2002-09-01")) 
+
+test |>
+  ggplot(aes(x=date,y=margin)) + geom_line()
+ 
+ 
+  

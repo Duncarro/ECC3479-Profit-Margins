@@ -1,9 +1,12 @@
-#EDA SCRIPT
+#EDA OUTPUT SCRIPT
+
 
 source("src/library.R")
 
-#Time series
-gop_margin |>
+# TOTAL TIME SERIES PLOTS
+
+p1 <- gop_margin |>
+  filter(industry == "Total") |> 
   ggplot(aes(x = date, y = margin)) +
   geom_line(linewidth = 0.9, colour = "darkorange") +
   labs(
@@ -30,7 +33,8 @@ ggsave("output/gop_margin.png", plot = p1, width = 8, height = 5, dpi = 300)
 
 
 
-p2<-gos |>
+p2<-gos_margin |>
+  filter(industry == "Total") |>
   ggplot(aes(x = date, y = margin)) +
   geom_line(linewidth = 0.9, colour = "coral2") +
   labs(
@@ -53,20 +57,22 @@ p2<-gos |>
     panel.grid.minor = element_blank()
   )
 
+p2
+
 ggsave("output/gos_margin.png", plot = p2, width = 8, height = 5, dpi = 300)
+library(scales)
 
-
-
-
-p2<-thw |>
-  ggplot(aes(x = date, y = value)) +
+p3 <- thw |>
+  ggplot(aes(x = date, y = value / 1e6)) +
   geom_line(linewidth = 0.9, colour = "cyan3") +
   labs(
     title = "Total Hours Worked",
     x = NULL,
-    y = "UNITTTTTTTT"
+    y = "Hours worked (millions)"
   ) +
-  scale_y_continuous(labels = number_format(accuracy = 0.1)) +
+  scale_y_continuous(
+    labels = number_format(accuracy = 0.1)   # 1 decimal place
+  ) +
   theme_classic(base_size = 12) +
   theme(
     plot.title = element_text(face = "bold", size = 14),
@@ -80,20 +86,21 @@ p2<-thw |>
     panel.grid.minor = element_blank()
   )
 
-ggsave("output/thw_level.png", plot = p2, width = 8, height = 5, dpi = 300)
+p3
+
+ggsave("output/thw_level.png", plot = p3, width = 8, height = 5, dpi = 300)
 
 
 
-
-p2<-gdp |>
-  ggplot(aes(x = date, y = value)) +
-  geom_line(linewidth = 0.9, colour = "darkolivegreen1") +
+p4 <- gdp |>
+  ggplot(aes(x = date, y = value / 1e6)) +  
+  geom_line(linewidth = 0.9, colour = "darkolivegreen4") +
   labs(
     title = "Gross Domestic Product",
     x = NULL,
     y = "Millions ($)"
   ) +
-  scale_y_continuous(labels = number_format(accuracy = 0.1)) +
+  scale_y_continuous(labels = number_format(accuracy = 1)) +
   theme_classic(base_size = 12) +
   theme(
     plot.title = element_text(face = "bold", size = 14),
@@ -106,5 +113,7 @@ p2<-gdp |>
     panel.grid.major.x = element_blank(),
     panel.grid.minor = element_blank()
   )
+
+p4
 
 ggsave("output/gdp_level.png", plot = p2, width = 8, height = 5, dpi = 300)
