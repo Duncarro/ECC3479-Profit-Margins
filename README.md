@@ -37,7 +37,10 @@ The scripts must be run in the following order:
 
 3. **eda.R**  
    - Generates summary statistics and visualisations  
-   - Saves figures to `output/`  
+   - Saves figures to `output/`
+  
+2. **output.R**
+   - Generates visuals and exports them to 'output'
 
 4. **unconditional_cyclicality.R**  
    - Performs cyclical analysis on the cleaned data  
