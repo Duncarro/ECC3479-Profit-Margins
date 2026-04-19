@@ -24,7 +24,7 @@ gop_wide <- gop %>%
     values_from = value
   ) |> 
   rename(Total = "Total (Industry)") |> 
-  mutate("Total ex mining" = Total - Mining)
+  mutate("Total less mining" = Total - Mining)
 
 
 #SALES
@@ -39,7 +39,7 @@ sales_wide <- sales |>
     names_from = series,
     values_from = value
   ) |> 
-  filter(date > as.Date("2002-09-01")) 
+  filter(date > as.Date("2002-06-01")) 
 
 sales_wide <- sales_wide |> 
   rename_with(~ str_trim(str_split(.x, " ; ") %>% sapply(`[`, 3)), -date)
@@ -49,16 +49,17 @@ sales_wide <- sales_wide |>
 sales_wide <- sales_wide |> 
   mutate(
     Total = rowSums(across(-date), na.rm = TRUE),
-    "Total ex mining" = Total - Mining)
+    "Total less mining" = Total - Mining)
 
 
 ##MERGING GOP AND SALES TO MAKE MARGIN
 #GOP MARGIN = GOP / SALES
 
 gop_margin <- left_join(gop_wide, sales_wide, by = "date", suffix = c("_gop", "_sales")) |>
-  filter(date > as.Date("2002-09-01")) |>
+  filter(date > as.Date("2002-06-01")) |>
   pivot_longer(-date, names_to = c("industry", ".value"), names_sep = "_") |>
-  mutate(margin = (gop / sales) * 100)
+  mutate(margin = (gop / sales) * 100) |> 
+  select(date, industry, value = margin)
 
 
 
@@ -246,7 +247,7 @@ gos_margin |>  filter(industry == "Total")
 thw <- read_abs("6202.0")
 
 thw <- thw |> 
-  filter(series_id == "A84426298K", date > as.Date("2002-09-01")) |> 
+  filter(series_id == "A84426298K", date > as.Date("2002-06-01")) |> 
   select(date, value) |>  
   mutate(log = log(value))
 
@@ -254,7 +255,7 @@ thw <- thw |>
 gdp <- read_abs("5206.0")
 
 gdp <- gdp |> 
-  filter(series_id == "A2304402X", date > as.Date("2002-09-01")) |> 
+  filter(series_id == "A2304402X", date > as.Date("2002-06-01")) |> 
   select(date, value) |> 
   mutate(log = log(value))
   

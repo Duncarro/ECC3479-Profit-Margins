@@ -1,10 +1,12 @@
 #EDA OUTPUT SCRIPT
 
-source("src/library.R")
+if (!exists("gop")) {
+  source("src/library.R")
+}
 
 # TOTAL TIME SERIES PLOTS
 
-p1 <- gop_margin |>
+p1 <- gop |>
   filter(industry == "Total") |> 
   ggplot(aes(x = date, y = margin)) +
   geom_line(linewidth = 0.9, colour = "darkorange") +
@@ -32,7 +34,7 @@ ggsave("output/gop_margin.png", plot = p1, width = 8, height = 5, dpi = 300)
 
 
 
-p2<-gos_margin |>
+p2<-gos |>
   filter(industry == "Total") |>
   ggplot(aes(x = date, y = margin)) +
   geom_line(linewidth = 0.9, colour = "coral2") +
@@ -116,3 +118,69 @@ p4 <- gdp |>
 p4
 
 ggsave("output/gdp_level.png", plot = p2, width = 8, height = 5, dpi = 300)
+
+
+
+##series highlight plots 
+h1<-plot_highlight(gos, "Total")
+ggsave("output/gos_highlight.png", plot = h1, width = 8, height = 5, dpi = 300) ##AXIS LABEL ISSUE + TITLE
+h2<-plot_highlight(gop, "Total")
+ggsave("output/gop_highlight.png", plot = h2, width = 8, height = 5, dpi = 300) ##AXIS LABEL ISSUE + TITLEE
+
+
+
+c1 <- gos |>
+  filter(industry %in% c("Total", "Total less mining", "Total less mi and ag")) |>
+  ggplot(aes(x = date, y = margin, colour = industry)) +
+  geom_line(linewidth = 0.9) +
+  labs(
+    title = "Gross Operating Surplus Margin Variance",
+    x = NULL,
+    y = "Margin",
+    colour = NULL
+  ) +
+  scale_y_continuous(labels = scales::number_format(accuracy = 0.1)) +
+  theme_classic(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    plot.subtitle = element_text(size = 11, margin = margin(b = 8)),
+    axis.title.y = element_text(face = "bold"),
+    axis.text = element_text(colour = "black"),
+    axis.line = element_line(colour = "black"),
+    axis.ticks = element_line(colour = "black"),
+    panel.grid.major.y = element_line(colour = "grey80", linewidth = 0.3),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = "bottom"
+  )
+
+ggsave("output/gos_Total_changes.png", plot = c1, width = 8, height = 5, dpi = 300) ##AXIS LABEL ISSUE + TITLEE
+
+
+c2 <- gop |>
+  filter(industry %in% c("Total", "Total less mining")) |>
+  ggplot(aes(x = date, y = margin, colour = industry)) +
+  geom_line(linewidth = 0.9) +
+  labs(
+    title = "Gross Operating Profit Margin Variance",
+    x = NULL,
+    y = "Margin",
+    colour = NULL
+  ) +
+  scale_y_continuous(labels = scales::number_format(accuracy = 0.1)) +
+  theme_classic(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    plot.subtitle = element_text(size = 11, margin = margin(b = 8)),
+    axis.title.y = element_text(face = "bold"),
+    axis.text = element_text(colour = "black"),
+    axis.line = element_line(colour = "black"),
+    axis.ticks = element_line(colour = "black"),
+    panel.grid.major.y = element_line(colour = "grey80", linewidth = 0.3),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = "bottom"
+  )
+
+ggsave("output/gop_Total_changes.png", plot = c2, width = 8, height = 5, dpi = 300) ##AXIS LABEL ISSUE + TITLEE
+

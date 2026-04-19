@@ -1,118 +1,105 @@
-#EDA OUTPUT SCRIPT
+#EDA SCRIPT
 
 source("src/library.R")
-
-# TOTAL TIME SERIES PLOTS
-
-p1 <- gop_margin |>
-  filter(industry == "Total") |> 
-  ggplot(aes(x = date, y = margin)) +
-  geom_line(linewidth = 0.9, colour = "darkorange") +
-  labs(
-    title = "Gross Operating Profit Margin",
-    subtitle = "All industries",
-    x = NULL,
-    y = "Per cent"
-  ) +
-  scale_y_continuous(labels = number_format(accuracy = 0.1)) +
-  theme_classic(base_size = 12) +
-  theme(
-    plot.title = element_text(face = "bold", size = 14),
-    plot.subtitle = element_text(size = 11, margin = margin(b = 8)),
-    axis.title.y = element_text(face = "bold"),
-    axis.text = element_text(colour = "black"),
-    axis.line = element_line(colour = "black"),
-    axis.ticks = element_line(colour = "black"),
-    panel.grid.major.y = element_line(colour = "grey80", linewidth = 0.3),
-    panel.grid.major.x = element_blank(),
-    panel.grid.minor = element_blank()
-  )
-
-ggsave("output/gop_margin.png", plot = p1, width = 8, height = 5, dpi = 300)
+source("src/functions.R")
+source("src/output.R")
 
 
+#Descriptive statistics
+desc_stats_ts(gop_wide, value_col = Total)
+desc_stats_ts(gos_wide, value_col = Total)
 
-p2<-gos_margin |>
-  filter(industry == "Total") |>
-  ggplot(aes(x = date, y = margin)) +
-  geom_line(linewidth = 0.9, colour = "coral2") +
-  labs(
-    title = "Gross Operating Surplus Margin",
-    subtitle = "All industries",
-    x = NULL,
-    y = "Per cent"
-  ) +
-  scale_y_continuous(labels = number_format(accuracy = 0.1)) +
-  theme_classic(base_size = 12) +
-  theme(
-    plot.title = element_text(face = "bold", size = 14),
-    plot.subtitle = element_text(size = 11, margin = margin(b = 8)),
-    axis.title.y = element_text(face = "bold"),
-    axis.text = element_text(colour = "black"),
-    axis.line = element_line(colour = "black"),
-    axis.ticks = element_line(colour = "black"),
-    panel.grid.major.y = element_line(colour = "grey80", linewidth = 0.3),
-    panel.grid.major.x = element_blank(),
-    panel.grid.minor = element_blank()
-  )
+plot_highlight(gop, "Total") #fix
+#The total fits roughtly in the middle of the industry distribution
 
-p2
-
-ggsave("output/gos_margin.png", plot = p2, width = 8, height = 5, dpi = 300)
-library(scales)
-
-p3 <- thw |>
-  ggplot(aes(x = date, y = value / 1e6)) +
-  geom_line(linewidth = 0.9, colour = "cyan3") +
-  labs(
-    title = "Total Hours Worked",
-    x = NULL,
-    y = "Hours worked (millions)"
-  ) +
-  scale_y_continuous(
-    labels = number_format(accuracy = 0.1)   # 1 decimal place
-  ) +
-  theme_classic(base_size = 12) +
-  theme(
-    plot.title = element_text(face = "bold", size = 14),
-    plot.subtitle = element_text(size = 11, margin = margin(b = 8)),
-    axis.title.y = element_text(face = "bold"),
-    axis.text = element_text(colour = "black"),
-    axis.line = element_line(colour = "black"),
-    axis.ticks = element_line(colour = "black"),
-    panel.grid.major.y = element_line(colour = "grey80", linewidth = 0.3),
-    panel.grid.major.x = element_blank(),
-    panel.grid.minor = element_blank()
-  )
-
-p3
-
-ggsave("output/thw_level.png", plot = p3, width = 8, height = 5, dpi = 300)
+plot_highlight(gos, "Total") #fix 
+#The total sits just above the median
 
 
+#Variance change plots
+c1 #GOS
+#Displays that mining plays a major contribution to the aggregate margin
+#Shows that the total value is reduced when they are subtracted
 
-p4 <- gdp |>
-  ggplot(aes(x = date, y = value / 1e6)) +  
-  geom_line(linewidth = 0.9, colour = "darkolivegreen4") +
-  labs(
-    title = "Gross Domestic Product",
-    x = NULL,
-    y = "Millions ($)"
-  ) +
-  scale_y_continuous(labels = number_format(accuracy = 1)) +
-  theme_classic(base_size = 12) +
-  theme(
-    plot.title = element_text(face = "bold", size = 14),
-    plot.subtitle = element_text(size = 11, margin = margin(b = 8)),
-    axis.title.y = element_text(face = "bold"),
-    axis.text = element_text(colour = "black"),
-    axis.line = element_line(colour = "black"),
-    axis.ticks = element_line(colour = "black"),
-    panel.grid.major.y = element_line(colour = "grey80", linewidth = 0.3),
-    panel.grid.major.x = element_blank(),
-    panel.grid.minor = element_blank()
-  )
+c2 #GOP 
+#Displays that the subtraction of mining makes the aggregate margin less volatile
 
-p4
 
-ggsave("output/gdp_level.png", plot = p2, width = 8, height = 5, dpi = 300)
+### FURTHER TIME SERIES EDA ###
+###############################
+
+
+# formatting tsibble
+gop_ts <- gop |>
+  mutate(date = yearquarter(date)) |>
+  as_tsibble(key = industry, index = date)
+
+gos_ts <- gos |>
+  mutate(date = yearquarter(date)) |>
+  as_tsibble(key = industry, index = date)
+
+
+# Seasonal plots
+gop_ts |> 
+  filter(industry == "Total less mining") |> 
+  gg_season()
+# Shows that margins have expanded across time (trend component)
+
+gos_ts |> 
+  filter(industry == "Total less mining") |> 
+  gg_season()
+# The change in GOS/GVA across time has been much more stable and constant
+
+# Subseries plots
+gop_ts |> 
+  filter(industry == "Total less mining") |> 
+  gg_subseries()
+#Shows a level shift at 2015. Q2 and Q3 have drastic expanses in response to COVID-19
+
+gos_ts |> 
+  filter(industry == "Total less mining") |> 
+  gg_subseries()
+# The change has been much more steady, with Q2 and Q3 having less of a response to COVID-19
+#!! shows gos is less volatile than GOP, possible connection to GOP being more responsive to business cycle (conjecture)
+
+
+# STL Decomposition
+gop_ts |>
+  filter(industry == "Total less mining") |>
+  model(STL(margin)) |>
+  components() |>
+  autoplot()
+#Trend: wavy trend (cyclical pattern), relatively constant until COVID which caused massive spike. Has reduced to pre-pandemic trend (link to AR MODELS?)
+#Seasonality: severe heteroskedastic seasonality, variance increases even prior to covid, with maxima occuring prior to pandemic (counterfactual to covid causing expanse in margins)
+#Remainder: still patterns, inferring the decomp didnt capture all the variation in the original series
+
+gos_ts |>
+  filter(industry == "Total less mining") |>
+  model(STL(margin)) |>
+  components() |>
+  autoplot()
+#Overall similar dynamics to GOP decomposition
+#Seasonality: tapers in middle of series
+
+
+# Seasonality deepdive 
+fit_gos <- gos_ts |>
+  filter(industry == "Total less mining") |>
+  model(STL(margin))
+
+components_gos <- fit_gos |> 
+  components()
+
+components_gos |>
+  ggplot(aes(x = date, y = season_year)) +
+  geom_line()
+
+
+#WIP - Naive estimates of Cyclical component
+
+components_gos <- components_gos |>
+  mutate(cycle = margin - trend)
+
+components_gos |> 
+  ggplot(aes(x = date, y = cycle)) +
+  geom_line()
