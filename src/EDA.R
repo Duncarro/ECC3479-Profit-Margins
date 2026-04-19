@@ -1,6 +1,5 @@
 #EDA OUTPUT SCRIPT
 
-
 source("src/library.R")
 
 # TOTAL TIME SERIES PLOTS

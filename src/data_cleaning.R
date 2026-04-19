@@ -26,6 +26,7 @@ gop_wide <- gop %>%
   rename(Total = "Total (Industry)") |> 
   mutate("Total ex mining" = Total - Mining)
 
+
 #SALES
 sales <- read_abs("5676.0")
 
@@ -57,10 +58,8 @@ sales_wide <- sales_wide |>
 gop_margin <- left_join(gop_wide, sales_wide, by = "date", suffix = c("_gop", "_sales")) |>
   filter(date > as.Date("2002-09-01")) |>
   pivot_longer(-date, names_to = c("industry", ".value"), names_sep = "_") |>
-  mutate(margin = (gop / sales) * 100) |>
-  select(date, industry, margin)
+  mutate(margin = (gop / sales) * 100)
 
-#|> pivot_wider(names_from = industry, values_from = margin)
 
 
 ##IMPORTING GOS AND GVA
@@ -125,9 +124,24 @@ gos <- gos |>
     industry = str_remove(industry, " \\(.*\\)")   # removes (A), (B), etc.
   ) |>
   filter(industry %in% industry_list) |>
-  select(date, industry, value_gos = value)
+  select(date, industry, gos = value) #renaming value_gos
 
 
+#making 'Total less' variables
+gos <- gos |> 
+  pivot_wider(names_from = industry, values_from = gos) |> 
+  mutate(
+    `Total less mining` = `Total all industries` - Mining,
+    `Total less mi and ag` = `Total all industries` - Mining - `Agriculture, forestry and fishing`
+  )
+
+#returning to long format
+gos <- gos %>%
+  pivot_longer(
+    cols = -date,
+    names_to = "industry",
+    values_to = "gos"
+  )
 
 ##GVA
  gva <- read_abs("5206.0")
@@ -195,20 +209,34 @@ gos <- gos |>
      industry = str_remove(industry, " \\(.*\\)")
    ) |>
    filter(industry %in% industries) |>
-   select(date, industry, value_gva = value)
+   select(date, industry, gva = value)
  
+#making 'Total less' variables
+gva <- gva |> 
+   pivot_wider(names_from = industry, values_from = gva) |> 
+   mutate(
+     `Total less mining` = `Total all industries` - Mining,
+     `Total less mi and ag` = `Total all industries` - Mining - `Agriculture, forestry and fishing`
+   )
  
- 
+
+#returning to long format
+gva <- gva %>%
+  pivot_longer(
+    cols = -date,
+    names_to = "industry",
+    values_to = "gva"
+  )
+
 ##MERGING GOS AND GVA TO MAKE MARGIN
 #GOP MARGIN = GOS / GVA             
-                                    
 
-gos_maerginol <- left_join(gos, gva,
-                  by = "date") |> 
-   select(date, value, industry) |> 
-   mutate(margin = value_gos / value_gva*100) |>  
-   filter(date > as.Date("2002-09-01")) 
-  
+gos_margin <- gva |> 
+   inner_join(gos, by = c("date", "industry")) |> 
+   mutate(margin = (gos / gva)*100,
+          industry = str_replace(industry, "Total all industries", "Total"))
+
+gos_margin |>  filter(industry == "Total")
 
 #############################################
 # Business Cycle Indictators                #
@@ -222,7 +250,6 @@ thw <- thw |>
   select(date, value) |>  
   mutate(log = log(value))
 
-
 ##GDP
 gdp <- read_abs("5206.0")
 
@@ -232,9 +259,33 @@ gdp <- gdp |>
   mutate(log = log(value))
   
 
+
+
+
+# Wide formatting for export
+
+gop_wide_margin <- gop_margin %>%
+  select(date, industry, margin) %>%
+  pivot_wider(
+    names_from = industry,
+    values_from = margin
+  )
+
+
+gos_wide_margin <- gos_margin %>%
+  select(date, industry, margin) %>%
+  pivot_wider(
+    names_from = industry,
+    values_from = margin
+  )
+
+
+
 ###EXPORTING CLEANED DATA
-write_csv(gop, "data/clean/gop.csv")
-write_csv(gos, "data/clean/gos.csv")
+write_csv(gop_wide_margin, "data/clean/gop_wide.csv")
+write_csv(gos_wide_margin, "data/clean/gos_wide.csv")
+write_csv(gop_margin, "data/clean/gop.csv")
+write_csv(gos_margin, "data/clean/gos.csv")
 write_csv(thw, "data/clean/thw.csv")
 write_csv(gdp, "data/clean/gdp.csv")
 
