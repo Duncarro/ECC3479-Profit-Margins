@@ -1,0 +1,164 @@
+---
+title: "Exploratory Data Analysis"
+author: "K.D"
+date: "2026-04-19"
+output: html_document
+---
+
+## Setup
+
+```{r setup, message=FALSE, warning=FALSE, include=FALSE}
+library(here)
+source(here::here("src", "library.R"))
+source(here::here("src", "functions.R"))
+source(here::here("src", "output.R"))
+
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+This document highlights some preliminary EDA which uncovers interesting patterns in the margin data. This document focuses on margins as the general properties of GDP and THW are well known.
+
+As a reminder, **GOP margins** are defined as:
+
+$$
+\text{GOP Margin} = \frac{\text{Gross Operating Profit}}{\text{Sales}}
+$$
+
+while **GOS margins** are defined as:
+
+$$
+\text{GOS Margin} = \frac{\text{Gross Operating Surplus}}{\text{Gross Value Added}}
+$$
+
+Given that these measures are constructed from different underlying aggregates, they display differing sensitivity to fluctuations in business conditions, resulting in distinct margin dynamics over the business cycle.
+
+## Descriptive statistics
+
+```{r descriptive stats}
+desc_stats_ts(gop_wide, value_col = Total)
+desc_stats_ts(gos_wide, value_col = Total)
+```
+
+`GOP` margins are lower on average (11.85%) than `GOS` margins (45.87%). This may highlight more variability in operating profits or sales over time, as they are more susceptible to changes in economic conditions.
+
+## Distribution Highlights
+
+These plots track profit margins across all selected industries (See Appendix 1.A), particularly highlighting the Total aggregate
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot_highlight(gop, "Total")
+# Total sits roughly in the middle of the industry distribution
+
+plot_highlight(gos, "Total") + labs(title = "Gross Operating Surplus Margins")
+# Total sits slightly above the median
+```
+
+`GOP` margins across sectors are relatively more clustered than `GOS`. This may reflect that there is smaller variation in business profit across sectors compared to the surplus gained from production across sectors. the `GOP` Total aggregate sits just above the median, perhaps being skewed by the significant contributions of the mining sector (the top-most line).
+
+## Variance Decomposition
+
+As we have shown, the margins are skewed by large contributing sectors.
+
+```{r}
+c1
+c2
+```
+
+`GOP` does not account for the agricultural sector, making `Total less mining` (an aggregate subtracting the contributions of the mining sector) the closest comparison measure.
+
+`GOP` becomes significantly reduced and less volatile after abstracting from the mining sector, signifying a more centralised margin measure. The same holds true for `GOS`, as removing mining reduces outlying spikes in the original `Total` series. Further abstraction from agriculture only reduces the level of the series, reflecting that the agricultural sector doesnt drive the shape of the time-series.
+
+This legitimises our approach of using `Total less mining` as a true domestic margin proxy.
+
+## Further Time-Series Analysis
+
+```{r}
+gop_ts <- gop |>
+  mutate(date = yearquarter(date)) |>
+  as_tsibble(key = industry, index = date)
+
+gos_ts <- gos |>
+  mutate(date = yearquarter(date)) |>
+  as_tsibble(key = industry, index = date)
+```
+
+### Seasonal Plots
+
+```{r}
+gop_ts |> 
+  filter(industry == "Total less mining") |> 
+  gg_season(y = margin) + labs(title = "GOP")
+
+
+gos_ts |> 
+  filter(industry == "Total less mining") |> 
+  gg_season(y = margin)+ labs(title = "GOS")
+
+```
+
+These seasonal plots visualise changes within a single year, overlaid across multiple years to allow for direct comparison.
+
+`GOP` shows a small increase across time, following the general increase in macroeconomic variables over time. However, there is a significant spike occurring during 2020 (highlighted by the corresponding blue colour), the same holds true for `GOS`, highlighting that the COVID-19 period is a significant outlier for the series.
+
+### Subseries plots
+
+Subseries plots visualise the change in each quarter across the length of the time series, and are valuable to anaylse particular outliers in a series.
+
+```{r}
+gop_ts |> 
+  filter(industry == "Total less mining") |> 
+  gg_subseries()
+
+
+gos_ts |> 
+  filter(industry == "Total less mining") |> 
+  gg_subseries()
+# The change has been much more steady, with Q2 and Q3 having less of a response to COVID-19
+#!! shows gos is less volatile than GOP, possible connection to GOP being more responsive to business cycle (conjecture)
+
+```
+
+`GOP` has a more rigid structure in its changed across time, reflecting higher volatility. There is a break in the series at 2015\~, with a two significant spikes occurring during 2020, with the largest impact happening over Q3 of that year.\
+The change is much more steady for `GOS`, with Q2 and Q3 having less of a response to COVID-19.
+
+### STL Decomposition
+
+An STL Decomposition splits a time series into three additive components:
+
+$$Y_t = T_t + S_t + R_t$$
+
+Where: \* $Y_t$ (Observed Data): The raw margin percentage at time $t$. \* $T_t$ (Trend-Cycle): The long-term progression of the series, capturing the structural movement of margins while smoothing out high-frequency noise. \* $S_t$ (Seasonal): The recurring intra-year fluctuations. $R_t$ (Remainder): The residual component representing stochastic "shocks" or noise not captured by the trend or seasonality.
+
+```{r}
+gop_ts |>
+  filter(industry == "Total less mining") |>
+  model(STL(margin)) |>
+  components() |>
+  autoplot() + labs(title = "GOP - STL Decomposition")
+
+gos_ts |>
+  filter(industry == "Total less mining") |>
+  model(STL(margin)) |>
+  components() |>
+  autoplot() + labs(title = "GOS - STL Decomposition")
+```
+
+[GOP:]{.underline}
+
+-   **Trend:** The series exhibits a cyclical, wavy pattern that remained relatively stable until a significant spike during the COVID-19 pandemic; it has since reverted to its pre-pandemic trajectory, suggesting potential for AR modeling.
+
+-   **Seasonality:** The data shows severe heteroskedasticity, with seasonal variance expanding well before the pandemic. Because seasonal maxima peaked prior to COVID-19, the pandemic cannot be cited as the sole driver of margin expansion.
+
+-   **Remainder:** Persistent patterns in the residuals indicate that the decomposition failed to capture all underlying variation from the original series.
+
+[GOS]{.underline}:
+
+-   **Overall Dynamics:** The series mirrors the structural dynamics observed in the GOP decomposition.
+
+-   **Seasonality:** Seasonal amplitude tapers toward the middle of the series before expanding in later periods.
+
+Both GOP and GOS margins exhibit cyclical trends with significant COVID-period spikes that have since normalized, alongside persistent residual patterns and heteroskedastic seasonality that expanded well before the pandemic.

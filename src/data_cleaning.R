@@ -58,8 +58,7 @@ sales_wide <- sales_wide |>
 gop_margin <- left_join(gop_wide, sales_wide, by = "date", suffix = c("_gop", "_sales")) |>
   filter(date > as.Date("2002-06-01")) |>
   pivot_longer(-date, names_to = c("industry", ".value"), names_sep = "_") |>
-  mutate(margin = (gop / sales) * 100) |> 
-  select(date, industry, value = margin)
+  mutate(margin = (gop / sales) * 100)
 
 
 
