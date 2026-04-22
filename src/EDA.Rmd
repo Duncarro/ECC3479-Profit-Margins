@@ -1,24 +1,53 @@
 ---
 title: "Exploratory Data Analysis"
 author: "K.D"
-date: "2026-04-19"
+date: "2026-04-21"
 output: html_document
 ---
 
 ## Setup
 
 ```{r setup, message=FALSE, warning=FALSE, include=FALSE}
-library(here)
-source(here::here("src", "library.R"))
-source(here::here("src", "functions.R"))
-source(here::here("src", "output.R"))
+packages <- c("tidyverse", "fpp3", "readabs", "scales")
 
+for (p in packages) {
+  if (!require(p, character.only = TRUE)) {
+    install.packages(p)
+    library(p, character.only = TRUE)
+  }
+}
+
+library(readr)
+library(dplyr)
+library(here)
+library(fpp3)
+
+source(here::here("src", "functions.R"))
+
+gop <- read_csv(here("data", "clean", "gop.csv")) |>
+  mutate(date = as.Date(date))
+
+gos <- read_csv(here("data", "clean", "gos.csv")) |>
+  mutate(date = as.Date(date))
+
+gop_wide <- read_csv(here("data", "clean", "gop_wide.csv")) |>
+  mutate(date = as.Date(date))
+
+gos_wide <- read_csv(here("data", "clean", "gos_wide.csv")) |>
+  mutate(date = as.Date(date))
+
+thw <- read_csv(here("data", "clean", "thw.csv")) |>
+  mutate(date = as.Date(date))
+
+gdp <- read_csv(here("data", "clean", "gdp.csv")) |>
+  mutate(date = as.Date(date))
 knitr::opts_chunk$set(echo = TRUE)
+
 ```
 
 ## Introduction
 
-This document highlights some preliminary EDA which uncovers interesting patterns in the margin data. This document focuses on margins as the general properties of GDP and THW are well known.
+This document highlights some preliminary EDA which uncovers interesting patterns in the margin data. In addition, we explore the foundations of the filtering process to extract the cyclical component of our business cycle indicators.
 
 As a reminder, **GOP margins** are defined as:
 
@@ -26,13 +55,71 @@ $$
 \text{GOP Margin} = \frac{\text{Gross Operating Profit}}{\text{Sales}}
 $$
 
-while **GOS margins** are defined as:
+While **GOS margins** are defined as:
 
 $$
 \text{GOS Margin} = \frac{\text{Gross Operating Surplus}}{\text{Gross Value Added}}
 $$
 
 Given that these measures are constructed from different underlying aggregates, they display differing sensitivity to fluctuations in business conditions, resulting in distinct margin dynamics over the business cycle.
+
+```{r, echo = FALSE}
+
+p1 <- gop |>
+  filter(industry == "Total") |> 
+  ggplot(aes(x = date, y = margin)) +
+  geom_line(linewidth = 0.9, colour = "darkorange") +
+  labs(
+    title = "Gross Operating Profit Margin",
+    subtitle = "All industries",
+    x = NULL,
+    y = "Per cent"
+  ) +
+  scale_y_continuous(labels = number_format(accuracy = 0.1)) +
+  theme_classic(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    plot.subtitle = element_text(size = 11, margin = margin(b = 8)),
+    axis.title.y = element_text(face = "bold"),
+    axis.text = element_text(colour = "black"),
+    axis.line = element_line(colour = "black"),
+    axis.ticks = element_line(colour = "black"),
+    panel.grid.major.y = element_line(colour = "grey80", linewidth = 0.3),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+
+p1
+
+
+p2<-gos |>
+  filter(industry == "Total") |>
+  ggplot(aes(x = date, y = margin)) +
+  geom_line(linewidth = 0.9, colour = "coral2") +
+  labs(
+    title = "Gross Operating Surplus Margin",
+    subtitle = "All industries",
+    x = NULL,
+    y = "Per cent"
+  ) +
+  scale_y_continuous(labels = number_format(accuracy = 0.1)) +
+  theme_classic(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    plot.subtitle = element_text(size = 11, margin = margin(b = 8)),
+    axis.title.y = element_text(face = "bold"),
+    axis.text = element_text(colour = "black"),
+    axis.line = element_line(colour = "black"),
+    axis.ticks = element_line(colour = "black"),
+    panel.grid.major.y = element_line(colour = "grey80", linewidth = 0.3),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+
+p2
+```
+
+\*These plots highlight the Total aggregate, which is an average of the profit margin across all selected industries (See Appendix 1.A).
 
 ## Descriptive statistics
 
@@ -45,16 +132,13 @@ desc_stats_ts(gos_wide, value_col = Total)
 
 ## Distribution Highlights
 
-These plots track profit margins across all selected industries (See Appendix 1.A), particularly highlighting the Total aggregate
-
-You can also embed plots, for example:
+These plots track profit margins across all selected industries, particularly highlighting the Total aggregate
 
 ```{r pressure, echo=FALSE}
 plot_highlight(gop, "Total")
-# Total sits roughly in the middle of the industry distribution
 
 plot_highlight(gos, "Total") + labs(title = "Gross Operating Surplus Margins")
-# Total sits slightly above the median
+
 ```
 
 `GOP` margins across sectors are relatively more clustered than `GOS`. This may reflect that there is smaller variation in business profit across sectors compared to the surplus gained from production across sectors. the `GOP` Total aggregate sits just above the median, perhaps being skewed by the significant contributions of the mining sector (the top-most line).
@@ -63,9 +147,59 @@ plot_highlight(gos, "Total") + labs(title = "Gross Operating Surplus Margins")
 
 As we have shown, the margins are skewed by large contributing sectors.
 
-```{r}
-c1
-c2
+```{r, echo=FALSE}
+
+gos |>
+  filter(industry %in% c("Total", "Total less mining", "Total less mi and ag")) |>
+  ggplot(aes(x = date, y = margin, colour = industry)) +
+  geom_line(linewidth = 0.9) +
+  labs(
+    title = "Gross Operating Surplus Margin Variance",
+    x = NULL,
+    y = "Margin",
+    colour = NULL
+  ) +
+  scale_y_continuous(labels = scales::number_format(accuracy = 0.1)) +
+  theme_classic(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    plot.subtitle = element_text(size = 11, margin = margin(b = 8)),
+    axis.title.y = element_text(face = "bold"),
+    axis.text = element_text(colour = "black"),
+    axis.line = element_line(colour = "black"),
+    axis.ticks = element_line(colour = "black"),
+    panel.grid.major.y = element_line(colour = "grey80", linewidth = 0.3),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = "bottom"
+  )
+
+
+gop |>
+  filter(industry %in% c("Total", "Total less mining")) |>
+  ggplot(aes(x = date, y = margin, colour = industry)) +
+  geom_line(linewidth = 0.9) +
+  labs(
+    title = "Gross Operating Profit Margin Variance",
+    x = NULL,
+    y = "Margin",
+    colour = NULL
+  ) +
+  scale_y_continuous(labels = scales::number_format(accuracy = 0.1)) +
+  theme_classic(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    plot.subtitle = element_text(size = 11, margin = margin(b = 8)),
+    axis.title.y = element_text(face = "bold"),
+    axis.text = element_text(colour = "black"),
+    axis.line = element_line(colour = "black"),
+    axis.ticks = element_line(colour = "black"),
+    panel.grid.major.y = element_line(colour = "grey80", linewidth = 0.3),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = "bottom"
+  )
+
 ```
 
 `GOP` does not account for the agricultural sector, making `Total less mining` (an aggregate subtracting the contributions of the mining sector) the closest comparison measure.
@@ -74,7 +208,7 @@ c2
 
 This legitimises our approach of using `Total less mining` as a true domestic margin proxy.
 
-## Further Time-Series Analysis
+## Further Time Series Analysis
 
 ```{r}
 gop_ts <- gop |>
@@ -111,27 +245,26 @@ Subseries plots visualise the change in each quarter across the length of the ti
 ```{r}
 gop_ts |> 
   filter(industry == "Total less mining") |> 
-  gg_subseries()
+  gg_subseries(margin) + labs(title = "GOP")
 
 
 gos_ts |> 
   filter(industry == "Total less mining") |> 
-  gg_subseries()
-# The change has been much more steady, with Q2 and Q3 having less of a response to COVID-19
-#!! shows gos is less volatile than GOP, possible connection to GOP being more responsive to business cycle (conjecture)
+  gg_subseries(margin) + labs(title = "GOS")
+
 
 ```
 
-`GOP` has a more rigid structure in its changed across time, reflecting higher volatility. There is a break in the series at 2015\~, with a two significant spikes occurring during 2020, with the largest impact happening over Q3 of that year.\
-The change is much more steady for `GOS`, with Q2 and Q3 having less of a response to COVID-19.
+`GOP` has a general increase across quarters over time. This is contrasted by the general decrease across quarters occurring in `GOS`. This distinction can help us understand the underlying drivers of the margins and how they may respond to changes in the business cycle, as they may reflect procyclical and countercyclical behaviour.\
+The plots also help identify that the COVID-19 shock starts in Q2 of 2020, before subsiding in Q4 of the same year.
 
 ### STL Decomposition
 
-An STL Decomposition splits a time series into three additive components:
+An STL decomposition splits a time series into three additive components:
 
 $$Y_t = T_t + S_t + R_t$$
 
-Where: \* $Y_t$ (Observed Data): The raw margin percentage at time $t$. \* $T_t$ (Trend-Cycle): The long-term progression of the series, capturing the structural movement of margins while smoothing out high-frequency noise. \* $S_t$ (Seasonal): The recurring intra-year fluctuations. $R_t$ (Remainder): The residual component representing stochastic "shocks" or noise not captured by the trend or seasonality.
+Where: $Y_t$ is the observed series, $T_t$ (Trend-Cycle) is the long-term progression of the series, capturing the structural movement of margins while smoothing out high-frequency noise, $S_t$ captures the recurring intra-year seasonal fluctuations, and $R_t$ is the residual component. This remainder component captures stochastic "shocks" not captured by trend or seasonality.
 
 ```{r}
 gop_ts |>
@@ -149,16 +282,286 @@ gos_ts |>
 
 [GOP:]{.underline}
 
--   **Trend:** The series exhibits a cyclical, wavy pattern that remained relatively stable until a significant spike during the COVID-19 pandemic; it has since reverted to its pre-pandemic trajectory, suggesting potential for AR modeling.
+-   **Trend:** The series exhibits a cyclical, wavy pattern that remained relatively stable until a significant spike during the COVID-19 pandemic; it has since reverted to its pre-pandemic trajectory.
 
--   **Seasonality:** The data shows severe heteroskedasticity, with seasonal variance expanding well before the pandemic. Because seasonal maxima peaked prior to COVID-19, the pandemic cannot be cited as the sole driver of margin expansion.
+-   **Seasonality:** The data shows severe heteroskedasticity, with seasonal variance expanding well before the pandemic. This is an important insight, as it soldifies that the pandemic cannot be the sole driver of margin expansion.
 
--   **Remainder:** Persistent patterns in the residuals indicate that the decomposition failed to capture all underlying variation from the original series.
+-   **Remainder:** Persistent patterns in the residuals indicate that the decomposition failed to capture all underlying variation from the original series - reflecting a potential for MA() modelling.
 
 [GOS]{.underline}:
 
--   **Overall Dynamics:** The series mirrors the structural dynamics observed in the GOP decomposition.
+-   **Overall Dynamics:** The series mirrors the structural dynamics observed in the `GOP` decomposition.
 
 -   **Seasonality:** Seasonal amplitude tapers toward the middle of the series before expanding in later periods.
 
-Both GOP and GOS margins exhibit cyclical trends with significant COVID-period spikes that have since normalized, alongside persistent residual patterns and heteroskedastic seasonality that expanded well before the pandemic.
+Both `GOP` and `GOS` margins exhibit cyclical trends with significant COVID-period spikes that have since normalised, alongside persistent residual patterns and heteroskedastic seasonality that expanded well before the pandemic.
+
+# Business Cycle Indicators
+
+Gross Domestic Product and Total Hours Worked follow a general linear trend across time, with a series break at 2020 reflecting the impacts of COVID-19.
+
+```{r, echo=FALSE}
+ thw |>
+  ggplot(aes(x = date, y = value / 1e6)) +
+  geom_line(linewidth = 0.9, colour = "cyan3") +
+  labs(
+    title = "Total Hours Worked",
+    x = NULL,
+    y = "Hours worked (millions)"
+  ) +
+  scale_y_continuous(
+    labels = number_format(accuracy = 0.1)   # 1 decimal place
+  ) +
+  theme_classic(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    plot.subtitle = element_text(size = 11, margin = margin(b = 8)),
+    axis.title.y = element_text(face = "bold"),
+    axis.text = element_text(colour = "black"),
+    axis.line = element_line(colour = "black"),
+    axis.ticks = element_line(colour = "black"),
+    panel.grid.major.y = element_line(colour = "grey80", linewidth = 0.3),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+
+gdp |>
+  ggplot(aes(x = date, y = value / 1e3)) +
+  geom_line(linewidth = 0.9, colour = "darkolivegreen4") +
+  labs(
+    title = "Gross Domestic Product",
+    x = NULL,
+    y = "GDP ($ Billions)"
+  ) +
+  scale_y_continuous(
+    labels = scales::number_format(accuracy = 0.1)
+  ) +
+  theme_classic(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    plot.subtitle = element_text(size = 11, margin = margin(b = 8)),
+    axis.title.y = element_text(face = "bold"),
+    axis.text = element_text(colour = "black"),
+    axis.line = element_line(colour = "black"),
+    axis.ticks = element_line(colour = "black"),
+    panel.grid.major.y = element_line(colour = "grey80", linewidth = 0.3),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+
+```
+
+`THW` appears to be more volatile, potentially due to underlying dynamics in the labour market compared to `GDP` aggregates.
+
+## Simple Transformations
+
+To make margins and the business cycle indicators comparable, we need to transform the indicators in some way.
+
+#### Log transformations
+
+```{r, echo=FALSE}
+thw |> 
+    ggplot(aes(x = date, y = log)) +
+  geom_line(linewidth = 0.9, colour = "cyan3") +
+  labs(
+    title = "Total Hours Worked",
+    x = NULL,
+    y = "Hours worked (log)"
+  ) +
+  scale_y_continuous(
+    labels = number_format(accuracy = 0.1)   # 1 decimal place
+  ) +
+  theme_classic(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    plot.subtitle = element_text(size = 11, margin = margin(b = 8)),
+    axis.title.y = element_text(face = "bold"),
+    axis.text = element_text(colour = "black"),
+    axis.line = element_line(colour = "black"),
+    axis.ticks = element_line(colour = "black"),
+    panel.grid.major.y = element_line(colour = "grey80", linewidth = 0.3),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+
+gdp |>
+  ggplot(aes(x = date, y = log)) +
+  geom_line(linewidth = 0.9, colour = "darkolivegreen4") +
+  labs(
+    title = "Gross Domestic Product",
+    x = NULL,
+    y = "GDP (log)"
+  ) +
+  scale_y_continuous(
+    labels = scales::number_format(accuracy = 0.1)
+  ) +
+  theme_classic(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    plot.subtitle = element_text(size = 11, margin = margin(b = 8)),
+    axis.title.y = element_text(face = "bold"),
+    axis.text = element_text(colour = "black"),
+    axis.line = element_line(colour = "black"),
+    axis.ticks = element_line(colour = "black"),
+    panel.grid.major.y = element_line(colour = "grey80", linewidth = 0.3),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+```
+
+While this transformation does help stabilise the change in THW, it does little to extract any cyclical variation in GDP over time.
+
+### Hodrick–Prescott (HP) Filter
+
+To fully deconstruct the series into a testable cyclical component, we can use more advanced econometric techniques.
+
+The HP filter decomposes a time series $y_t$ into a smooth long-term **trend** component $\tau_t$ and a short-term **cyclical** component $c_t$:
+
+$$
+y_t = \tau_t + c_t
+$$
+
+It does this by solving:
+
+$$
+\min_{\{\tau_t\}} \sum_{t=1}^{T} (y_t - \tau_t)^2 
++ \lambda \sum_{t=2}^{T-1} \left[ (\tau_{t+1} - \tau_t) - (\tau_t - \tau_{t-1}) \right]^2
+$$
+
+-   First term: fit to the data\
+-   Second term: smoothness of the trend\
+-   $\lambda$: smoothing parameter
+
+------------------------------------------------------------------------
+
+### Choice of $\lambda$
+
+-   Annual data: $\lambda = 100$\
+-   Quarterly data: $\lambda = 1600$\
+-   Monthly data: $\lambda = 14400$
+
+------------------------------------------------------------------------
+
+### Interpretation
+
+-   $\tau_t$: long-run trend\
+-   $c_t = y_t - \tau_t$: business cycle (deviations from trend)
+
+```{r}
+library(mFilter)
+library(tidyverse)
+library(pracma)
+hp_gdp <- mFilter::hpfilter(log(gdp$value), freq = 16000)
+
+cycle <- hp_gdp$cycle
+cycle_smooth <- movavg(cycle, n=4, type = "s")
+
+hp_gdp <- gdp |>
+  mutate(
+    trend = hp_gdp$trend,
+    cycle = hp_gdp$cycle,
+    cycle_smooth = cycle_smooth
+  )
+```
+
+```{r, echo=FALSE}
+hp_gdp |>
+  filter(date >= as.Date("2002-01-01"),
+         date <= as.Date("2024-01-01")) |>
+  ggplot(aes(x = date, y = cycle_smooth)) + geom_line() +
+  geom_line(linewidth = 0.9, colour = "darkolivegreen4") +
+  labs(
+    title = "Cyclical Component of GDP",
+    x = NULL,
+    y = "% deviation from trend"
+  ) +
+  theme_classic(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    plot.subtitle = element_text(size = 11, margin = margin(b = 8)),
+    axis.title.y = element_text(face = "bold"),
+    axis.text = element_text(colour = "black"),
+    axis.line = element_line(colour = "black"),
+    axis.ticks = element_line(colour = "black"),
+    panel.grid.major.y = element_line(colour = "grey80", linewidth = 0.3),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+  
+```
+
+\*The cyclical component has been smoothed on on a 4-period moving average for illustrative purposes.\
+
+The approximate cyclical component reflects % deviations from the trend of the series. In effect, it can be interpreted as a proxy for fluctuations in business activity after controlling for the usual increase in economic wealth over time. It reflects classical business cycle theory, as it contains a series of peaks and troughs which align with recessions and boom periods in the Australian economy. The COVID-19 downturn can be clearly seen, with the cycle falling far below zero. the pre-GFC mining boom is also reflected in a seasonal peak occurring in \~2008.\
+
+The HP filter, along with most econometric filters, have significant end-point problems which make the tails of the components inaccurate and jagged. It is important to remove these values from future research as they will skew results and do not reflect real economic patterns. The COVID-19 trough will also need to be controlled for given its significant deviation from the rest of the series.
+
+```{r, echo=FALSE}
+hp_gdp |>
+  ggplot(aes(x = date, y = cycle)) +
+  geom_line(linewidth = 0.9, colour = "darkolivegreen4") +
+  labs(
+    title = "Cyclical Component of GDP - Full Sample",
+    x = NULL,
+    y = "% deviation from trend"
+  ) +
+  scale_y_continuous(
+    labels = scales::number_format(accuracy = 0.1)
+  ) +
+  theme_classic(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    plot.subtitle = element_text(size = 11, margin = margin(b = 8)),
+    axis.title.y = element_text(face = "bold"),
+    axis.text = element_text(colour = "black"),
+    axis.line = element_line(colour = "black"),
+    axis.ticks = element_line(colour = "black"),
+    panel.grid.major.y = element_line(colour = "grey80", linewidth = 0.3),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+```
+
+# Appendix 1.A
+
+### Industries
+
+-   Agriculture
+
+-   Mining
+
+-   Manufacturing\
+
+-   Electricity, Gas, Water and Waste Services\
+
+-   Construction\
+
+-   Wholesale Trade\
+
+-   Retail Trade\
+
+-   Accommodation and Food Services\
+
+-   Transport, Postal and Warehousing\
+
+-   Information Media and Telecommunications\
+
+-   Financial and Insurance Services\
+
+-   Rental, Hiring and Real Estate Services\
+
+-   Professional, Scientific and Technical Services\
+
+-   Administrative and Support Services\
+
+-   Arts and Recreation Services\
+
+-   Other Services
+
+### Aggregates
+
+-   Total
+
+-   Total less Mining
+
+-   Total less Mining and Agriculture

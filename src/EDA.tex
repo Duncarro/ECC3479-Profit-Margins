@@ -1,0 +1,595 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\ifLuaTeX
+  \usepackage{luacolor}
+  \usepackage[soul]{lua-ul}
+\else
+  \usepackage{soul}
+\fi
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Exploratory Data Analysis},
+  pdfauthor={K.D},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Exploratory Data Analysis}
+\author{K.D}
+\date{2026-04-21}
+
+\begin{document}
+\maketitle
+
+\subsection{Setup}\label{setup}
+
+\subsection{Introduction}\label{introduction}
+
+This document highlights some preliminary EDA which uncovers interesting
+patterns in the margin data.\\
+Less focus has been placed on the business cycle indicators (Gross
+Domestic Product and Total Hours Worked) as their general properties are
+well understood.
+
+As a reminder, \textbf{GOP margins} are defined as:
+
+\[
+\text{GOP Margin} = \frac{\text{Gross Operating Profit}}{\text{Sales}}
+\]
+
+While \textbf{GOS margins} are defined as:
+
+\[
+\text{GOS Margin} = \frac{\text{Gross Operating Surplus}}{\text{Gross Value Added}}
+\]
+
+Given that these measures are constructed from different underlying
+aggregates, they display differing sensitivity to fluctuations in
+business conditions, resulting in distinct margin dynamics over the
+business cycle.
+
+\includegraphics{EDA_files/figure-latex/unnamed-chunk-1-1.pdf}
+\includegraphics{EDA_files/figure-latex/unnamed-chunk-1-2.pdf}
+
+*These plots highlight the Total aggregate, which is an average of the
+profit margin across all selected industries (See Appendix 1.A).
+
+\subsection{Descriptive statistics}\label{descriptive-statistics}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{desc\_stats\_ts}\NormalTok{(gop\_wide, }\AttributeTok{value\_col =}\NormalTok{ Total)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 1 x 7
+##    mean    sd   min   p25 median   p75   max
+##   <dbl> <dbl> <dbl> <dbl>  <dbl> <dbl> <dbl>
+## 1  11.9  1.96  8.76  10.4   11.3  13.1  16.8
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{desc\_stats\_ts}\NormalTok{(gos\_wide, }\AttributeTok{value\_col =}\NormalTok{ Total)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 1 x 7
+##    mean    sd   min   p25 median   p75   max
+##   <dbl> <dbl> <dbl> <dbl>  <dbl> <dbl> <dbl>
+## 1  45.9  1.78  43.4  44.8   45.5  46.6  54.7
+\end{verbatim}
+
+\texttt{GOP} margins are lower on average (11.85\%) than \texttt{GOS}
+margins (45.87\%). This may highlight more variability in operating
+profits or sales over time, as they are more susceptible to changes in
+economic conditions.
+
+\subsection{Distribution Highlights}\label{distribution-highlights}
+
+These plots track profit margins across all selected industries,
+particularly highlighting the Total aggregate
+
+\begin{verbatim}
+## Warning: package 'ggrepel' was built under R version 4.5.1
+\end{verbatim}
+
+\includegraphics{EDA_files/figure-latex/pressure-1.pdf}
+\includegraphics{EDA_files/figure-latex/pressure-2.pdf}
+
+\texttt{GOP} margins across sectors are relatively more clustered than
+\texttt{GOS}. This may reflect that there is smaller variation in
+business profit across sectors compared to the surplus gained from
+production across sectors. the \texttt{GOP} Total aggregate sits just
+above the median, perhaps being skewed by the significant contributions
+of the mining sector (the top-most line).
+
+\subsection{Variance Decomposition}\label{variance-decomposition}
+
+As we have shown, the margins are skewed by large contributing sectors.
+
+\includegraphics{EDA_files/figure-latex/unnamed-chunk-2-1.pdf}
+\includegraphics{EDA_files/figure-latex/unnamed-chunk-2-2.pdf}
+
+\texttt{GOP} does not account for the agricultural sector, making
+\texttt{Total\ less\ mining} (an aggregate subtracting the contributions
+of the mining sector) the closest comparison measure.
+
+\texttt{GOP} becomes significantly reduced and less volatile after
+abstracting from the mining sector, signifying a more centralised margin
+measure. The same holds true for \texttt{GOS}, as removing mining
+reduces outlying spikes in the original \texttt{Total} series. Further
+abstraction from agriculture only reduces the level of the series,
+reflecting that the agricultural sector doesnt drive the shape of the
+time-series.
+
+This legitimises our approach of using \texttt{Total\ less\ mining} as a
+true domestic margin proxy.
+
+\subsection{Further Time-Series
+Analysis}\label{further-time-series-analysis}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gop\_ts }\OtherTok{\textless{}{-}}\NormalTok{ gop }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{date =} \FunctionTok{yearquarter}\NormalTok{(date)) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{as\_tsibble}\NormalTok{(}\AttributeTok{key =}\NormalTok{ industry, }\AttributeTok{index =}\NormalTok{ date)}
+
+\NormalTok{gos\_ts }\OtherTok{\textless{}{-}}\NormalTok{ gos }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{date =} \FunctionTok{yearquarter}\NormalTok{(date)) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{as\_tsibble}\NormalTok{(}\AttributeTok{key =}\NormalTok{ industry, }\AttributeTok{index =}\NormalTok{ date)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Seasonal Plots}\label{seasonal-plots}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gop\_ts }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{filter}\NormalTok{(industry }\SpecialCharTok{==} \StringTok{"Total less mining"}\NormalTok{) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{gg\_season}\NormalTok{(}\AttributeTok{y =}\NormalTok{ margin) }\SpecialCharTok{+} \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"GOP"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{EDA_files/figure-latex/unnamed-chunk-4-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gos\_ts }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{filter}\NormalTok{(industry }\SpecialCharTok{==} \StringTok{"Total less mining"}\NormalTok{) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{gg\_season}\NormalTok{(}\AttributeTok{y =}\NormalTok{ margin)}\SpecialCharTok{+} \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"GOS"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{EDA_files/figure-latex/unnamed-chunk-4-2.pdf}
+
+These seasonal plots visualise changes within a single year, overlaid
+across multiple years to allow for direct comparison.
+
+\texttt{GOP} shows a small increase across time, following the general
+increase in macroeconomic variables over time. However, there is a
+significant spike occurring during 2020 (highlighted by the
+corresponding blue colour), the same holds true for \texttt{GOS},
+highlighting that the COVID-19 period is a significant outlier for the
+series.
+
+\subsubsection{Subseries plots}\label{subseries-plots}
+
+Subseries plots visualise the change in each quarter across the length
+of the time series, and are valuable to anaylse particular outliers in a
+series.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gop\_ts }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{filter}\NormalTok{(industry }\SpecialCharTok{==} \StringTok{"Total less mining"}\NormalTok{) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{gg\_subseries}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Plot variable not specified, automatically selected `y = gop`
+\end{verbatim}
+
+\includegraphics{EDA_files/figure-latex/unnamed-chunk-5-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gos\_ts }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{filter}\NormalTok{(industry }\SpecialCharTok{==} \StringTok{"Total less mining"}\NormalTok{) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{gg\_subseries}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Plot variable not specified, automatically selected `y = gva`
+\end{verbatim}
+
+\includegraphics{EDA_files/figure-latex/unnamed-chunk-5-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# The change has been much more steady, with Q2 and Q3 having less of a response to COVID{-}19}
+\CommentTok{\#!! shows gos is less volatile than GOP, possible connection to GOP being more responsive to business cycle (conjecture)}
+\end{Highlighting}
+\end{Shaded}
+
+\texttt{GOP} has a more rigid structure in its changed across time,
+reflecting higher volatility. There is a break in the series at
+2015\textasciitilde, with a two significant spikes occurring during
+2020, with the largest impact happening over Q3 of that year.\\
+The change is much more steady for \texttt{GOS}, with Q2 and Q3 having
+less of a response to COVID-19.
+
+\subsubsection{STL Decomposition}\label{stl-decomposition}
+
+An STL Decomposition splits a time series into three additive
+components:
+
+\[Y_t = T_t + S_t + R_t\]
+
+Where: * \(Y_t\) (Observed Data): The raw margin percentage at time
+\(t\). * \(T_t\) (Trend-Cycle): The long-term progression of the series,
+capturing the structural movement of margins while smoothing out
+high-frequency noise. * \(S_t\) (Seasonal): The recurring intra-year
+fluctuations. \(R_t\) (Remainder): The residual component representing
+stochastic ``shocks'' or noise not captured by the trend or seasonality.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gop\_ts }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{filter}\NormalTok{(industry }\SpecialCharTok{==} \StringTok{"Total less mining"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{model}\NormalTok{(}\FunctionTok{STL}\NormalTok{(margin)) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{components}\NormalTok{() }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{autoplot}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"GOP {-} STL Decomposition"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{EDA_files/figure-latex/unnamed-chunk-6-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gos\_ts }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{filter}\NormalTok{(industry }\SpecialCharTok{==} \StringTok{"Total less mining"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{model}\NormalTok{(}\FunctionTok{STL}\NormalTok{(margin)) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{components}\NormalTok{() }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{autoplot}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"GOS {-} STL Decomposition"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{EDA_files/figure-latex/unnamed-chunk-6-2.pdf}
+
+\ul{GOP:}
+
+\begin{itemize}
+\item
+  \textbf{Trend:} The series exhibits a cyclical, wavy pattern that
+  remained relatively stable until a significant spike during the
+  COVID-19 pandemic; it has since reverted to its pre-pandemic
+  trajectory, suggesting potential for AR modeling.
+\item
+  \textbf{Seasonality:} The data shows severe heteroskedasticity, with
+  seasonal variance expanding well before the pandemic. Because seasonal
+  maxima peaked prior to COVID-19, the pandemic cannot be cited as the
+  sole driver of margin expansion.
+\item
+  \textbf{Remainder:} Persistent patterns in the residuals indicate that
+  the decomposition failed to capture all underlying variation from the
+  original series.
+\end{itemize}
+
+\ul{GOS}:
+
+\begin{itemize}
+\item
+  \textbf{Overall Dynamics:} The series mirrors the structural dynamics
+  observed in the GOP decomposition.
+\item
+  \textbf{Seasonality:} Seasonal amplitude tapers toward the middle of
+  the series before expanding in later periods.
+\end{itemize}
+
+Both GOP and GOS margins exhibit cyclical trends with significant
+COVID-period spikes that have since normalized, alongside persistent
+residual patterns and heteroskedastic seasonality that expanded well
+before the pandemic.
+
+\section{Business Cycle Indicators}\label{business-cycle-indicators}
+
+GDP and THW follow a general exponential trend across time, mostly
+following an additive (linear) process
+
+\includegraphics{EDA_files/figure-latex/unnamed-chunk-7-1.pdf}
+\includegraphics{EDA_files/figure-latex/unnamed-chunk-7-2.pdf}
+
+\texttt{THW} appears to be more volatile, potentially due to underlying
+dynamics in the labour market compared to GDP aggregates.
+
+\subsection{Simple Transformations}\label{simple-transformations}
+
+To make margins and the business cycle indicators comparable, we need to
+transform the indicators in some way.
+
+\paragraph{Log transformations}\label{log-transformations}
+
+\includegraphics{EDA_files/figure-latex/unnamed-chunk-8-1.pdf}
+\includegraphics{EDA_files/figure-latex/unnamed-chunk-8-2.pdf}
+
+While this transformation does help stabilise the change in THW, it does
+little to extract any cyclical variation in GDP over time.
+
+\subsubsection{Hodrick--Prescott (HP)
+Filter}\label{hodrickprescott-hp-filter}
+
+To fully deconstruct the series into a testable cyclical component, we
+need to use more advanced econometric techniques
+
+The HP filter decomposes a time series \(y_t\) into a \textbf{trend}
+component \(\tau_t\) and a \textbf{cyclical} component \(c_t\):
+
+\[
+y_t = \tau_t + c_t
+\]
+
+It does this by solving:
+
+\[
+\min_{\{\tau_t\}} \sum_{t=1}^{T} (y_t - \tau_t)^2 
++ \lambda \sum_{t=2}^{T-1} \left[ (\tau_{t+1} - \tau_t) - (\tau_t - \tau_{t-1}) \right]^2
+\]
+
+\begin{itemize}
+\tightlist
+\item
+  First term: fit to the data\\
+\item
+  Second term: smoothness of the trend\\
+\item
+  \(\lambda\): smoothing parameter
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{\texorpdfstring{Choice of
+\(\lambda\)}{Choice of \textbackslash lambda}}\label{choice-of-lambda}
+
+\begin{itemize}
+\tightlist
+\item
+  Annual data: \(\lambda = 100\)\\
+\item
+  Quarterly data: \(\lambda = 1600\)\\
+\item
+  Monthly data: \(\lambda = 14400\)
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Interpretation}\label{interpretation}
+
+\begin{itemize}
+\tightlist
+\item
+  \(\tau_t\): long-run trend\\
+\item
+  \(c_t = y_t - \tau_t\): business cycle (deviations from trend)
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(mFilter)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'mFilter' was built under R version 4.5.3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\FunctionTok{library}\NormalTok{(pracma)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'pracma' was built under R version 4.5.3
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'pracma'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:purrr':
+## 
+##     cross
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{hp\_gdp }\OtherTok{\textless{}{-}}\NormalTok{ mFilter}\SpecialCharTok{::}\FunctionTok{hpfilter}\NormalTok{(}\FunctionTok{log}\NormalTok{(gdp}\SpecialCharTok{$}\NormalTok{value), }\AttributeTok{freq =} \DecValTok{16000}\NormalTok{)}
+
+\NormalTok{cycle }\OtherTok{\textless{}{-}}\NormalTok{ hp\_gdp}\SpecialCharTok{$}\NormalTok{cycle}
+\NormalTok{cycle\_smooth }\OtherTok{\textless{}{-}} \FunctionTok{movavg}\NormalTok{(cycle, }\AttributeTok{n=}\DecValTok{4}\NormalTok{, }\AttributeTok{type =} \StringTok{"s"}\NormalTok{)}
+
+\NormalTok{hp\_gdp }\OtherTok{\textless{}{-}}\NormalTok{ gdp }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{trend =}\NormalTok{ hp\_gdp}\SpecialCharTok{$}\NormalTok{trend,}
+    \AttributeTok{cycle =}\NormalTok{ hp\_gdp}\SpecialCharTok{$}\NormalTok{cycle,}
+    \AttributeTok{cycle\_smooth =}\NormalTok{ cycle\_smooth}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{EDA_files/figure-latex/unnamed-chunk-10-1.pdf}
+
+The approximate cyclical component reflects \% deviations from the trend
+of the series. In effect, it can be interpreted as a proxy for
+fluctuations in business activity after holding the general increase in
+wealth overtime constant. It aligns with economic intuition of peaks and
+troughs,
+
+The HP filter, along with most econometric filters, have significant
+end-point problems (as shown below). This shows that it is important to
+remove these values from future research as they will skew results and
+do not reflect sound economic reasoning. In addition, a large trough
+still occurs during the COVID-19 period. This signifies that the
+COVID-19 period may need to be removed from further research, or at
+least controlled for.
+
+\includegraphics{EDA_files/figure-latex/unnamed-chunk-11-1.pdf}
+
+\section{Appendix 1.A}\label{appendix-1.a}
+
+\subsubsection{Industries}\label{industries}
+
+\begin{itemize}
+\item
+  Agriculture
+\item
+  Mining
+\item
+  Manufacturing\\
+\item
+  Electricity, Gas, Water and Waste Services\\
+\item
+  Construction\\
+\item
+  Wholesale Trade\\
+\item
+  Retail Trade\\
+\item
+  Accommodation and Food Services\\
+\item
+  Transport, Postal and Warehousing\\
+\item
+  Information Media and Telecommunications\\
+\item
+  Financial and Insurance Services\\
+\item
+  Rental, Hiring and Real Estate Services\\
+\item
+  Professional, Scientific and Technical Services\\
+\item
+  Administrative and Support Services\\
+\item
+  Arts and Recreation Services\\
+\item
+  Other Services
+\end{itemize}
+
+\subsubsection{Aggregates}\label{aggregates}
+
+\begin{itemize}
+\tightlist
+\item
+  Total
+\item
+  Total less mining
+\item
+  Total less mining and agriculture
+\end{itemize}
+
+\end{document}

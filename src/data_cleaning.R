@@ -2,6 +2,9 @@
 
 source("src/library.R")
 
+library(readabs)
+library(tidyverse)
+
 #############################################
 # Profit Margin Measures                    #
 #############################################
@@ -256,7 +259,8 @@ gdp <- read_abs("5206.0")
 gdp <- gdp |> 
   filter(series_id == "A2304402X", date > as.Date("2002-06-01")) |> 
   select(date, value) |> 
-  mutate(log = log(value))
+  mutate(log = log(value)) |>
+  slice(1:94)
   
 
 
@@ -289,57 +293,3 @@ write_csv(gos_margin, "data/clean/gos.csv")
 write_csv(thw, "data/clean/thw.csv")
 write_csv(gdp, "data/clean/gdp.csv")
 
-
-
-
-
-
-
-
-####################################
-gva_margin |>
-  ggplot(aes(x = date, y = margin, colour = industry)) +
-  geom_line() +
-  guides(colour = "none")
-
-gop_margin_ts <- gop_margin |>
-  as_tsibble(index = date, key = industry)
-
-gop_margin_ts <- gop_margin |>
-  mutate(date = yearquarter(date)) |>
-  as_tsibble(index = date, key = industry) |>
-  fill_gaps()
-
-gop_margin_ts |>
-  gg_subseries(margin) +
-  theme(legend.position = "none")
-
-gop_margin_ts |>
-  filter(industry == "Total") |>
-  model(STL(margin)) |>
-  components() |>
-  autoplot()
-
-
-library(tsibble)
-library(feasts)
-library(fable)
-library(dplyr)
-
-gva_margin_ts <- gva_margin |>
-  mutate(date = yearquarter(date)) |>
-  as_tsibble(index = date, key = industry) |>
-  fill_gaps()
-
-
-gva_margin_ts |>
-  filter(industry == "Total all industries
-") |>
-  count()
-
-gva_margin_ts |> 
-  filter(industry == "Total all industries")
-
-gva_margin_ts |>
-  filter(industry == "Total all industries") |> 
-  gg_season(margin)

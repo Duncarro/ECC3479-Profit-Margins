@@ -103,3 +103,4 @@ components_gos <- components_gos |>
 components_gos |> 
   ggplot(aes(x = date, y = cycle)) +
   geom_line()
+
