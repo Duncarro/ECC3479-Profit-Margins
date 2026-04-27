@@ -1,9 +1,9 @@
 
 
 #WIP
-source("src/library.R")
-
-
+if (!exists("gop")) {
+  source("src/library.R")
+}
 gop <- read.csv("data/clean/gop.csv")
 gos <- read.csv("data/clean/gos.csv")
 gdp <- read.csv("data/clean/gdp.csv")
