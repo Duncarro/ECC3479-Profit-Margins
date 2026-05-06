@@ -431,3 +431,67 @@ ggplot(df_long, aes(x = date, y = value, colour = method, group = method)) +
   
   theme_classic(base_size = 12) +
   theme(legend.position = "top")
+
+
+
+
+
+
+
+###COMP WITH MARGINS
+
+gop_total <- gop_resid$`Total less mining_resid`
+
+compare_gop <- data.frame(
+  date = gop_wide$date,
+  uc = cycle*100,
+  hp = hp_cycle*100,
+  cf = cf_cycle*100,
+  ham = ham_cycle*100,
+  gop = gop_total
+)
+
+compare_long <- compare_gop %>%
+  pivot_longer(
+    cols = c(hp, cf, gop, ham, uc),
+    names_to = "method",
+    values_to = "value"
+  ) |>   filter(!is.na(date)) %>%                     # remove bad dates
+  filter(date < as.Date("2020-03-31")) %>%     # pre-COVID
+  arrange(date)
+ggplot(compare_long, aes(x = date, y = value, colour = method, group = method)) +
+  geom_hline(yintercept = 0, colour = "black", linewidth = 0.4) +
+  
+  geom_line(
+    aes(alpha = method == "gop"),   # 👈 highlight UC
+    linewidth = 0.7,
+    na.rm = TRUE
+  ) +
+  
+  scale_alpha_manual(values = c(`TRUE` = 1, `FALSE` = 0.4), guide = "none") +
+  
+  scale_color_manual(values = c(
+    uc = "steelblue",
+    hp = "darkorange",
+    cf = "darkgreen",
+    ham = "purple",
+    gop = "red"
+  ),
+  labels = c(
+    uc = "UC (AR2)",
+    hp = "HP",
+    cf = "CF",
+    ham = "Hamilton",
+    gop = "GOP"
+  )) +
+  
+  labs(
+    title = "Output Gap Comparison (Pre-COVID)",
+    subtitle = "UC vs HP vs CF vs Hamilton",
+    x = NULL,
+    y = "Percent Deviation from Trend",
+    colour = NULL
+  ) +
+  
+  theme_classic(base_size = 12) +
+  theme(legend.position = "top")

@@ -104,3 +104,42 @@ components_gos |>
   ggplot(aes(x = date, y = cycle)) +
   geom_line()
 
+
+
+#############################################
+# Optimal ADF and PACF                      #
+#############################################
+max_lag <- 8
+
+gop_gdp_lags <- gop_gdp %>%
+  arrange(date) %>%
+  mutate(across(cf, ~., .names = "cf")) %>%
+  mutate(across(cf, list(
+    lag1 = ~lag(., 1),
+    lag2 = ~lag(., 2),
+    lag3 = ~lag(., 3),
+    lag4 = ~lag(., 4),
+    lag5 = ~lag(., 5),
+    lag6 = ~lag(., 6),
+    lag7 = ~lag(., 7),
+    lag8 = ~lag(., 8)
+  )))
+
+lag_results <- lapply(0:max_lag, function(L) {
+  
+  terms <- c("cf", if (L > 0) paste0("cf_lag", 1:L))
+  
+  formula <- as.formula(
+    paste("Total_resid ~", paste(terms, collapse = " + "))
+  )
+  
+  model <- lm(formula, data = gop_gdp_lags)
+  
+  data.frame(
+    lag = L,
+    AIC = AIC(model),
+    BIC = BIC(model)
+  )
+}) %>% bind_rows()
+
+lag_results %>% arrange(BIC)

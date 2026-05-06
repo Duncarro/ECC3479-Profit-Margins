@@ -248,13 +248,25 @@ gos_margin |>  filter(industry == "Total")
 ##THW
 thw <- read_abs("6202.0")
 
+thw_ext <- thw |> 
+  filter(series_id == "A84426298K") |> 
+  select(date, value) |> 
+  mutate(log = log(value)) 
+
 thw <- thw |> 
   filter(series_id == "A84426298K", date > as.Date("2002-06-01")) |> 
   select(date, value) |>  
   mutate(log = log(value))
 
+
 ##GDP
 gdp <- read_abs("5206.0")
+
+gdp_ext <- gdp |> 
+  filter(series_id == "A2304402X") |> 
+  select(date, value) |> 
+  mutate(log = log(value))  |>
+  slice(1:266)
 
 gdp <- gdp |> 
   filter(series_id == "A2304402X", date > as.Date("2002-06-01")) |> 
@@ -262,6 +274,8 @@ gdp <- gdp |>
   mutate(log = log(value)) |>
   slice(1:94)
   
+
+
 
 
 
@@ -292,4 +306,7 @@ write_csv(gop_margin, "data/clean/gop.csv")
 write_csv(gos_margin, "data/clean/gos.csv")
 write_csv(thw, "data/clean/thw.csv")
 write_csv(gdp, "data/clean/gdp.csv")
+write.csv(thw_ext, "data/clean/thw_ext.csv")
+write.csv(gdp_ext, "data/clean/gdp_ext.csv")
+
 
