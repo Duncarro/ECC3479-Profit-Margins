@@ -31,18 +31,34 @@ The scripts must be run in the following order:
    - Installs and loads all required packages  
    - *This script is executed at the start of all other scripts by default
 
-2. **data_cleaning.R**  
-   - Downloads data from ABS and cleans it  
-   - Outputs cleaned datasets to `data/clean/`  
+2. **functions.R**  
+   - Runs necessary functions 
 
-3. **eda.R**  
+3. **data_cleaning.R**  
+   - Downloads data from ABS and cleans it  
+   - Outputs cleaned datasets to `data/clean/` 
+
+4. **eda.R**  
    - Generates summary statistics and graphics
   
-2. **output.R**
+5. **output.R**
    - Generates visuals and exports them to  `output/`
 
-4. **unconditional_cyclicality.R**  
-   - Performs cyclical analysis on the cleaned data  
+6. **conditional_cyclicality.R**  
+   - Filters and adjusts data  
+
+7. **conditional_cyclicality_regressions.R**  
+   - Runs conditional regressions on filtered data (requires `unconditional_cyclicality.R`) 
+ 
+
+**Dont need to be executed:**
+7. **bnf_aug_run.R**  
+   - Runs BN filter (Credit to Kamber, Morley, & Wong (2025))
+
+8. **bnf_fnc.R**  
+   - Runs BN filter (Credit to Kamber, Morley, & Wong (2025))
+
+
 
 ---
 
@@ -51,8 +67,13 @@ The scripts must be run in the following order:
 2. Run `data_cleaning.R` (requires internet connection to download ABS data)  
    - Required packages are loaded automatically via `library.R`
    - !Importing raw ABS data is computationally demanding. The specific files required have been stored separately in data/raw
+   - This only needs to be run once, as cleaned data sets are saved into `library.R` which is sourced in all preceeding sheets
 3. Clear R memory after extracting cleaned datasets (optional)  
 4. Run `eda.R` and other analytical scripts  
+5. Run `conditional_cyclicality.R` 
+6. Run `conditional_cyclicality_regressions.R` 
+7. **FOR PRIMARY ECONOMETRIC ANALYSIS:** Run `docs/conditional_cyclicality_regressions.Rmd`
+   - This document runs all above documents and compiles the relevant analysis into a html output.
 
 All outputs (figures and results) will be saved in the `output/` folder.
 
