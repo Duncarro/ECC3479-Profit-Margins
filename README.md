@@ -17,6 +17,10 @@ ECC3479-Profit-Margins
 
 - README.md
 
+- docs/  
+   - Contains write-ups for analysis 
+
+   
 - ECC3479-Profit-Margins.Rproj: R project file
 
 *This project requires Rstudio to run.
