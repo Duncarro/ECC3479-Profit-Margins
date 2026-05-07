@@ -80,7 +80,7 @@ The scripts must be run in the following order:
 6. Run `conditional_cyclicality_regressions.R` 
 
 
-7. **FOR PRIMARY ECONOMETRIC ANALYSIS:** Run `docs/conditional_cyclicality_regressions.Rmd`
+7. **FOR PRIMARY ECONOMETRIC ANALYSIS:** Run `docs/primary_analysis.Rmd`
    - This document runs all above documents and compiles the relevant analysis into a html output.
 
 All outputs (figures and results) will be saved in the `output/` folder.
