@@ -239,8 +239,6 @@ gos_margin <- gva |>
    mutate(margin = (gos / gva)*100,
           industry = str_replace(industry, "Total all industries", "Total"))
 
-gos_margin |>  filter(industry == "Total")
-
 #############################################
 # Business Cycle Indictators                #
 #############################################
@@ -274,9 +272,6 @@ gdp <- gdp |>
   mutate(log = log(value)) |>
   slice(1:94)
   
-
-
-
 
 
 

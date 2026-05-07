@@ -1,0 +1,813 @@
+---
+title: "Profit Margins and the Business Cycle"
+author: "Kye Duncan"
+date: "`r Sys.Date()`"
+
+output:
+  rmdformats::readthedown:
+    toc_depth: 3
+    number_sections: true
+    highlight: tango
+    self_contained: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  fig.align = "center",
+  fig.width = 7,
+  fig.height = 5,
+  dpi = 300
+)
+
+library(here)
+library(modelsummary)
+library(rmdformats)
+library(tidyverse)
+library(gt)
+library(kableExtra)
+
+options(modelsummary_factory_default = "tinytable")
+
+
+source(here("src", "library.R"))
+source(here("src", "conditional_cyclicality.R"))
+```
+
+```{r, echo=FALSE}
+
+
+##############################
+# GOS Merged Series          #
+##############################
+
+gos_gdp <- gos_resid %>%
+  left_join(cf_gdp  %>% select(date, cf  = cycle),  by = "date") %>%
+  left_join(hp_gdp  %>% select(date, hp  = cycle),  by = "date") %>%
+  left_join(bn_gdp  %>% select(date, bn  = bn),  by = "date") 
+
+
+gos_thw <- gos_resid %>%
+  left_join(cf_thw  %>% select(date, cf  = cycle),  by = "date") %>%
+  left_join(hp_thw  %>% select(date, hp  = cycle),  by = "date") %>%
+  left_join(bn_thw  %>% select(date, bn  = bn),  by = "date") 
+
+##############################
+# GOP Merged Series          #
+##############################
+
+gop_gdp <- gop_resid %>%
+  left_join(cf_gdp  %>% select(date, cf  = cycle),  by = "date") %>%
+  left_join(hp_gdp  %>% select(date, hp  = cycle),  by = "date") %>%
+  left_join(bn_thw  %>% select(date, bn  = bn),  by = "date") 
+
+
+gop_thw <- gop_resid %>%
+  left_join(cf_thw  %>% select(date, cf  = cycle),  by = "date") %>%
+  left_join(hp_thw  %>% select(date, hp  = cycle),  by = "date") %>%
+  left_join(bn_thw  %>% select(date, bn  = bn),  by = "date") 
+
+
+##############################
+# Adding COVID Dummy         #
+##############################
+
+gos_gdp <- gos_gdp |> 
+mutate(covid = if_else(
+  date >= as.Date("2020-01-01") & date <= as.Date("2023-03-31"),
+  1, 0
+))
+
+gos_thw <- gos_thw |> 
+  mutate(covid = if_else(
+    date >= as.Date("2020-01-01") & date <= as.Date("2023-03-31"),
+    1, 0
+  ))
+
+
+gop_gdp <- gop_gdp |> 
+  mutate(covid = if_else(
+    date >= as.Date("2020-01-01") & date <= as.Date("2023-03-31"),
+    1, 0
+  ))
+
+gop_thw <- gop_thw |> 
+  mutate(covid = if_else(
+    date >= as.Date("2020-01-01") & date <= as.Date("2023-03-31"),
+    1, 0
+  ))
+
+#########################################
+# Base Elasticity Model Regressions     #
+#########################################
+#Selected margin: Total less mining
+
+
+###  GOP-GDP  ###
+spec <- gop_gdp |> 
+  select(date,
+         margin = 'Total less mining_resid',
+         cf, bn, hp) |> 
+  arrange(date)
+
+filters <- c("cf", "hp", "bn")
+
+models_gop_gdp <- lapply(filters, function(f) {
+  lm(as.formula(paste0("margin ~ ", f)), data = spec)
+})
+
+names(models_gop_gdp) <- toupper(filters)
+
+
+###  GOP-THW  ###
+
+
+spec <- gop_thw |> 
+  select(date,
+         margin = 'Total less mining_resid',
+         cf,  bn, hp) |> 
+  arrange(date)
+
+filters <- c("cf", "hp", "bn")
+
+models_gop_thw <- lapply(filters, function(f) {
+  lm(as.formula(paste0("margin ~ ", f)), data = spec)
+})
+
+names(models_gop_thw) <- toupper(filters)
+
+
+
+###  GOS-GDP  ###
+spec <- gos_gdp |> 
+  select(date,
+         margin = 'Total less mining_resid',
+         cf,  bn, hp) |> 
+  arrange(date)
+
+filters <- c("cf", "hp", "bn")
+
+models_gos_gdp <- lapply(filters, function(f) {
+  lm(as.formula(paste0("margin ~ ", f)), data = spec)
+})
+
+names(models_gos_gdp) <- toupper(filters)
+
+
+###  GOS-THW  ###
+spec <- gos_thw |> 
+  select(date,
+         margin = 'Total less mining_resid',
+         cf,  bn, hp) |> 
+  arrange(date)
+
+filters <- c("cf", "hp", "bn")
+
+models_gos_thw <- lapply(filters, function(f) {
+  lm(as.formula(paste0("margin ~ ", f)), data = spec)
+})
+
+names(models_gos_thw) <- toupper(filters)
+
+```
+
+# Introduction
+
+This paper presents the primary economic analysis of whether Australian industry profit margins are procyclical, countercyclical or acyclical over the business cycle.
+
+The analysis is mainly descriptive in nature, covering initial conditional correlations between profit margins and business cycle fluctuations - before extending into a model that attempts to estimate the elasticity between margins and economic activity.
+
+# Data
+
+We have quarterly data derived from the ABS National Accounts from Q3-2002. All measures are seasonally adjusted.
+
+## Profit Margins
+
+As a reminder, **GOP margins** are defined as:
+
+$$
+\text{GOP Margin} = \frac{\text{Gross Operating Profit}}{\text{Sales}}
+$$
+
+While **GOS margins** are defined as:
+
+$$
+\text{GOS Margin} = \frac{\text{Gross Operating Surplus}}{\text{Gross Value Added}}
+$$
+
+Given that these measures are constructed from different underlying aggregates, they display differing sensitivity to fluctuations in business conditions, resulting in distinct margin dynamics over the business cycle. The data are sourced from ABS national accounts industry statistics and aggregate GDP series.
+
+## Business Cycle Indicators
+
+To compare the cyclicality of profit margins, we select Gross Domestic Product (GDP) and Total Hours Worked (THW) as proxies for the business cycle.
+
+We utilise an array of econometric filtering processes in order to isolate the cyclical component of the macroeconomic series. Through this identification, we obtain a proxy for the business cycle, being interpreted as % deviations from the trend of the given series.
+
+**Filters used:**
+
+-   HP Filter (Hodrick & Prescott, 1997)
+
+-   CF Filter (Christiano & Fitzgerald, 2003)
+
+-   BN Filter\* (Kamber, Morley, & Wong, 2025)
+
+~\*BN Filter code was sourced from Kamber, G., Morley, J., & Wong, B. (2025). *Trend-cycle decomposition in the presence of large shocks*. *Journal of Economic Dynamics and Control, 173*, 105066. <https://doi.org/10.1016/j.jedc.2025.105066>~
+
+```{r, echo = FALSE}
+spec <- gos_gdp |> 
+  select(date,
+         margin = 'Total less mining_resid',
+         cf,  bn, hp) |> 
+  arrange(date)
+
+spec_plot <- spec |>
+  pivot_longer(
+    cols = c(cf, hp, bn),
+    names_to = "filter",
+    values_to = "cycle"
+  ) |>
+  mutate(
+    filter = factor(
+      filter,
+      levels = c("cf", "hp", "bn"),
+      labels = c("CF Filter", "HP Filter", "BN Filter")
+    )
+  )
+
+spec_plot |> 
+ggplot(
+  aes(date, cycle, colour = filter)
+) +
+  
+  # COVID shading
+  annotate(
+    "rect",
+    xmin = as.Date("2020-03-01"),
+    xmax = as.Date("2021-12-01"),
+    ymin = -Inf,
+    ymax = Inf,
+    alpha = 0.06,
+    fill = "grey70"
+  ) +
+  
+  geom_hline(
+    yintercept = 0,
+    linewidth = 0.35,
+    colour = "grey45"
+  ) +
+  
+  geom_line(
+    linewidth = 1
+  ) +
+  
+  scale_colour_manual(
+    values = c(
+      "CF Filter" = "#0072B2",   # blue
+      "HP Filter" = "#D55E00",   # orange
+      "BN Filter" = "#009E73"    # green
+    )
+  ) +
+  
+  scale_x_date(
+    date_breaks = "4 years",
+    date_labels = "%Y"
+  ) +
+  
+  scale_y_continuous(
+    labels = label_number(accuracy = 0.1)
+  ) +
+  
+  labs(
+    title = "Comparison of Business Cycle Filters",
+    subtitle = "Quarterly GDP cycle estimates",
+    x = NULL,
+    y = "Cycle component (%)",
+    colour = NULL,
+    caption = "Source: ABS National Accounts | Author calculations"
+  ) +
+  
+  theme_classic(base_size = 13) +
+  
+  theme(
+    legend.position = "top",
+    
+    legend.text = element_text(size = 11),
+    
+    plot.title = element_text(
+      size = 18,
+      face = "bold",
+      hjust = 0.5
+    ),
+    
+    plot.subtitle = element_text(
+      size = 11,
+      colour = "grey30",
+      hjust = 0.5,
+      margin = margin(b = 12)
+    ),
+    
+    axis.title.y = element_text(
+      margin = margin(r = 10)
+    ),
+    
+    axis.line = element_line(
+      linewidth = 0.4
+    ),
+    
+    axis.ticks = element_line(
+      linewidth = 0.4
+    ),
+    
+    plot.caption = element_text(
+      size = 9,
+      colour = "grey40"
+    )
+  )
+
+```
+
+-   **CF Filter (Christiano–Fitzgerald):** Produces a relatively smooth business cycle series while still capturing medium-term fluctuations. It is designed specifically to isolate cyclical frequencies associated with business cycles.
+
+-   **HP Filter (Hodrick–Prescott):** Generates a smooth trend and volatile cyclical component by penalising large changes in the trend path. The filter captures broad economic fluctuations but can be sensitive near the beginning and end of the sample.
+
+-   **Augmented BN Filter (Beveridge–Nelson):** Separates permanent and transitory movements by defining the cycle as short-run deviations from the long-run stochastic trend. This filter often produces more volatile cyclical movements and responds strongly to large economic shocks. Further adjustments have been made to account for the COVID-19 shock (Kamber, Morley, & Wong, 2025).
+
+Given its in-sample properties and its ability to internally estimate the cyclical component, the BN filter is selected as the baseline specification, while the remaining filters are used as robustness checks to assess the validity of the results.
+
+# Industry Correlations
+
+```{r, fig.width=12, fig.height=8, out.width='100%', echo = FALSE}
+
+#### CYCLICAL CORRELATION BAR GRAPHS
+#FULLSAMPLE
+# benchmark business cycle series (BN filter)
+cycle_series <- gos_gdp %>%
+  select(date, cycle = bn)
+
+# reshape residual series to long format
+resid_long <- gos_gdp %>%
+  select(date, ends_with("_resid")) %>%
+  pivot_longer(
+    cols = -date,
+    names_to = "sector",
+    values_to = "resid"
+  )
+
+# merge benchmark cycle and compute correlations
+cor_results <- resid_long %>%
+  left_join(cycle_series, by = "date") %>%
+  group_by(sector) %>%
+  summarise(
+    corr = cor(resid, cycle, use = "complete.obs"),
+    .groups = "drop"
+  ) %>%
+  arrange(desc(corr))
+
+# clean labels
+cor_results_clean <- cor_results %>%
+  mutate(
+    sector = str_remove(sector, "_resid$"),
+    
+    sector = recode(
+      sector,
+      "Total" = "Total Economy",
+      "Total less mining" = "Total less Mining",
+      "Total less mi and ag" = "Total less Mining & Agriculture"
+    )
+  ) %>%
+  filter(sector != "t")
+
+# symmetric axis scaling
+max_abs <- max(abs(cor_results_clean$corr), na.rm = TRUE)
+
+# plot
+cor1 <- ggplot(
+  cor_results_clean,
+  aes(x = reorder(sector, corr), y = corr)
+) +
+  
+  geom_col(
+    aes(fill = corr > 0),
+    width = 0.7,
+    show.legend = FALSE
+  ) +
+  
+  coord_flip() +
+  
+  geom_hline(
+    yintercept = 0,
+    colour = "grey30",
+    linewidth = 0.4
+  ) +
+  
+  scale_fill_manual(values = c(
+    "TRUE"  = "#2C5C85",
+    "FALSE" = "#B04A4A"
+  )) +
+  
+  scale_y_continuous(
+    limits = c(-max_abs * 1.1, max_abs * 1.1),
+    expand = expansion(mult = c(0, 0.02))
+  ) +
+  
+  labs(
+    title = "GOS Correlation with Benchmark Business Cycle",
+    subtitle = "Sectoral profit margin correlations with BN-filtered GDP cycle",
+    x = NULL,
+    y = "Correlation coefficient",
+    caption = "Source: ABS National Accounts | Author calculations"
+  ) +
+  
+  theme_minimal(base_size = 13) +
+  
+theme(
+  plot.background = element_rect(fill = "white", colour = NA),
+  panel.background = element_rect(fill = "white", colour = NA),
+
+  plot.title = element_text(
+    face = "bold",
+    size = 16,
+    hjust = 0.5
+  ),
+
+  plot.subtitle = element_text(
+    size = 11,
+    colour = "grey30",
+    hjust = 0.5
+  ),
+
+  axis.text.y = element_text(size = 10),
+
+  plot.margin = margin(
+    t = 15,
+    r = 20,
+    b = 15,
+    l = 40
+  ),
+
+  panel.grid.major.y = element_blank(),
+  panel.grid.minor = element_blank()
+)
+
+
+
+#pre-covid
+# define cutoff
+cutoff <- as.Date("2020-01-01")
+
+# benchmark business cycle series (BN filter)
+cycle_series <- gos_gdp %>%
+  filter(date < cutoff) %>%
+  select(date, cycle = bn)
+
+# reshape residual series to long format
+resid_long <- gos_gdp %>%
+  filter(date < cutoff) %>%
+  select(date, ends_with("_resid")) %>%
+  pivot_longer(
+    cols = -date,
+    names_to = "sector",
+    values_to = "resid"
+  )
+
+# merge benchmark cycle and compute correlations
+cor_results <- resid_long %>%
+  left_join(cycle_series, by = "date") %>%
+  group_by(sector) %>%
+  summarise(
+    corr = cor(resid, cycle, use = "complete.obs"),
+    .groups = "drop"
+  ) %>%
+  arrange(desc(corr))
+
+# clean labels
+cor_results_clean <- cor_results %>%
+  mutate(
+    sector = str_remove(sector, "_resid$"),
+    
+    sector = recode(
+      sector,
+      "Total" = "Total Economy",
+      "Total less mining" = "Total less Mining",
+      "Total less mi and ag" = "Total less Mining & Agriculture"
+    )
+  ) %>%
+  filter(sector != "t")
+
+# symmetric axis scaling
+max_abs <- max(abs(cor_results_clean$corr), na.rm = TRUE)
+
+# plot
+cor2 <- ggplot(
+  cor_results_clean,
+  aes(x = reorder(sector, corr), y = corr)
+) +
+  
+  geom_col(
+    aes(fill = corr > 0),
+    width = 0.7,
+    show.legend = FALSE
+  ) +
+  
+  coord_flip() +
+  
+  geom_hline(
+    yintercept = 0,
+    colour = "grey30",
+    linewidth = 0.4
+  ) +
+  
+  scale_fill_manual(values = c(
+    "TRUE"  = "#2C5C85",
+    "FALSE" = "#B04A4A"
+  )) +
+  
+  scale_y_continuous(
+    limits = c(-max_abs * 1.1, max_abs * 1.1),
+    expand = expansion(mult = c(0, 0.02))
+  ) +
+  
+  labs(
+    title = "GOS Correlation with Benchmark Business Cycle",
+    subtitle = "Pre-COVID sectoral profit margin correlations with BN-filtered GDP cycle",
+    x = NULL,
+    y = "Correlation coefficient",
+    caption = "Sample: 2002Q3–2019Q4 | Source: ABS National Accounts | Author calculations"
+  ) +
+  
+  theme_minimal(base_size = 13) +
+  
+ theme(
+  plot.background = element_rect(fill = "white", colour = NA),
+  panel.background = element_rect(fill = "white", colour = NA),
+
+  plot.title = element_text(
+    face = "bold",
+    size = 16,
+    hjust = 0.5
+  ),
+
+  plot.subtitle = element_text(
+    size = 11,
+    colour = "grey30",
+    hjust = 0.5
+  ),
+
+  axis.text.y = element_text(size = 10),
+
+  plot.margin = margin(
+    t = 15,
+    r = 20,
+    b = 15,
+    l = 40
+  ),
+
+  panel.grid.major.y = element_blank(),
+  panel.grid.minor = element_blank()
+)
+
+
+cor1
+cor2
+
+```
+
+Across both full-sample and pre-COVID specifications; there is a clear negative correlation across most industries.
+
+The full-sample correlations are severely skewed (top chart), with most correlations falling between -0.5 to -0.3. This infers that when GDP expands, profit margins may potentially decrease by almost half in the short-run. Outward facing industries, such as Mining and Agriculture, are positively correlated with GDP. This matches economic intution as they make up a large portion of Australian Exports. Economic expansion may be positively associated with increases in the sale of produce or minerals to trading partners, driving up the degree of profit over costs in the short-run.
+
+Given the dramatic deviation of margins and GDP during the COVID-19 pandemic (as shown in previous EDA), this may be contributing to negative correlations across industries. In turn, looking at the pre-COVID sample is a better indicator of sectoral relationships with the macroeconomy.
+
+More industries are positively associated with GDP expansions; with real estate and electricity being new front-runners. This matches economic intuition as well, as the rental market has empirically been more fluid in times of economic expansion, alongside increases in utilities as individuals have more disposable income during booms. Mining and agriculture become negatively correlated, which contradicts the full-sample values. This may signify that margins for these sectors heavily capitalised on the COVID-19 period.
+
+While these are interesting to gain a sense of the simple dynamics of margins, we can use more stringent econometric models to truly test the conditional cyclicality of profit margins given changes in macroeconomic conditions.
+
+# Empirical Specification
+
+We estimate the following elasticity specification:
+
+$$
+\widehat{Margin}_{it} = \alpha_i + \beta_i Cycle_t + v_{it}
+$$
+
+where $\widehat{Margin}_{it}$ denotes the estimated residual component of detrended profit margins for industry $i$ at time $t$ , $Cycle_t$ represents the extracted business cycle component, and $v_{it}$ is an idiosyncratic error term capturing unobserved shocks.
+
+The analysis is conducted using quarterly Australian industry-level data over the sample period Q3-200 to Q1-2025. Profit margin series are first detrended to isolate cycles from their natural trend component (see Appendix 1). Business cycle components are extracted using the Christiano–Fitzgerald (CF), Hodrick–Prescott (HP), and Beveridge–Nelson (BN) filters.
+
+Because both the detrended margin series and business cycle measures are expressed in percentage terms, the estimated coefficient $\beta_i$ can be interpreted as the cyclical elasticity of profit margins with respect to aggregate economic fluctuations. Similar empirical specifications have been used in the literature examining the cyclicality of markups and profit margins, including Macallan, Millard, and Parker (2008) and Nekarda and Ramey (2019).
+
+To account for potential serial correlation and heteroskedasticity in quarterly time-series residuals, Newey–West heteroskedasticity and autocorrelation consistent (HAC) standard errors are reported throughout.
+
+The aggregate profit margin, abstracting from the impacts of the mining sector, will be used as a benchmark profit margin.
+
+# Results
+
+::: {align="center"}
+Table 1: Gross Operating Profit and GDP Business Cycle
+
+```{r results='asis'}
+modelsummary(
+  models_gop_gdp,
+  
+  vcov = sandwich::NeweyWest,
+  
+  stars = c('*' = .1, '**' = .05, '***' = .01),
+  
+  statistic = "({std.error})",
+  
+  coef_map = c(
+    "cf" = "Cycle",
+    "(Intercept)" = "Intercept",
+    "hp" = "Cycle",
+    "bn" = "Cycle"
+  ),
+  
+  gof_map = tribble(
+    ~raw,        ~clean,         ~fmt,
+    "nobs",      "Observations", 0,
+    "r.squared", "R²",           3,
+    "rmse",      "RMSE",         3
+  ),
+  
+  add_rows = tibble(
+    term = "Std. Errors",
+    CF = "Newey-West",
+    HP = "Newey-West",
+    BN = "Newey-West"
+  ),
+
+  output = "tinytable"
+)
+```
+
+Table 2: Gross Operating Profit and THW Business Cycle
+
+```{r results='asis'}
+modelsummary(
+  models_gop_thw,
+  
+  vcov = sandwich::NeweyWest,
+  
+  stars = c('*' = .1, '**' = .05, '***' = .01),
+  
+  statistic = "({std.error})",
+  
+  coef_map = c(
+    "cf" = "Cycle",
+    "(Intercept)" = "Intercept",
+    "hp" = "Cycle",
+    "bn" = "Cycle"
+  ),
+  
+  gof_map = tribble(
+    ~raw,        ~clean,         ~fmt,
+    "nobs",      "Observations", 0,
+    "r.squared", "R²",           3,
+    "rmse",      "RMSE",         3
+  ),
+  
+  add_rows = tibble(
+    term = "Std. Errors",
+    CF = "Newey-West",
+    HP = "Newey-West",
+    BN = "Newey-West"
+  ),
+  
+  output = "tinytable"
+)
+```
+
+Table 3: Gross Operating Surplus and GDP Business Cycle
+
+```{r results='asis'}
+modelsummary(
+  models_gos_gdp,
+  
+  vcov = sandwich::NeweyWest,
+  
+  stars = c('*' = .1, '**' = .05, '***' = .01),
+  
+  statistic = "({std.error})",
+  
+  coef_map = c(
+    "cf" = "Cycle",
+    "(Intercept)" = "Intercept",
+    "hp" = "Cycle",
+    "bn" = "Cycle"
+  ),
+  
+  gof_map = tribble(
+    ~raw,        ~clean,         ~fmt,
+    "nobs",      "Observations", 0,
+    "r.squared", "R²",           3,
+    "rmse",      "RMSE",         3
+  ),
+  
+  add_rows = tibble(
+    term = "Std. Errors",
+    CF = "Newey-West",
+    HP = "Newey-West",
+    BN = "Newey-West"
+  ),
+  
+  output = "tinytable"
+)
+```
+
+Table 4: Gross Operating Surplus and THW Business Cycle
+
+```{r results='asis'}
+modelsummary(
+  models_gos_thw,
+  
+  vcov = sandwich::NeweyWest,
+  
+  stars = c('*' = .1, '**' = .05, '***' = .01),
+  
+  statistic = "({std.error})",
+  
+  coef_map = c(
+    "cf" = "Cycle",
+    "(Intercept)" = "Intercept",
+    "hp" = "Cycle",
+    "bn" = "Cycle"
+  ),
+  
+  gof_map = tribble(
+    ~raw,        ~clean,         ~fmt,
+    "nobs",      "Observations", 0,
+    "r.squared", "R²",           3,
+    "rmse",      "RMSE",         3
+  ),
+  
+  add_rows = tibble(
+    term = "Std. Errors",
+    CF = "Newey-West",
+    HP = "Newey-West",
+    BN = "Newey-West"
+  ),
+  
+  output = "tinytable"
+)
+```
+:::
+
+# Discussion
+
+Across all specifications, Australian profit margins (less mining) display potential countercyclicality across all business cycle indicators. Estimated coefficients are uniformly negative across GDP and THW cycle measures, suggesting that profit margins tend to decline during economic expansions and rise during downturns. However, themagnitude and signficiance of these results differ across filters, highlighting the sensitivity of cylical inference to model specification and business cycle extraction methodology.
+
+The results indicate that Gross Operating Surplus (GOS) exhibits a stronger countercyclical relationship than Gross Operating Profits (GOS). This may be due to the different costs and revenues driving different dynamics in the given series, with GOS potentially capturing broader costs and income dynamics that response more strongly to fluctuations in aggregate economic activity.
+
+## Gross Operating Profit (GOP)
+
+Gross Operating Profit margins appear weakly countercyclical across both GDP and THW. Although coefficient magnitude remains relatively consistent across filter specifications, statistical significance is generally limited, reducing confidence in the strength of the estimated relationship.
+
+The results are most responsive to the HP filter of the business cycle, potentially due to the filter's ability to capture the medium-term fluctuations in business cycle conditions more effectively than alternative methods.
+
+Under the current specification, a 1 per cent increase in the cyclical deviation of GDP from its trend is associated with an approximate 0.4 per cent decline in aggregate GOP margins in the short run, on average. In other words, a given expansion in economic activity is associated with a small decrease in this margin in the immediate term.
+
+## Gross Operating Surplus (GOS)
+
+In distinction, GOS supplies the most interesting results under this specification.
+
+The estimates are statistically significant across all filters, reassuring the potential for a consistent and robust relationship. The estimates also have a relatively higher magnitude than the GOP margin.
+
+In particular, the preferred GDP specifications imply that a 1 per cent increase in the cyclical component of GDP causes the GOS margin to decrease by approximately 1 per cent on average in the immediate run. This near one-for-one relationship indicates a pronounced degree of countercyclicality between aggregate economic activity and surplus margins.
+
+# Threats
+
+As identified in the earlier correlation analysis, the COVID-19 shock generated substantial disruptions in the relationship between profit margins and aggregate business cycle conditions. Consequently, the uniformly negative coefficients reported across specifications may not fully reflect the underlying structural relationship between margins and cyclical activity, but instead capture distortions associated with the pandemic period. This concern is reinforced by the observation that several sectoral correlations become positive once the COVID-19 period is excluded from the sample. EDA analysis discovered periods of direct co-movement between the variables, legitimising the claim that the current results are severely skewed from the COVID-19 period.
+
+A further limitation relates to the relatively small sample size. In particular, the HP filter empirically suffers from endpoint distortions in shorter samples, potentially biasing estimates of the cyclical component. More generally, the various detrending procedures, filtering techniques, and transformations applied throughout the analysis may introduce additional measurement error and approximation bias into the estimated relationships.
+
+Future extensions of the model could address these concerns through the inclusion of additional control variables and alternative dynamic specifications. In particular, an augmented regression framework incorporating a COVID-19 dummy or structural break component would assist in isolating the underlying cyclical relationship between profit margins and economic activity. Similarly, a dynamic specification including lagged business cycle terms may provide a more accurate representation of cyclical adjustment, as related evidence suggests that profit margins may respond to changes in business conditions with delays of up to two quarters.
+
+# Appendix 1
+
+In order to compare the cycles of the profit margin variables against business cycle indicators, we need to detrend the margin series.
+
+$$
+\text{margin}_t = \alpha_0 + \alpha_1 d_t + u_t
+$$
+
+where the deterministic trend component is defined as
+
+$$
+d_t = 1, 2, \ldots, 94
+$$
+
+The estimated residuals, $\hat{u}_t$, are then included in regression (1) as the dependent variable, $\widehat{\text{Margin}}_{it}$.
+
+# References
+
+Christiano, Lawrence J., & Fitzgerald, Terry J.. (2003). The band pass filter. International Economic Review, 44(2), 435–465.
+
+Hodrick, Robert J., & Prescott, Edward C.. (1997). Postwar U.S. business cycles: An empirical investigation. Journal of Money, Credit and Banking, 29(1), 1–16.
+
+Kamber, Gunes, Morley, James, & Wong, Benjamin. (2025). Trend-cycle decomposition in the presence of large shocks. Journal of Economic Dynamics and Control, 173, 105066.
+
+Macallan, Clare, Millard, Stephen, & Parker, Miles. (2008). The cyclicality of mark-ups and profit margins for the United Kingdom: Some new evidence. Working Paper No. 351.
+
+Nekarda, Christopher J., & Ramey, Valerie A.. (2019). The cyclicality of the price-cost markup. NBER Working Paper.

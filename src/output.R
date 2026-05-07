@@ -263,43 +263,65 @@ ggsave("output/gos_resid_og_comparison_TMA.png", plot = d1, width = 8, height = 
 
 #### CYCLICAL CORRELATION BAR GRAPHS
 #FULLSAMPLE
-cycle_series <- gdp_cycles %>%
-  filter(model == "avg_cycle") %>%
-  select(date, cycle = value)
+# benchmark business cycle series (BN filter)
+cycle_series <- gos_gdp %>%
+  select(date, cycle = bn)
 
-# reshape residuals
-resid_long <- gos_resid %>%
-  pivot_longer(-date, names_to = "sector", values_to = "resid")
+# reshape residual series to long format
+resid_long <- gos_gdp %>%
+  select(date, ends_with("_resid")) %>%
+  pivot_longer(
+    cols = -date,
+    names_to = "sector",
+    values_to = "resid"
+  )
 
-# merge + compute correlation
+# merge benchmark cycle and compute correlations
 cor_results <- resid_long %>%
   left_join(cycle_series, by = "date") %>%
   group_by(sector) %>%
-  summarise(corr = cor(resid, cycle, use = "complete.obs")) %>%
+  summarise(
+    corr = cor(resid, cycle, use = "complete.obs"),
+    .groups = "drop"
+  ) %>%
   arrange(desc(corr))
 
+# clean labels
 cor_results_clean <- cor_results %>%
   mutate(
     sector = str_remove(sector, "_resid$"),
     
-    # relabel key series
-    sector = recode(sector,
-                    "avg_cycle" = "Business Cycle: Average",
-                    "cf"        = "Business Cycle: CF Filter",
-                    "hp"        = "Business Cycle: HP Filter",
-                    "imf"       = "Business Cycle: EMD Filter"
+    sector = recode(
+      sector,
+      "Total" = "Total Economy",
+      "Total less mining" = "Total less Mining",
+      "Total less mi and ag" = "Total less Mining & Agriculture"
     )
   ) %>%
   filter(sector != "t")
 
+# symmetric axis scaling
 max_abs <- max(abs(cor_results_clean$corr), na.rm = TRUE)
 
-cor1 <- ggplot(cor_results_clean, aes(x = reorder(sector, corr), y = corr)) +
+# plot
+cor1 <- ggplot(
+  cor_results_clean,
+  aes(x = reorder(sector, corr), y = corr)
+) +
   
-  geom_col(aes(fill = corr > 0), width = 0.7, show.legend = FALSE) +
+  geom_col(
+    aes(fill = corr > 0),
+    width = 0.7,
+    show.legend = FALSE
+  ) +
+  
   coord_flip() +
   
-  geom_hline(yintercept = 0, colour = "grey30", linewidth = 0.4) +
+  geom_hline(
+    yintercept = 0,
+    colour = "grey30",
+    linewidth = 0.4
+  ) +
   
   scale_fill_manual(values = c(
     "TRUE"  = "#2C5C85",
@@ -312,21 +334,33 @@ cor1 <- ggplot(cor_results_clean, aes(x = reorder(sector, corr), y = corr)) +
   ) +
   
   labs(
-    title = "Correlation with GDP Business Cycle (Full Sample)",
-    subtitle = "Sectoral correlations with benchmark GDP cycle",
+    title = "Correlation with Benchmark Business Cycle",
+    subtitle = "Sectoral profit margin correlations with BN-filtered GDP cycle",
     x = NULL,
-    y = "Correlation coefficient"
+    y = "Correlation coefficient",
+    caption = "Source: ABS National Accounts | Author calculations"
   ) +
   
   theme_minimal(base_size = 13) +
+  
   theme(
-    plot.background  = element_rect(fill = "white", colour = NA),
+    plot.background = element_rect(fill = "white", colour = NA),
     panel.background = element_rect(fill = "white", colour = NA),
-    plot.title = element_text(face = "bold", size = 16),
-    plot.subtitle = element_text(size = 12, colour = "grey30"),
+    
+    plot.title = element_text(
+      face = "bold",
+      size = 16
+    ),
+    
+    plot.subtitle = element_text(
+      size = 12,
+      colour = "grey30"
+    ),
+    
     panel.grid.major.y = element_blank(),
     panel.grid.minor = element_blank()
   )
+
 
 ggsave(
   "output/Correl_full_sample.png",
@@ -338,52 +372,71 @@ ggsave(
 )
 
 
-##pre covid
-
-
+#pre-covid
 # define cutoff
 cutoff <- as.Date("2020-01-01")
 
-# cycle (pre-COVID only)
-cycle_series <- gdp_cycles %>%
-  filter(model == "avg_cycle", date < cutoff) %>%
-  select(date, cycle = value)
-
-# residuals (pre-COVID only)
-resid_long <- gos_resid %>%
+# benchmark business cycle series (BN filter)
+cycle_series <- gos_gdp %>%
   filter(date < cutoff) %>%
-  pivot_longer(-date, names_to = "sector", values_to = "resid")
+  select(date, cycle = bn)
 
-# merge + compute correlation
+# reshape residual series to long format
+resid_long <- gos_gdp %>%
+  filter(date < cutoff) %>%
+  select(date, ends_with("_resid")) %>%
+  pivot_longer(
+    cols = -date,
+    names_to = "sector",
+    values_to = "resid"
+  )
+
+# merge benchmark cycle and compute correlations
 cor_results <- resid_long %>%
   left_join(cycle_series, by = "date") %>%
   group_by(sector) %>%
-  summarise(corr = cor(resid, cycle, use = "complete.obs")) %>%
+  summarise(
+    corr = cor(resid, cycle, use = "complete.obs"),
+    .groups = "drop"
+  ) %>%
   arrange(desc(corr))
 
-
+# clean labels
 cor_results_clean <- cor_results %>%
   mutate(
     sector = str_remove(sector, "_resid$"),
     
-    # relabel key series
-    sector = recode(sector,
-                    "avg_cycle" = "Business Cycle: Average",
-                    "cf"        = "Business Cycle: CF Filter",
-                    "hp"        = "Business Cycle: HP Filter",
-                    "imf"       = "Business Cycle: EMD Filter"
+    sector = recode(
+      sector,
+      "Total" = "Total Economy",
+      "Total less mining" = "Total less Mining",
+      "Total less mi and ag" = "Total less Mining & Agriculture"
     )
   ) %>%
   filter(sector != "t")
 
+# symmetric axis scaling
 max_abs <- max(abs(cor_results_clean$corr), na.rm = TRUE)
 
-cor2 <- ggplot(cor_results_clean, aes(x = reorder(sector, corr), y = corr)) +
+# plot
+cor2 <- ggplot(
+  cor_results_clean,
+  aes(x = reorder(sector, corr), y = corr)
+) +
   
-  geom_col(aes(fill = corr > 0), width = 0.7, show.legend = FALSE) +
+  geom_col(
+    aes(fill = corr > 0),
+    width = 0.7,
+    show.legend = FALSE
+  ) +
+  
   coord_flip() +
   
-  geom_hline(yintercept = 0, colour = "grey30", linewidth = 0.4) +
+  geom_hline(
+    yintercept = 0,
+    colour = "grey30",
+    linewidth = 0.4
+  ) +
   
   scale_fill_manual(values = c(
     "TRUE"  = "#2C5C85",
@@ -396,31 +449,41 @@ cor2 <- ggplot(cor_results_clean, aes(x = reorder(sector, corr), y = corr)) +
   ) +
   
   labs(
-    title = "Correlation with GDP Business Cycle (Pre-COVID)",
-    subtitle = "Sectoral correlations with benchmark GDP cycle",
+    title = "Correlation with Benchmark Business Cycle",
+    subtitle = "Pre-COVID sectoral profit margin correlations with BN-filtered GDP cycle",
     x = NULL,
-    y = "Correlation coefficient"
+    y = "Correlation coefficient",
+    caption = "Sample: 2002Q3–2019Q4 | Source: ABS National Accounts | Author calculations"
   ) +
   
   theme_minimal(base_size = 13) +
+  
   theme(
-    plot.background  = element_rect(fill = "white", colour = NA),
+    plot.background = element_rect(fill = "white", colour = NA),
     panel.background = element_rect(fill = "white", colour = NA),
-    plot.title = element_text(face = "bold", size = 16),
-    plot.subtitle = element_text(size = 12, colour = "grey30"),
+    
+    plot.title = element_text(
+      face = "bold",
+      size = 16
+    ),
+    
+    plot.subtitle = element_text(
+      size = 12,
+      colour = "grey30"
+    ),
+    
     panel.grid.major.y = element_blank(),
     panel.grid.minor = element_blank()
   )
 
 ggsave(
-  "output/Correl_restricted_sample.png",
+  "output/Correl_pre_covid.png",
   plot = cor2,
-  width = 12,     # was 8 → increase to 11–13
-  height = 6,     # slightly taller helps readability
+  width = 12,
+  height = 6,
   dpi = 300,
   bg = "white"
 )
-
 
 
 

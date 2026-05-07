@@ -1,6 +1,7 @@
 #Conditional Cylicality
 
-  source("src/library.R")
+source(here::here("src", "library.R"))
+
 
 ####################################### 
 # Obtaining Cyclical Margin Component #
