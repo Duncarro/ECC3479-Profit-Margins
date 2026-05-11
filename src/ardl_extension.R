@@ -1,4 +1,3 @@
-library(ARDL)
 
 
 # ===================================================
@@ -551,6 +550,23 @@ plot_fitted(
   "GOS GDP"
 )
 
+plot_fitted(
+  fit_ardl$gop_gdp,
+  gop_gdp_ts,
+  "GOP GDP"
+)
+
+plot_fitted(
+  fit_ardl$gos_thw,
+  gos_thw_ts,
+  "GOS THW"
+)
+
+plot_fitted(
+  fit_ardl$gop_thw,
+  gop_thw_ts,
+  "GOP THW"
+)
 # ===================================================
 # MODEL COMPARISON:
 # WITH vs WITHOUT COVID
@@ -807,3 +823,150 @@ purrr::iwalk(
     )
   )
 )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ===================================================
+# UNIT ROOT TESTS
+# ===================================================
+
+library(urca)
+
+unit_root_results <- map_dfr(
+  datasets,
+  
+  ~ {
+    
+    # ADF: margin
+    
+    adf_margin <- ur.df(
+      .x$margin,
+      type = "drift",
+      lags = 4
+    )
+    
+    # ADF: bn
+    
+    adf_bn <- ur.df(
+      .x$bn,
+      type = "drift",
+      lags = 4
+    )
+    
+    tibble(
+      
+      margin_stat =
+        adf_margin@teststat[1],
+      
+      margin_5pct =
+        adf_margin@cval[1,2],
+      
+      bn_stat =
+        adf_bn@teststat[1],
+      
+      bn_5pct =
+        adf_bn@cval[1,2]
+    )
+  },
+  
+  .id = "dataset"
+)
+
+unit_root_results
+
+
+#=======================
+#RESULT: I(0)
+#=======================
+
+# ===================================================
+# BREUSCH-GODFREY TEST
+# ===================================================
+
+bg_results <- map_dfr(
+  fit_ardl,
+  
+  ~ {
+    
+    bg <- bgtest(
+      .x,
+      order = 4
+    )
+    
+    tibble(
+      
+      bg_stat =
+        as.numeric(bg$statistic),
+      
+      bg_p =
+        bg$p.value
+    )
+  },
+  
+  .id = "dataset"
+)
+
+bg_results
+
+
+
+# ===================================================
+# ROBUST STANDARD ERRORS - NW
+# + SIGNIFICANCE STARS
+# ===================================================
+
+library(sandwich)
+library(lmtest)
+library(broom)
+library(dplyr)
+
+robust_results <- purrr::map_dfr(
+  fit_ardl,
+  
+  ~ {
+    
+    lm_obj <- to_lm(.x)
+    
+    robust_test <- coeftest(
+      lm_obj,
+      
+      vcov =
+        vcovHC(
+          lm_obj,
+          type = "HC1"
+        )
+    )
+    
+    broom::tidy(robust_test)
+  },
+  
+  .id = "dataset"
+) |>
+  
+  mutate(
+    
+    significance =
+      case_when(
+        p.value < 0.01 ~ "***",
+        p.value < 0.05 ~ "**",
+        p.value < 0.10 ~ "*",
+        TRUE ~ ""
+      )
+  )
+
+robust_results
