@@ -24,7 +24,7 @@ gos_thw <- gos_resid %>%
 gop_gdp <- gop_resid %>%
   left_join(cf_gdp  %>% select(date, cf  = cycle),  by = "date") %>%
   left_join(hp_gdp  %>% select(date, hp  = cycle),  by = "date") %>%
-  left_join(bn_thw  %>% select(date, bn  = bn),  by = "date") 
+  left_join(bn_gdp  %>% select(date, bn  = bn),  by = "date") 
 
 
 gop_thw <- gop_resid %>%
