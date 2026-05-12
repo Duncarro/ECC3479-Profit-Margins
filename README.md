@@ -54,14 +54,20 @@ The scripts must be run in the following order:
 7. **conditional_cyclicality_regressions.R**  
    - Runs conditional regressions on filtered data (requires `unconditional_cyclicality.R`) 
  
+8. **ardl_extension.R**  
+   - Runs an augmented ARDL model including a COVID dummy variable 
+
+9. **ardl_comp.R**  
+   - Compares the ARDL model against potential alternatives (requires `ardl_extension.R`) 
+ 
 
 **Dont need to be executed:**
 
 
-7. **bnf_aug_run.R**  
+10. **bnf_aug_run.R**  
    - Runs BN filter (Credit to Kamber, Morley, & Wong (2025))
 
-8. **bnf_fnc.R**  
+11. **bnf_fnc.R**  
    - Runs BN filter (Credit to Kamber, Morley, & Wong (2025))
 
 
@@ -78,10 +84,14 @@ The scripts must be run in the following order:
 4. Run `eda.R` and other analytical scripts  
 5. Run `conditional_cyclicality.R` 
 6. Run `conditional_cyclicality_regressions.R` 
+7. Run `ardl_extension.R` 
+8. Run `ardl_comp.R` 
 
-
-7. **FOR PRIMARY ECONOMETRIC ANALYSIS:** Run `docs/primary_analysis.Rmd`
+9. **FOR PRIMARY ECONOMETRIC ANALYSIS:** Run `docs/primary_analysis.Rmd`
    - This document runs all above documents and compiles the relevant analysis into a html output.
+
+10. **FOR ROBUSTNESS:** Run `docs/robustness.Rmd`
+   - This document is self-contained and pulls from relevant documents listed, compiling the relevant analysis into a html output.
 
 All outputs (figures and results) will be saved in the `output/` folder.
 
