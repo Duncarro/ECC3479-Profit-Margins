@@ -43,7 +43,7 @@ gos_gdp_ts <- gos_gdp_ts |>
 
 gos_gdp_ts |>
   gg_tsdisplay(
-    `Total less mining_resid`,
+    `margin`,
     plot_type = "partial",
     lag_max = 20
   )

@@ -1,0 +1,1325 @@
+---
+title: "Robustness and Model Extensions"
+subtitle: "Profit Margins and the Business Cycle"
+author: "Kye Duncan"
+date: "`r Sys.Date()`"
+output:
+  rmdformats::readthedown:
+    toc_depth: 3
+    number_sections: true
+---
+
+```{r setup, include=FALSE}
+# ===================================================
+# GLOBAL OPTIONS
+# ===================================================
+
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  fig.align = "center",
+  fig.width = 7,
+  fig.height = 5,
+  dpi = 300
+)
+
+# ===================================================
+# LIBRARIES
+# ===================================================
+
+library(here)
+library(modelsummary)
+library(rmdformats)
+library(tidyverse)
+library(gt)
+library(kableExtra)
+library(here)
+library(patchwork)
+
+library(dplyr)
+library(tsibble)
+library(purrr)
+library(ARDL)
+library(broom)
+library(ggplot2)
+library(patchwork)
+library(lmtest)
+library(tseries)
+library(FinTS)
+library(strucchange)
+library(feasts)
+library(urca)
+library(sandwich)
+
+options(modelsummary_factory_default = "tinytable")
+
+# ===================================================
+# SOURCE FILES
+# ===================================================
+
+source("../src/library.R")
+
+source("../src/conditional_cyclicality.R")
+```
+
+```{r, echo=FALSE}
+
+
+
+##############################
+# GOS Merged Series          #
+##############################
+
+gos_gdp <- gos_resid %>%
+  left_join(cf_gdp  %>% select(date, cf  = cycle),  by = "date") %>%
+  left_join(hp_gdp  %>% select(date, hp  = cycle),  by = "date") %>%
+  left_join(bn_gdp  %>% select(date, bn  = bn),  by = "date") 
+
+
+gos_thw <- gos_resid %>%
+  left_join(cf_thw  %>% select(date, cf  = cycle),  by = "date") %>%
+  left_join(hp_thw  %>% select(date, hp  = cycle),  by = "date") %>%
+  left_join(bn_thw  %>% select(date, bn  = bn),  by = "date") 
+
+##############################
+# GOP Merged Series          #
+##############################
+
+gop_gdp <- gop_resid %>%
+  left_join(cf_gdp  %>% select(date, cf  = cycle),  by = "date") %>%
+  left_join(hp_gdp  %>% select(date, hp  = cycle),  by = "date") %>%
+  left_join(bn_gdp  %>% select(date, bn  = bn),  by = "date") 
+
+
+gop_thw <- gop_resid %>%
+  left_join(cf_thw  %>% select(date, cf  = cycle),  by = "date") %>%
+  left_join(hp_thw  %>% select(date, hp  = cycle),  by = "date") %>%
+  left_join(bn_thw  %>% select(date, bn  = bn),  by = "date") 
+
+```
+
+# Introduction
+
+This report expands on previous analysis in order to determine whether the potential relationship between profit margins and the business cycle is robust. It does this through considering COVID-19 effects and adding additional regressors to explain the dynamic variation in margins across time.
+
+The analysis includes:
+
+-   COVID-19 Dummy regression
+-   ARDL(2,1) estimation
+-   Long-run multipliers
+-   Residual diagnostics
+-   Model validation and comparison
+
+```{r}
+make_tsibble <- function(data) {
+
+  data |>
+
+    rename(
+      margin = `Total less mining_resid`
+    ) |>
+
+    mutate(
+      date = yearquarter(date)
+    ) |>
+
+    as_tsibble(index = date) |>
+
+    arrange(date) |>
+
+    mutate(
+
+      covid = if_else(
+        date >= yearquarter("2020 Q1") &
+          date <= yearquarter("2022 Q4"),
+        1,
+        0
+      )
+    ) |>
+
+    drop_na()
+}
+```
+
+```{r}
+gop_gdp_ts <- make_tsibble(gop_gdp)
+
+gop_thw_ts <- make_tsibble(gop_thw)
+
+gos_gdp_ts <- make_tsibble(gos_gdp)
+
+gos_thw_ts <- make_tsibble(gos_thw)
+```
+
+```{r}
+datasets <- list(
+  gop_gdp = gop_gdp_ts,
+  gop_thw = gop_thw_ts,
+  gos_gdp = gos_gdp_ts,
+  gos_thw = gos_thw_ts
+)
+```
+
+# Justification
+
+## COVID Period Evaluation
+
+To determine whether COVID has made significant disruptions to the original elasticity model, we can include a COVID dummy into an augmented elasticity model.
+
+$$
+D^{covid}_t =
+\begin{cases}
+1, & \text{if } 2020\text{Q1} \leq t \leq 2022\text{Q4} \\
+0, & \text{otherwise}
+\end{cases}
+$$
+
+The augmented model;
+
+$$
+\widehat{Margin}_{it} = \alpha_i + \beta_i Cycle_t + D^{covid}+v_{it}
+$$
+
+To evaluate the impact of COVID-19, we can individually test for the statistical significance of the Dummy variable.
+
+$$H_0 : D^{covid} = 0
+$$
+
+$$H_1 : D^{covid} \neq 0
+$$
+
+```{r}
+# ===================================================
+# SIMPLE OLS:
+# margin = bn + covid
+# ===================================================
+
+fit_simple <- map(
+  datasets,
+
+  ~ lm(
+    margin ~ bn + covid,
+    data = as.data.frame(.x)
+  )
+)
+
+# ===================================================
+# COVID HYPOTHESIS TEST
+# ===================================================
+
+covid_hypothesis <- map_dfr(
+  fit_simple,
+
+  ~ {
+
+    s <- summary(.x)
+
+    coef_table <- as.data.frame(s$coefficients)
+
+    covid_row <- coef_table["covid", ]
+
+    tibble(
+
+      estimate =
+        covid_row$Estimate,
+
+      std_error =
+        covid_row$`Std. Error`,
+
+      t_stat =
+        covid_row$`t value`,
+
+      p_value =
+        covid_row$`Pr(>|t|)`,
+
+      decision =
+        if_else(
+          covid_row$`Pr(>|t|)` < 0.05,
+          "Reject H0",
+          "Fail to Reject H0"
+        ),
+
+      interpretation =
+        if_else(
+          covid_row$`Pr(>|t|)` < 0.05,
+          "COVID significantly affected margins",
+          "COVID effect not statistically significant"
+        )
+    )
+  },
+
+  .id = "dataset"
+)
+
+# ===================================================
+# DISPLAY TABLE
+# ===================================================
+
+covid_hypothesis |>
+
+  gt() |>
+
+  tab_header(
+    title = "COVID Hypothesis Test",
+    subtitle = "OLS Model: margin = bn + covid"
+  )
+```
+
+As the calculated t-statistic exceeds the critical value, we can reject the null hypothesis that COVID-19 had no effect on the macroeconomic series, in favour of the alternative that it created a statistically significant distortion at all levels of confidence.
+
+## Significant Lag Identification
+
+```{r}
+# ===================================================
+# TS DISPLAY PLOTS
+# ===================================================
+
+# ---------------------------------------------------
+# GOS GDP - Margin
+# ---------------------------------------------------
+
+gos_gdp_ts |>
+
+  gg_tsdisplay(
+    margin,
+    plot_type = "partial",
+    lag_max = 20
+  ) + labs(title = "GOS Margin Measure (Total Less Mining)")
+
+# ---------------------------------------------------
+# GOP GDP - Margin
+# ---------------------------------------------------
+
+gop_gdp_ts |>
+
+  gg_tsdisplay(
+    margin,
+    plot_type = "partial",
+    lag_max = 20
+  ) + labs(title = "GOP Margin Measure (Total Less Mining)")
+
+# ---------------------------------------------------
+# GOS GDP - Business Cycle
+# ---------------------------------------------------
+
+gos_gdp_ts |>
+
+  gg_tsdisplay(
+    bn,
+    plot_type = "partial",
+    lag_max = 20
+  ) + labs(title = "GDP Business Cycle (BN)")
+
+# ---------------------------------------------------
+# GOP THW - Business Cycle
+# ---------------------------------------------------
+
+gop_thw_ts |>
+
+  gg_tsdisplay(
+    bn,
+    plot_type = "partial",
+    lag_max = 20
+  ) + labs(title = "THW Business Cycle (BN)")
+
+```
+
+These graphs display the residual diagnostics for the previous elasticity model for all variables. The top graph displays the residuals for each variable, while the bottom two graphs display the ACF and PACF respectively. The residuals display heteroskedasticity in the later half of the series, most likely due to the COVID-19 shock.
+
+The PACF, which plots significant correlations in the lags of the respective variable, displays significant spikes beyond one period. This reflects that there is significant autocorrelation amongst the residuals that is not being explained in the current elasticity model.
+
+In turn, the assumption of the OLS estimator and its standard errors are violated; leading to potential bias in the previous model's estimates.\
+\
+We can rectify this omitted variable bias by including significant lags of each variable into an augmented model specification to hopefully capture more of the time dynamics of each series.
+
+| Series | Number of significant lags |
+|--------|----------------------------|
+| GOS    | 2                          |
+| GOP    | 2                          |
+| GDP    | 1                          |
+| THW    | 1                          |
+
+# ARDL Specification
+
+An Autoregressive Distributed Lag (ARDL) model explains variation in a variable using its own past values (autoregressive part) and current and past values of other variables (distributed lag part).
+
+In simple terms, an ARDL model assumes that current outcomes depend both on:
+
+1.  Past behaviour of the variable itself
+2.  Delayed effects from explanatory variables.
+
+As we previously identified two uniform significant lags for the margin series, and one significant lag for each macroeconomic series, we can estimate the following model;
+
+$$
+\widehat{margin_t} =
+\alpha +
+\phi_1 \widehat{margin_{t-1}} +
+\phi_2 \widehat{margin_{t-2}} +
+\beta_0 bc_t +
+\beta_1 bc_{t-1} +
+\gamma D^{covid}_t+
+u_t
+$$
+
+```{r, echo = FALSE}
+fit_ardl <- purrr::imap(
+  datasets,
+
+  ~ {
+
+    ardl(
+
+      formula =
+        margin ~ bn + covid,
+
+      data =
+        as.data.frame(.x),
+
+      order =
+        c(2,1,0)
+    )
+  }
+)
+```
+
+## Model Summaries
+
+```{r}
+modelsummary(
+  lapply(fit_ardl, to_lm),
+
+  stars = TRUE,
+
+  statistic = "std.error",
+
+  title = "ARDL(2,1,0) Estimation Results",
+
+  gof_omit = "IC|Log|Adj|F",
+  
+  coef_map = c(
+    "L(margin, 1)" = "Margin (t-1)",
+    "L(margin, 2)" = "Margin (t-2)",
+    "bn" = "Business Cycle",
+    "L(bn, 1)" = "Business Cycle (t-1)",
+    "covid" = "COVID Dummy"
+  )
+)
+```
+
+`gop_gdp`: the GOP margin regressed on the cyclical component on GDP\
+`gop_thw`: the GOP margin regressed on the cyclical component on THW\
+`gos_gdp`: the GOS margin regressed on the cyclical component on GDP\
+`gos_thw`: the GOS margin regressed on the cyclical component on THW
+
+------------------------------------------------------------------------
+
+The augmented model shows potential, as majority of the results have statistical significance up to 99% confidence.
+
+The estimated lagged margin term, $\widehat{margin}_{t-1}$, is relatively large across all model specifications. In the context of autoregressive modelling, a coefficient approaching $1$ implies that the current period is highly dependent on the previous period. The GOS-THW specification, in particular, suggests that current margins depend strongly on margins observed in the prior quarter.
+
+This is an economically intuitive result, as both costs and revenues are unlikely to change dramatically between adjacent quarters, all else constant. The consistently positive coefficient across all specifications indicates a robust relationship in which positive margins in the previous quarter are generally associated with positive margins in the current quarter. More broadly, this supports the notion that margins adjust gradually over time rather than instantaneously.
+
+The estimated lagged margin term, $\widehat{margin}_{t-2}$, is negative and relatively small in magnitude across all specifications. This suggests that margins decline relative to levels observed two quarters prior. This is an important finding, as it supports the assumption that margins are cyclical and may potentially imply a half-year pattern. It also suggests that margins may revert toward some long-run equilibrium over time after expanding in the previous period. The estimate is economically reasonable given costs and revenues are only being fully adjusted or passed through after several quarters.
+
+The coefficient $bc_t$ can still be interpreted as the partial elasticity of margins with respect to the business cycle. As such, these estimates can be compared directly with those from the original elasticity model (refer to the *Primary Analysis* document for further discussion). There is relatively little variation between the estimates of the two models. The GOP estimates exhibit a slightly larger magnitude (from approximately $-0.204$ to $-0.244$), while the GOS-THW estimate decreased by around $0.05$.
+
+All estimates remain negative, preserving the original interpretation that a $1\%$ increase in the cyclical component of GDP is associated with an approximate $0.7\%$ decrease in the GOS margin in the contemporaneous period, holding all else constant. Since $bc_t$ is measured in the same period as the margin variable, the coefficient captures the immediate effect of business-cycle fluctuations on margins.
+
+Where the ARDL specification truly shines is in identifying the longer-run effects of business cycle movements on margins, as $\widehat{bc}_{t-1}$ is positive across all specifications. Under the estimated models, stronger economic conditions in the previous quarter are associated with higher margins in the current quarter. This may suggest delayed pricing adjustment during periods of economic expansion, whereby firms respond gradually to increases in demand.
+
+Assuming revenues are less sticky than costs, increases in economic activity may initially raise sales while wages, rents, and other input costs remain relatively fixed. This would place upward pressure on the denominator of the margin equations, compressing margins in the short run. Over time, however, firms may adjust prices or production structures, allowing margins to partially recover in subsequent quarters. Nevertheless, the relatively weaker statistical significance of these lagged coefficients remains a concern, as it suggests the evidence for delayed business-cycle effects on current margins is less robust.
+
+The COVID-19 dummy variable aligns closely with the earlier visual analysis, as margins expanded considerably during this period across all specifications. The largest estimated effect is observed in the GOS specification, conditional on the cyclical component of THW.
+
+Overall, the ARDL models suggest that business cycle expansions compress margins in the immediate term, while margins may partially recover after one quarter. This provides further evidence that the GOP and GOS measures are countercyclical, on average, with respect to fluctuations in the cyclical components of GDP and THW. Margins also display substantial short-run persistence, alongside cyclical fluctuations and potential mean reversion over approximately half-year periods.
+
+
+
+# Residual Diagnostics
+
+## Ljung-Box Test
+
+The Ljung--Box test examines whether the residuals are independently distributed over time. In effect, it tests whether any remaining autocorrelation exists in the residuals across several lags.
+
+$$
+H_0 : \text{No residual autocorrelation}
+$$
+
+$$
+H_1 : \text{Residual autocorrelation exists}
+$$
+
+A statistically insignificant result suggests that the residuals resemble white noise and that the model captures the dynamic structure of the data reasonably well.
+
+```{r}
+diagnostics <- map_dfr(
+  fit_ardl,
+
+  ~ {
+
+    resids <- residuals(.x)
+
+    lb <- Box.test(
+      resids,
+      lag = 12,
+      type = "Ljung-Box"
+    )
+
+    tibble(
+
+      lb_stat =
+        as.numeric(lb$statistic),
+
+      lb_p =
+        lb$p.value,
+    )
+  },
+
+  .id = "dataset"
+)
+
+diagnostics |>
+
+  gt() |>
+
+  tab_header(
+    title = "Residual Diagnostic Tests"
+  )
+```
+
+The Ljung--Box test results indicate that the null hypothesis of no residual autocorrelation cannot be rejected for any specification at conventional significance levels. All p-values are substantially greater than 0.05, suggesting that the residuals behave similarly to white noise. This provides evidence that the ARDL models adequately capture the dynamic structure of the data and that little systematic serial dependence remains in the residuals.
+
+## Breusch-Godfrey Test
+
+The Breusch-Godfrey (BG) test also examines whether serial correlation remains in the regression residuals after accounting for the explanatory variables and lagged dependent variables.
+
+$$
+H_0 : \text{No serial correlation in the residuals}
+$$
+
+$$
+H_1 : \text{Serial correlation exists in the residuals}
+$$
+
+A statistically insignificant result suggests that the model adequately captures the time-series dependence in the data.
+
+```{r}
+bg_results <- map_dfr(
+  fit_ardl,
+
+  ~ {
+
+    bg <- bgtest(
+      .x,
+      order = 4
+    )
+
+    tibble(
+
+      bg_stat =
+        as.numeric(bg$statistic),
+
+      bg_p =
+        bg$p.value
+    )
+  },
+
+  .id = "dataset"
+)
+
+bg_results |>
+
+  gt() |>
+
+  tab_header(
+    title = "Breusch-Godfrey Tests"
+  )
+```
+
+The Breusch-Godfrey test results suggest that the null hypothesis of no serial correlation cannot be rejected for any model specification at the 5% significance level. This indicates that the ARDL models appear to adequately account for the time-series dependence in the data. While the GOP-THW specification produces a comparatively lower p-value, it still remains above conventional significance thresholds, providing only weak evidence of residual serial correlation.
+
+## Robust Standard Errors
+
+To further validate the model, we can estimate its significance using HC1 standard errors.
+
+```{r}
+
+robust_results <- purrr::map_dfr(
+  fit_ardl,
+  
+  ~ {
+    
+    lm_obj <- to_lm(.x)
+    
+    robust_test <- coeftest(
+      lm_obj,
+      
+      vcov =
+        vcovHC(
+          lm_obj,
+          type = "HC1"
+        )
+    )
+    
+    broom::tidy(robust_test)
+  },
+  
+  .id = "dataset"
+) |>
+  
+  mutate(
+    
+    significance =
+      case_when(
+        p.value < 0.01 ~ "***",
+        p.value < 0.05 ~ "**",
+        p.value < 0.10 ~ "*",
+        TRUE ~ ""
+      )
+  )
+
+library(gt)
+
+robust_results |>
+  
+  mutate(
+    
+    estimate =
+      round(estimate, 3),
+    
+    std.error =
+      round(std.error, 3),
+    
+    statistic =
+      round(statistic, 3),
+    
+    p.value =
+      round(p.value, 3),
+    
+    estimate_sig =
+      paste0(
+        estimate,
+        significance
+      ),
+    
+    term =
+      recode(
+        term,
+        
+        "(Intercept)" = "Constant",
+        
+        "L(margin, 1)" =
+          "Margin (t-1)",
+        
+        "L(margin, 2)" =
+          "Margin (t-2)",
+        
+        "bn" =
+          "Business Cycle",
+        
+        "L(bn, 1)" =
+          "Business Cycle (t-1)",
+        
+        "covid" =
+          "COVID Dummy"
+      )
+  ) |>
+  
+  select(
+    dataset,
+    term,
+    estimate_sig,
+    std.error,
+    statistic,
+    p.value
+  ) |>
+  
+  gt(
+    groupname_col = "dataset"
+  ) |>
+  
+  cols_label(
+    
+    term =
+      "Variable",
+    
+    estimate_sig =
+      "Estimate",
+    
+    std.error =
+      "Robust SE",
+    
+    statistic =
+      "t-Statistic",
+    
+    p.value =
+      "p-Value"
+  ) |>
+  
+  tab_header(
+    
+    title =
+      "Robust Standard Errors (HC1)",
+    
+    subtitle =
+      "ARDL(2,1,0) Specifications"
+  ) |>
+  
+  tab_source_note(
+    
+    source_note =
+      md(
+        "*** p < 0.01, ** p < 0.05, * p < 0.10"
+      )
+  )
+
+```
+
+All regressors remain statistically significant except for the $bc_{t-1}$ , this is reasonable as it had lower statistical significance in the base model. This reinforces the notion that margins may not respond to changes in the cyclical component of GDP or THW directly after one period.
+
+# Residual Plots
+
+```{r fig.height=8, fig.width=10}
+# ===================================================
+# RESIDUAL DIAGNOSTIC PANELS
+# (ARDL equivalent of gg_tsresiduals)
+# ===================================================
+
+library(feasts)
+
+plot_ts_residuals <- function(model, title_name) {
+  
+  resid_tbl <- tibble(
+    
+    time =
+      seq_along(residuals(model)),
+    
+    resid =
+      as.numeric(residuals(model))
+  )
+  
+  # -----------------------------------------------
+  # Residual time plot
+  # -----------------------------------------------
+  
+  p1 <- resid_tbl |>
+    
+    ggplot(
+      aes(
+        x = time,
+        y = resid
+      )
+    ) +
+    
+    geom_line() +
+    
+    geom_hline(
+      yintercept = 0,
+      linetype = "dashed"
+    ) +
+    
+    labs(
+      title = paste(
+        title_name,
+        "- Residuals"
+      ),
+      x = "",
+      y = ""
+    )
+  
+  # -----------------------------------------------
+  # ACF
+  # -----------------------------------------------
+  
+  acf_tbl <- acf(
+    resid_tbl$resid,
+    plot = FALSE
+  )
+  
+  acf_df <- tibble(
+    lag = acf_tbl$lag[-1],
+    acf = acf_tbl$acf[-1]
+  )
+  
+  p2 <- acf_df |>
+    
+    ggplot(
+      aes(
+        x = lag,
+        y = acf
+      )
+    ) +
+    
+    geom_col() +
+    
+    geom_hline(
+      yintercept = c(
+        -1.96 / sqrt(nrow(resid_tbl)),
+        1.96 / sqrt(nrow(resid_tbl))
+      ),
+      linetype = "dashed"
+    ) +
+    
+    labs(
+      title = "Residual ACF",
+      x = "Lag",
+      y = "ACF"
+    )
+  
+  # -----------------------------------------------
+  # Histogram
+  # -----------------------------------------------
+  
+  p3 <- resid_tbl |>
+    
+    ggplot(
+      aes(x = resid)
+    ) +
+    
+    geom_histogram(
+      bins = 30
+    ) +
+    
+    labs(
+      title = "Residual Histogram",
+      x = "",
+      y = ""
+    )
+  
+  # -----------------------------------------------
+  # Combine
+  # -----------------------------------------------
+  
+  (p1 / p2 / p3)
+}
+
+# ===================================================
+# SHOW FOR ALL MODELS
+# ===================================================
+
+purrr::iwalk(
+  fit_ardl,
+  
+  ~ print(
+    
+    plot_ts_residuals(
+      .x,
+      .y
+    )
+  )
+)
+
+```
+
+These plots reflect strong signs that the model has successfully captured the variation in both margins and cyclical components. Across all plots, the residuals display an almost constant variance centred around a mean of $0$ (as seen in the top graph). In addition, there are no statistically significant lags left in the ACF plots - suggesting that there is no left over serial correlation across periods. Furthermore, the residuals follow an approximately normal distribution, with a few outliers (potentially due to left-over COVID effects). In turn, the residuals satisfy the three conditions for stationarity (constant variance, no serial correlation, normally distributed), allowing us to conclude that the OLS estimator is valid in this setting. This is a significant result given the relatively small sample size ($n=93$).
+
+# Model Comparison
+
+This short section compares other potential ARDL specifications that could have been used and ranks them based on AIC and BIC scores.
+
+```{r}
+
+model_specs <- list(
+  
+  "Auto ARDL" = function(df) {
+    
+    auto_ardl(
+      margin ~ bn + covid,
+      data        = df,
+      
+      # max lag orders:
+      # Y up to 4
+      # X up to 4
+      # covid fixed contemporaneous
+      
+      max_order   = c(4,4,0),
+      
+      # FORCE Y lag >= 1
+      # first element = Y lag
+      
+      fixed_order = c(1,-1,0),
+      
+      selection   = "AIC"
+    )$best_model
+  },
+  
+  "ARDL(2,1)" = function(df) {
+    
+    ardl(
+      margin ~ bn + covid,
+      data  = df,
+      order = c(2,1,0)
+    )
+  },
+  
+  "ARDL(2,2)" = function(df) {
+    
+    ardl(
+      margin ~ bn + covid,
+      data  = df,
+      order = c(2,2,0)
+    )
+  },
+  
+  "ARDL(2,3)" = function(df) {
+    
+    ardl(
+      margin ~ bn + covid,
+      data  = df,
+      order = c(2,3,0)
+    )
+  },
+  
+  "ARDL(1,2)" = function(df) {
+    
+    ardl(
+      margin ~ bn + covid,
+      data  = df,
+      order = c(1,2,0)
+    )
+  }
+)
+
+
+# ===================================================
+# FIT ALL MODELS
+# ===================================================
+
+all_models <- purrr::imap(
+  
+  datasets,
+  
+  ~ {
+    
+    df <- as.data.frame(.x)
+    
+    purrr::imap(
+      model_specs,
+      ~ .x(df)
+    )
+  }
+)
+
+
+# ===================================================
+# MODEL COMPARISON
+# ===================================================
+
+comparison_table <- purrr::imap_dfr(
+  
+  all_models,
+  
+  ~ {
+    
+    purrr::imap_dfr(
+      
+      .x,
+      
+      ~ tibble(
+        
+        dataset = .y,
+        
+        model = .y,
+        
+        AIC = AIC(.x),
+        
+        BIC = BIC(.x)
+      )
+    )
+  }
+)
+
+
+# ===================================================
+# MODEL COMPARISON TABLE
+# ===================================================
+
+comparison_table <- purrr::imap_dfr(
+  
+  all_models,
+  
+  ~ {
+    
+    dataset_name <- .y
+    
+    purrr::imap_dfr(
+      
+      .x,
+      
+      ~ tibble(
+        
+        dataset =
+          dataset_name,
+        
+        model =
+          .y,
+        
+        AIC =
+          round(
+            AIC(.x),
+            2
+          ),
+        
+        BIC =
+          round(
+            BIC(.x),
+            2
+          )
+      )
+    )
+  }
+) |>
+  
+  group_by(dataset) |>
+  
+  arrange(
+    AIC,
+    .by_group = TRUE
+  ) |>
+  
+  mutate(
+    
+    AIC_rank =
+      row_number()
+  ) |>
+  
+  ungroup()
+
+# ===================================================
+# NICE OUTPUT
+# ===================================================
+
+comparison_table |>
+  
+  gt(
+    groupname_col = "dataset"
+  ) |>
+  
+  cols_label(
+    
+    model =
+      "Model",
+    
+    AIC =
+      "AIC",
+    
+    BIC =
+      "BIC",
+    
+    AIC_rank =
+      "AIC Rank"
+  ) |>
+  
+  tab_header(
+    
+    title =
+      "ARDL Model Comparison",
+    
+    subtitle =
+      "Models Ranked by AIC Within Each Dataset"
+  ) |>
+  
+  fmt_number(
+    
+    columns =
+      c(AIC, BIC),
+    
+    decimals = 2
+  ) |>
+  
+  data_color(
+    
+    columns = AIC_rank,
+    
+    palette = c(
+      "#d4f4dd",
+      "#fff3bf",
+      "#ffd6d6"
+    )
+  )
+
+```
+
+Unfortunately, the self-selected ARDL(2,1) specification ranks slightly lower than models with additional lags. However, the differences in AIC and BIC are relatively small. Since AIC applies only a mild penalty for model complexity, the simpler ARDL(2,1) model remains credible, particularly given the small sample size and the greater risk of overfitting from adding further lags. The model performs relatively better under BIC, which more strongly favours parsimonious specifications. This suggests there is limited practical distinction between selecting the simpler model and adding further lags, while the latter carries a greater risk of fitting noise rather than underlying economic relationships.
+
+# Conclusion
+
+This report expanded analysis by considering COVID-19 effects along with an ARDL model to test the robustness of the relationship between profit margins and the business cycle. These additional models were then evaluated and compared against industry metrics.
+
+The analysis evaluated:
+
+-   Margins appear to behave consistently countercyclical with respect to both GDP and THW business cycles.
+
+<!-- -->
+
+-   Business cycle expansions are associated with immediate declines in margins across most specifications.
+
+<!-- -->
+
+-   Lagged business cycle coefficients are positive, suggesting margins may partially recover after initial compression.
+
+<!-- -->
+
+-   Margin series display strong short-run persistence.
+
+<!-- -->
+
+-   Negative margin coefficients from two periods prior suggest cyclical adjustment and possible mean reversion over roughly half-year periods.
+
+-   GOS measures appear more strongly countercyclical than GOP measures.
+
+<!-- -->
+
+-   COVID-19 had a statistically significant effect on margins across all datasets.
+
+<!-- -->
+
+-   Residual diagnostics suggest the ARDL models adequately captured the time-series dynamics, with little remaining serial correlation.
+
+<!-- -->
+
+-   Robust standard errors largely confirmed the statistical significance of the main results.
+
+<!-- -->
+
+-   Although larger lag specifications marginally improved AIC values, the simpler ARDL(2,1) specification remained preferable given the small sample size and overfitting concerns.
+
+Overall, the analysis provides consistent evidence that both GOS and GOP margin measures behave countercyclically with respect to fluctuations in GDP and THW business cycles, while also displaying substantial persistence and gradual adjustment over time.\
+\
+\
+\
+<div style="
+border-left: 8px solid #2c7fb8;
+background-color: #eef7fb;
+padding: 18px;
+border-radius: 10px;
+font-size: 22px;
+font-weight: 600;
+color: #1d3557;
+">
+
+🎉 **Thank you for your support throughout this research project!**  
+I hope you found the analysis and results as interesting and engaging as I did.
+
+</div>
+
+# Appendix
+
+## Appendix 1: Long-Run multipliers
+
+Under the ARDL framework, we can calculate the estimated long-run percentage response of margins to a sustained percentage change in the cyclical component variable.
+
+Under this model, the long-run multiplier is:
+
+$$
+\frac{\beta_0 + \beta_1}
+{1 - \phi_1 - \phi_2}
+$$
+
+```{r}
+long_run_results <- map_dfr(
+  fit_ardl,
+
+  ~ {
+
+    coefs <- coef(.x)
+
+    b0 <- coefs["bn"]
+
+    b1 <- coefs["L(bn, 1)"]
+
+    phi1 <- coefs["L(margin, 1)"]
+
+    phi2 <- coefs["L(margin, 2)"]
+
+    tibble(
+
+      long_run_multiplier =
+        (b0 + b1) /
+        (1 - phi1 - phi2)
+    )
+  },
+
+  .id = "dataset"
+)
+
+long_run_results |>
+
+  gt() |>
+
+  tab_header(
+    title = "Long-Run Multipliers"
+  )
+```
+This suggests that a permanent $1\%$ expansion in GDP is associated with negative long-run responses in both margin measures. The same relationship holds for THW, although the estimated magnitudes differ across specifications. The long-run multiplier is particularly useful in this context, as it estimates how margins respond as GDP converges toward its long-run or potential level, $Y^*$. GOS appears to be the most countercyclical, while GOP appears to be almost acyclical to THW in the LR. This may reflect the fact that less labour costs are included in the measure, making it less responsive to changes in labour market dynamics.
+
+
+## Appendix 2: Structural Break Tests
+
+```{r}
+break_results <- map_dfr(
+  fit_ardl,
+
+  ~ {
+
+    resids <- residuals(.x)
+
+    bp <- breakpoints(resids ~ 1)
+
+    tibble(
+
+      n_breaks =
+        sum(!is.na(bp$breakpoints)),
+
+      breakpoints =
+        paste(
+          bp$breakpoints,
+          collapse = ", "
+        )
+    )
+  },
+
+  .id = "dataset"
+)
+
+break_results |>
+
+  gt() |>
+
+  tab_header(
+    title = "Structural Break Results"
+  )
+```
+
+## Appendix 3: Actuals Vs. Fitted
+
+```{r}
+plot_fitted <- function(model, data, title_name) {
+
+  tibble(
+
+    actual =
+      data$margin[
+        seq_along(fitted(model))
+      ],
+
+    fitted =
+      fitted(model),
+
+    time =
+      seq_along(fitted(model))
+  ) |>
+
+    ggplot(
+      aes(x = time)
+    ) +
+
+    geom_line(
+      aes(
+        y = actual,
+        colour = "Actual"
+      )
+    ) +
+
+    geom_line(
+      aes(
+        y = fitted,
+        colour = "Fitted"
+      )
+    ) +
+
+    labs(
+      title = paste(
+        "Actual vs Fitted:",
+        title_name
+      ),
+      y = "Margins",
+      x = ""
+    )
+}
+
+plot_fitted(
+  fit_ardl$gos_gdp,
+  gos_gdp_ts,
+  "GOS GDP"
+)
+```
+
+## Appendix 4: Model Comparison: COVID Vs. No COVID
+
+```{r}
+fit_compare <- purrr::imap(
+  datasets,
+
+  ~ {
+
+    list(
+
+      no_covid =
+        ardl(
+
+          margin ~ bn,
+
+          data =
+            as.data.frame(.x),
+
+          order =
+            c(2,1)
+        ),
+
+      with_covid =
+        ardl(
+
+          margin ~ bn + covid,
+
+          data =
+            as.data.frame(.x),
+
+          order =
+            c(2,1,0)
+        )
+    )
+  }
+)
+
+covid_compare <- map_dfr(
+  fit_compare,
+
+  ~ {
+
+    tibble(
+
+      model =
+        c(
+          "no_covid",
+          "with_covid"
+        ),
+
+      AIC =
+        c(
+          AIC(.x$no_covid),
+          AIC(.x$with_covid)
+        ),
+
+      BIC =
+        c(
+          BIC(.x$no_covid),
+          BIC(.x$with_covid)
+        )
+    )
+  },
+
+  .id = "dataset"
+)
+
+covid_compare |>
+
+  gt() |>
+
+  tab_header(
+    title = "COVID Model Comparison"
+  )
+```
+
+The AIC values are lower for all models that include COVID as a regressor. In effect, we can conclude that the COVID dummy variable is a significant contribution to the analysis.
