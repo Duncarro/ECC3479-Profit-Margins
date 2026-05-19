@@ -63,7 +63,10 @@ gop_margin <- left_join(gop_wide, sales_wide, by = "date", suffix = c("_gop", "_
   pivot_longer(-date, names_to = c("industry", ".value"), names_sep = "_") |>
   mutate(margin = (gop / sales) * 100)
 
-
+gop_comp <- left_join(gop_wide, sales_wide, by = "date", suffix = c("_gop", "_sales")) |>
+  filter(date > as.Date("2002-06-01")) |>
+  pivot_longer(-date, names_to = c("industry", ".value"), names_sep = "_") |>
+  mutate(margin = (gop / sales) * 100)
 
 ##IMPORTING GOS AND GVA
 gos <- read_abs("5206.0")
@@ -239,6 +242,13 @@ gos_margin <- gva |>
    mutate(margin = (gos / gva)*100,
           industry = str_replace(industry, "Total all industries", "Total"))
 
+
+gos_comp <- gva |> 
+  inner_join(gos, by = c("date", "industry")) |> 
+  mutate(margin = (gos / gva)*100,
+         industry = str_replace(industry, "Total all industries", "Total"))
+
+
 #############################################
 # Business Cycle Indictators                #
 #############################################
@@ -304,4 +314,6 @@ write_csv(gdp, "data/clean/gdp.csv")
 write.csv(thw_ext, "data/clean/thw_ext.csv")
 write.csv(gdp_ext, "data/clean/gdp_ext.csv")
 
+write.csv(gop_comp, "data/clean/gop_comp.csv")
+write.csv(gos_comp, "data/clean/gos_comp.csv")
 

@@ -93,6 +93,16 @@ The scripts must be run in the following order:
 10. **FOR ROBUSTNESS:** Run `docs/robustness.Rmd`
    - This document is self-contained and pulls from relevant documents listed, compiling the relevant analysis into a html output.
 
+
+11. **FOR FINAL REPORT:** pdf is accessable in `docs/Profit_Margin_Cyclicality_Kye_Duncan.pdf`
+   The code for the figures and regression tables are in the following files:
+   - src/baseline_results_table.R
+   - src/extended_elasticity_results_table.R
+   - src/ardl_results_table.R
+   - src/uncon_cyclicality_visual.R
+   - src/output.R (contains miscellaneous graphs and charts)
+   - Other supplementary charts may be found in `docs/robustness.Rmd` and `docs/primary_analysis.Rmd`.
+
 All outputs (figures and results) will be saved in the `output/` folder.
 
 **Necessary R Packages**  

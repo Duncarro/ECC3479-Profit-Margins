@@ -104,6 +104,13 @@ bn_thw <- read_csv(here("data", "clean", "thw_aug.csv")) |>
 bn_gdp <- read_csv(here("data", "clean", "gdp_aug.csv")) |>
   mutate(date = as.Date(date))
 
+
+gop_comp <- read_csv(here("data", "clean", "gop_comp.csv")) |>
+  mutate(date = as.Date(date))
+
+gos_comp <- read_csv(here("data", "clean", "gos_comp.csv")) |>
+  mutate(date = as.Date(date))
+
 cat("✅ Data loaded successfully\n")
 
 
