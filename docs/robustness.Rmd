@@ -1180,9 +1180,7 @@ The analysis evaluated:
 
 Overall, the analysis provides consistent evidence that both GOS and GOP margin measures behave countercyclically with respect to fluctuations in GDP and THW business cycles, while also displaying substantial persistence and gradual adjustment over time.
 
-
-
-<div style="
+::: {style="
 border-left: 8px solid #2c7fb8;
 background-color: #eef7fb;
 padding: 18px;
@@ -1190,13 +1188,10 @@ border-radius: 10px;
 font-size: 22px;
 font-weight: 600;
 color: #1d3557;
-">
-
-🎉 **Thank you for your support throughout this research project!**  
+"}
+🎉 **Thank you for your support throughout this research project!**\
 I hope you found the analysis and results as interesting and engaging as I did.
-
-</div>
-
+:::
 
 # Appendix
 
@@ -1417,3 +1412,5 @@ covid_compare |>
 ```
 
 The AIC values are lower for all models that include COVID as a regressor. In effect, we can conclude that the COVID dummy variable is a significant contribution to the analysis.
+
+</div>

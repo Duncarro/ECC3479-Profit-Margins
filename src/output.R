@@ -10,7 +10,7 @@ source("src/conditional_cyclicality_regressions.R")
 # TOTAL TIME SERIES PLOTS
 
 p1 <- gop |>
-  filter(industry == "Total") |> 
+  filter(industry == "Total less mining") |> 
   ggplot(aes(x = date, y = margin)) +
   geom_line(linewidth = 0.9, colour = "darkorange") +
   labs(
@@ -38,7 +38,7 @@ ggsave("output/gop_margin.png", plot = p1, width = 8, height = 5, dpi = 300)
 
 
 p2<-gos |>
-  filter(industry == "Total") |>
+  filter(industry == "Total less mining") |>
   ggplot(aes(x = date, y = margin)) +
   geom_line(linewidth = 0.9, colour = "coral2") +
   labs(
@@ -120,7 +120,7 @@ p4 <- gdp |>
 
 p4
 
-ggsave("output/gdp_level.png", plot = p2, width = 8, height = 5, dpi = 300)
+ggsave("output/gdp_level.png", plot = p4, width = 8, height = 5, dpi = 300)
 
 
 
@@ -509,8 +509,10 @@ spec_plot <- spec |>
     )
   )
 
-spec_p1 <- ggplot(spec_plot,
-       aes(date, cycle, colour = filter)) +
+spec_p1<-spec_plot |> 
+  ggplot(
+    aes(date, cycle, colour = filter)
+  ) +
   
   # COVID shading
   annotate(
@@ -519,19 +521,27 @@ spec_p1 <- ggplot(spec_plot,
     xmax = as.Date("2021-12-01"),
     ymin = -Inf,
     ymax = Inf,
-    alpha = 0.08,
-    fill = "grey60"
+    alpha = 0.06,
+    fill = "grey70"
   ) +
   
   geom_hline(
     yintercept = 0,
-    linewidth = 0.5,
-    colour = "grey40"
+    linewidth = 0.35,
+    colour = "grey45"
   ) +
   
-  geom_line(linewidth = 1.2) +
+  geom_line(
+    linewidth = 1
+  ) +
   
-  scale_colour_wsj() +
+  scale_colour_manual(
+    values = c(
+      "CF Filter" = "#0072B2",   # blue
+      "HP Filter" = "#D55E00",   # orange
+      "BN Filter" = "#009E73"    # green
+    )
+  ) +
   
   scale_x_date(
     date_breaks = "4 years",
@@ -544,40 +554,51 @@ spec_p1 <- ggplot(spec_plot,
   
   labs(
     title = "Comparison of Business Cycle Filters",
-    subtitle = "Quarterly GDP (log)",
+    subtitle = "Quarterly GDP cycle estimates",
     x = NULL,
     y = "Cycle component (%)",
     colour = NULL,
     caption = "Source: ABS National Accounts | Author calculations"
   ) +
   
-  theme_economist(base_size = 13) +
+  theme_classic(base_size = 13) +
   
   theme(
     legend.position = "top",
     
+    legend.text = element_text(size = 11),
+    
     plot.title = element_text(
-      size = 20,
-      face = "bold"
+      size = 18,
+      face = "bold",
+      hjust = 0.5
     ),
     
     plot.subtitle = element_text(
-      size = 12,
+      size = 11,
       colour = "grey30",
+      hjust = 0.5,
       margin = margin(b = 12)
     ),
     
     axis.title.y = element_text(
-      margin = margin(r = 12)
+      margin = margin(r = 10)
     ),
     
-    legend.text = element_text(size = 11),
+    axis.line = element_line(
+      linewidth = 0.4
+    ),
+    
+    axis.ticks = element_line(
+      linewidth = 0.4
+    ),
     
     plot.caption = element_text(
       size = 9,
       colour = "grey40"
     )
   )
+
 
 ggsave(
   "output/GDP_filter_comp.png",
@@ -586,3 +607,45 @@ ggsave(
   height = 6,   
   dpi = 300
 )
+
+
+
+
+
+#######STL DECOMPS
+gop_ts <- gop |>
+  mutate(date = yearquarter(date)) |>
+  as_tsibble(key = industry, index = date)
+
+gos_ts <- gos |>
+  mutate(date = yearquarter(date)) |>
+  as_tsibble(key = industry, index = date)
+
+stl1 <- gop_ts |>
+  filter(industry == "Total less mining") |>
+  model(STL(margin)) |>
+  components() |>
+  autoplot() + labs(title = "GOP - STL Decomposition")
+
+ggsave(
+  "output/stl_gop.png",
+  plot = stl1,
+  width = 12,    
+  height = 6,   
+  dpi = 300
+)
+
+stl2 <- gos_ts |>
+  filter(industry == "Total less mining") |>
+  model(STL(margin)) |>
+  components() |>
+  autoplot() + labs(title = "GOS - STL Decomposition")
+
+ggsave(
+  "output/stl_gos.png",
+  plot = stl2,
+  width = 12,    
+  height = 6,   
+  dpi = 300
+)
+

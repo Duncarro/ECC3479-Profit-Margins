@@ -2,7 +2,10 @@
 # This script conducts analysis on the components of the profit margin measures #
 #################################################################################
 
+# WIP # # WIP # # WIP # # WIP # # WIP # # WIP # # WIP # # WIP # # WIP # # WIP # # WIP # # WIP # 
+
 source("src/library.R")
+thw_ext
 
 gop_comp_wide <- gop_comp %>%
   filter(industry == "Total less mining") |> 
